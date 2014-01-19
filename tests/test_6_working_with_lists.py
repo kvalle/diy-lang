@@ -6,7 +6,7 @@ from nose.tools import assert_equals, assert_raises_regexp, \
 from diylisp.interpreter import interpret
 from diylisp.evaluator import evaluate
 from diylisp.parser import parse
-from diylisp.types import Lambda, LispError, Environment
+from diylisp.types import LispError, Environment
 
 class TestBuiltins:
 

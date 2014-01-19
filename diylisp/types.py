@@ -12,23 +12,23 @@ def is_boolean(x):
 def is_integer(x):
     return isinstance(x, int)
 
-def is_lambda(x):
-    return isinstance(x, Lambda)
+def is_closure(x):
+    return isinstance(x, Closure)
 
 def is_atom(x):
     return is_symbol(x) \
         or is_integer(x) \
         or is_boolean(x) \
-        or is_lambda(x)
+        or is_closure(x)
 
-class Lambda:
+class Closure:
     def __init__(self, params, body, env):
         self.params = params
         self.body = body
         self.env = env
 
     def __str__(self):
-        return "<lambda/%d>" % len(self.params)
+        return "<closure/%d>" % len(self.params)
 
 class Environment:
     def __init__(self, variables=None):

@@ -2,8 +2,8 @@
 
 from types import Environment
 from types import LispError
-from types import Lambda
-from types import is_boolean, is_atom, is_symbol, is_list, is_lambda, is_integer
+from types import Closure
+from types import is_boolean, is_atom, is_symbol, is_list, is_closure, is_integer
 from asserts import assert_exp_length, assert_valid_definition, assert_boolean
 from parser import unparse
 
@@ -28,7 +28,7 @@ def evaluate(ast, env):
         elif ast[0] == 'cdr': return eval_cdr(ast, env)
         elif ast[0] == 'list': return eval_list(ast, env)
 
-        elif is_lambda(ast[0]): return apply(ast, env)
+        elif is_closure(ast[0]): return apply(ast, env)
         elif is_symbol(ast[0]) or is_list(ast[0]):
             fn = evaluate(ast[0], env)
             return evaluate([fn] + ast[1:], env)
@@ -85,7 +85,7 @@ def eval_define(ast, env):
 def eval_lambda(ast, env):
     assert_exp_length(ast, 3)
     (_, params, body) = ast
-    return Lambda(params, body, env)
+    return Closure(params, body, env)
 
 def apply(ast, env):
     fn = evaluate(ast[0], env)
