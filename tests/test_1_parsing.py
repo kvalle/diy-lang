@@ -70,7 +70,10 @@ def test_parse_exception_missing_paren():
         parse('(foo (bar x y)')
 
 def test_parse_exception_extra_paren():
-    """Another exception is raised if the expression is too large."""
+    """Another exception is raised if the expression is too large.
+
+    The parse function expects to recieve only one single expression. Anything
+    more than this, should result in the proper exception."""
 
     with assert_raises_regexp(LispError, 'Expected EOF'):
         parse('(foo (bar x y)))')
@@ -114,6 +117,14 @@ def test_parse_larger_example():
 ## The following tests checks that quote expansion works properly
 
 def test_expand_single_quoted_symbol():
+    """Quoting is a shorthand syntax for calling the `quote` form.
+
+    Examples:
+
+        'foo -> (quote foo)
+        '(foo bar) -> (quote (foo bar))
+
+    """
     assert_equals(["foo", ["quote", "nil"]], parse("(foo 'nil)"))
 
 def test_nested_quotes():

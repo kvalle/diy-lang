@@ -6,7 +6,7 @@ from types import LispError
 
 def parse(source):
     """Parse string representation of one single expression
-    into the corresponding Abstract Syntax Tree"""
+    into the corresponding Abstract Syntax Tree."""
 
     source = remove_comments(source)
     exp, rest = first_expression(source)
@@ -28,7 +28,14 @@ def parse(source):
         return source
 
 def parse_multiple(source):
-    """Creates a list of ASTs from program source constituting multiple expressions"""
+    """Creates a list of ASTs from program source constituting multiple expressions.
+
+    Example:
+
+        >>> parse_multiple("(foo bar) (baz 1 2 3)")
+        [['foo', 'bar'], ['baz', 1, 2, 3]]
+
+    """
 
     source = remove_comments(source)
     return [parse(exp) for exp in split_exps(source)]
@@ -57,7 +64,7 @@ def remove_comments(source):
 
 def find_matching_paren(source, start=0):
     """Given a string and the index of an opening parenthesis, determines 
-    the index of the matching closing paren"""
+    the index of the matching closing paren."""
 
     assert source[start] == '('
     pos = start
@@ -74,7 +81,12 @@ def find_matching_paren(source, start=0):
 
 def split_exps(source):
     """Splits a source string into subexpressions 
-    that can be parsed individually"""
+    that can be parsed individually.
+
+    Example: 
+
+        split_exps("foo bar (baz 123)")
+    """
 
     rest = source.strip()
     exps = []
