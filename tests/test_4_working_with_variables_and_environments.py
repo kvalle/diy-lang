@@ -28,7 +28,7 @@ def test_lookup_on_missing_raises_exception():
 
 def test_lookup_from_inner_env():
     env = Environment({"foo": 42})
-    env.extend({"bar": True})
+    env = env.extend({"bar": True})
     assert_equals(42, env.lookup("foo"))
     assert_equals(True, env.lookup("bar"))
 
