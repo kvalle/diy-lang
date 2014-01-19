@@ -40,12 +40,9 @@ class Environment:
     def extend(self, variables):
         new_bindings = self.bindings.copy()
         new_bindings.update(variables)
-        print new_bindings
         return Environment(new_bindings)
 
     def lookup(self, symbol):
-        print symbol
-        print self.bindings
         if symbol in self.bindings:
             return self.bindings[symbol]
         else:
