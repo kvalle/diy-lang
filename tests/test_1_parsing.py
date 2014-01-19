@@ -25,7 +25,10 @@ def test_parse_boolean():
 def test_parse_integer():
     """Parsing single integer.
 
-    Integers are represented in the ASTs as Python ints."""
+    Integers are represented in the ASTs as Python ints.
+
+    Tip: String objects have a handy .isdigit() method.
+    """
 
     assert_equals(42, parse('42'))
     assert_equals(1337, parse('1337'))
@@ -34,7 +37,11 @@ def test_parse_list_of_symbols():
     """Parsing list of only symbols.
 
     A list is represented by a number of elements surrounded by parens. Python lists 
-    are used to represent lists as ASTs."""
+    are used to represent lists as ASTs.
+
+    Tip: The useful helper function `find_matching_paren` is already provided in
+    `parse.py`.
+    """
 
     assert_equals(['foo', 'bar', 'baz'], parse('(foo bar baz)'))
     assert_equals([], parse('()'))
