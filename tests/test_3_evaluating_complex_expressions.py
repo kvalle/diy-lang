@@ -25,7 +25,7 @@ def test_basic_if_statement():
     assert_equals(42, evaluate(if_expression, Environment()))
 
 def test_that_only_correct_branch_is_evaluated():
-    """The branch of the if statement that is chosen should ever be evaluated."""
+    """The branch of the if statement that is discarded should never be evaluated."""
 
     if_expression = parse("(if #f (this should not be evaluated) 42)")
     assert_equals(42, evaluate(if_expression, Environment()))
