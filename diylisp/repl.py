@@ -3,7 +3,6 @@
 import os
 import sys
 from types import LispError
-from colors import colored, faded
 from parser import remove_comments
 from interpreter import interpret
 from types import Environment
