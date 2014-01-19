@@ -56,8 +56,6 @@ def test_evaluating_eq_function():
     assert_equals(True, evaluate(parse("(eq 'foo 'foo)"), Environment()))
     assert_equals(False, evaluate(parse("(eq 'foo 'bar)"), Environment()))
     
-    assert_equals(False, evaluate(parse("(eq '(1 2) '(1 2))"), Environment()))
-
 
 def test_basic_math_operators():
     """To be able to do anything useful, we need some basic math operators.
