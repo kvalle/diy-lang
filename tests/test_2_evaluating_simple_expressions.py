@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from nose.tools import assert_equals, assert_raises_regexp
+from nose.tools import assert_equals, assert_raises
 
+from diylisp.types import LispError
 from diylisp.types import Environment
 from diylisp.evaluator import evaluate
 from diylisp.parser import parse
@@ -73,3 +74,9 @@ def test_basic_math_operators():
     assert_equals(True, evaluate([">", 7, 2], Environment()))
     assert_equals(False, evaluate([">", 2, 7], Environment()))
     assert_equals(False, evaluate([">", 7, 7], Environment()))
+
+def test_math_oprators_only_work_on_numbers():
+    """The math functions should only allow numbers as arguments."""
+
+    with assert_raises(LispError):
+        evaluate(parse("(+ 1 'foo)"), Environment())

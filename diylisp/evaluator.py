@@ -3,7 +3,7 @@
 from types import Environment
 from types import LispError
 from types import Lambda
-from types import is_boolean, is_atom, is_symbol, is_list, is_lambda
+from types import is_boolean, is_atom, is_symbol, is_list, is_lambda, is_integer
 from asserts import assert_exp_length, assert_valid_definition, assert_boolean
 from parser import unparse
 
@@ -55,8 +55,13 @@ def eval_math(ast, env):
         'mod': lambda a, b: a % b,
         '>': lambda a, b: a > b
     }
-    op, a, b = ast
-    return ops[op](evaluate(a, env), evaluate(b, env))
+    op = ast[0]
+    a = evaluate(ast[1], env)
+    b = evaluate(ast[2], env)
+    if is_integer(a) and is_integer(b):
+        return ops[op](a, b)
+    else:
+        raise LispError("Unsupported argument type for %s" % op)
 
 def eval_if(ast, env):
     assert_exp_length(ast, 4)
