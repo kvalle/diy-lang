@@ -4,6 +4,7 @@ from nose.tools import assert_equals, assert_raises_regexp
 
 from diylisp.types import LispError, Environment
 from diylisp.evaluator import evaluate
+from diylisp.parser import parse
 from diylisp.interpreter import interpret
 
 """
@@ -47,13 +48,14 @@ def test_extend_returns_new_environment():
 def test_set_changes_environment_in_place():
     """When calling `set` the environment should be updated"""
 
-    env = Environment({"foo": 1})
+    env = Environment()
     env.set("foo", 2)
     assert_equals(2, env.lookup("foo"))
 
 
 """
-Now over to testing evaluation with variables. 
+With the `Environment` working, it's time to implement evaluation of expressions 
+with variables. 
 """
 
 def test_evaluating_symbol():
@@ -65,34 +67,49 @@ def test_evaluating_symbol():
     env = Environment({"foo": 42})
     assert_equals(42, evaluate("foo", env))
 
-def test_simple_lookup_from_env():
-    env = Environment({"foo": 42, "bar": True})
-    assert_equals(42, evaluate("foo", env))
-
 def test_lookup_missing_variable():
+    """Referencing undefined variables should raise an appropriate exception.
+
+    This test should already be working if you implemented the environment correctly."""
+
     with assert_raises_regexp(LispError, "my-var"):
         evaluate("my-var", Environment())
 
 def test_define():
-    """Test simplest possible define"""
+    """Test simplest possible define.
+
+    The `define` form is used to define new bindings in the environment."""
 
     env = Environment()
-    evaluate(["define", "x", 1000], env)
+    evaluate(parse("(define x 1000)"), env)
     assert_equals(1000, env.lookup("x"))
 
 def test_define_with_wrong_number_of_arguments():
     """Defines should have exactly two arguments, or raise an error"""
 
     with assert_raises_regexp(LispError, "Wrong number of arguments"):
-        evaluate(["define", "x"], Environment())
+        evaluate(parse("(define x)"), Environment())
 
     with assert_raises_regexp(LispError, "Wrong number of arguments"):
-        evaluate(["define", "x", 1, 2], Environment())
+        evaluate(parse("(define x 1 2)"), Environment())
 
 def test_define_with_nonsymbol_as_variable():
-    """Malformed defines should throw an error"""
+    """Defines require the first argument to be a symbol."""
 
     with assert_raises_regexp(LispError, "non-symbol"):
-        evaluate(["define", True, 42], Environment())
+        evaluate(parse("(define #t 42)"), Environment())
 
+def test_redefine_variables_illegal():
+    """Variables can only be defined once!"""
 
+    with assert_raises_regexp(LispError, "already defined"):
+        evaluate(parse("(define foo 42)"), Environment({"foo": "bar"}))
+
+def test_variable_lookup_after_define():
+    """Test define and lookup variable in same environment.
+
+    This test should already be working when the above ones are passing."""
+
+    env = Environment()
+    evaluate(parse("(define foo 42)"), env)
+    assert_equals(42, evaluate("foo", env))

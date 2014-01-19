@@ -35,6 +35,8 @@ class Environment:
         self.bindings = variables if variables else {}
 
     def set(self, symbol, value):
+        if symbol in self.bindings:
+            raise LispError("Variable '%s' is already defined." % symbol)
         self.bindings[symbol] = value
 
     def extend(self, variables):
