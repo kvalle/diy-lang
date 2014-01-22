@@ -15,6 +15,8 @@ It is time to fill in the blanks in the `Environment` class located in `types.py
 """
 
 def test_simple_lookup():
+    """An environment should store variables and provide lookup."""
+
     env = Environment({"var": 42})
     assert_equals(42, env.lookup("var"))
 
@@ -25,20 +27,26 @@ def test_lookup_on_missing_raises_exception():
     not been defined."""
     
     with assert_raises_regexp(LispError, "my-missing-var"):
-        Environment().lookup("my-missing-var")
+        empty_env = Environment()
+        empty_env.lookup("my-missing-var")
 
 def test_lookup_from_inner_env():
+    """The `extend` function returns a new environment extended with more bindings."""
+
     env = Environment({"foo": 42})
     env = env.extend({"bar": True})
     assert_equals(42, env.lookup("foo"))
     assert_equals(True, env.lookup("bar"))
 
 def test_lookup_deeply_nested_var():
+    """Extending overwrites old bidings to the same variable name."""
+
     env = Environment({"a": 1}).extend({"b": 2}).extend({"c": 3}).extend({"foo": 100})
     assert_equals(100, env.lookup("foo"))
 
 def test_extend_returns_new_environment():
     """The extend method should create a new environment, leaving the old one unchanged."""
+
     env = Environment({"foo": 1})
     extended = env.extend({"foo": 2})
 
@@ -55,7 +63,7 @@ def test_set_changes_environment_in_place():
 
 """
 With the `Environment` working, it's time to implement evaluation of expressions 
-with variables. 
+with variables.
 """
 
 def test_evaluating_symbol():
@@ -76,7 +84,7 @@ def test_lookup_missing_variable():
         evaluate("my-var", Environment())
 
 def test_define():
-    """Test simplest possible define.
+    """Test of simple define statement.
 
     The `define` form is used to define new bindings in the environment."""
 
