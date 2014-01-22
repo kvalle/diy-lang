@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import re
-from types import is_boolean, is_list
+from ast import is_boolean, is_list
 from types import LispError
 
 def parse(source):

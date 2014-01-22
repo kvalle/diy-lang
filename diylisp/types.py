@@ -1,27 +1,18 @@
 # -*- coding: utf-8 -*-
 
-def is_symbol(x):
-    return isinstance(x, str)
+"""
+This module holds some types we'll have use for along the way.
 
-def is_list(x):
-    return isinstance(x, list)
+It's your job to implement the Closure and Environment types.
+The LispError class you can have for free :)
+"""
 
-def is_boolean(x):
-    return isinstance(x, bool)
-
-def is_integer(x):
-    return isinstance(x, int)
-
-def is_closure(x):
-    return isinstance(x, Closure)
-
-def is_atom(x):
-    return is_symbol(x) \
-        or is_integer(x) \
-        or is_boolean(x) \
-        or is_closure(x)
+class LispError(Exception): 
+    """General lisp error class."""
+    pass
 
 class Closure:
+    
     def __init__(self, params, body, env):
         self.params = params
         self.body = body
@@ -31,18 +22,9 @@ class Closure:
         return "<closure/%d>" % len(self.params)
 
 class Environment:
+
     def __init__(self, variables=None):
         self.bindings = variables if variables else {}
-
-    def set(self, symbol, value):
-        if symbol in self.bindings:
-            raise LispError("Variable '%s' is already defined." % symbol)
-        self.bindings[symbol] = value
-
-    def extend(self, variables):
-        new_bindings = self.bindings.copy()
-        new_bindings.update(variables)
-        return Environment(new_bindings)
 
     def lookup(self, symbol):
         if symbol in self.bindings:
@@ -50,6 +32,12 @@ class Environment:
         else:
             raise LispError("Variable '%s' is undefined" % symbol)
 
-class LispError(Exception): 
-    pass
+    def extend(self, variables):
+        new_bindings = self.bindings.copy()
+        new_bindings.update(variables)
+        return Environment(new_bindings)
 
+    def set(self, symbol, value):
+        if symbol in self.bindings:
+            raise LispError("Variable '%s' is already defined." % symbol)
+        self.bindings[symbol] = value
