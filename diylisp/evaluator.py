@@ -26,14 +26,16 @@ def evaluate(ast, env):
         elif ast[0] == 'cdr': return eval_cdr(ast, env)
         elif ast[0] == 'list': return eval_list(ast, env)
 
+        elif ast[0] == 'lambda': return eval_lambda(ast, env)
         elif is_closure(ast[0]): return apply(ast, env)
+        
         elif is_symbol(ast[0]) or is_list(ast[0]):
-            fn = evaluate(ast[0], env)
-            return evaluate([fn] + ast[1:], env)
+            closure = evaluate(ast[0], env)
+            return evaluate([closure] + ast[1:], env)
         else:
-            raise LispError("Call to: " + unparse(ast[0]))
+            raise LispError("%s is not a function" % unparse(ast[0]))
     else:
-        raise SyntaxError(ast)
+        raise LispError("Syntax error: %s " % unparse(ast))
 
 def eval_quote(ast, env):
     assert_exp_length(ast, 2)
@@ -81,21 +83,25 @@ def eval_define(ast, env):
     return symbol
 
 def eval_lambda(ast, env):
-    assert_exp_length(ast, 3)
-    (_, params, body) = ast
-    return Closure(params, body, env)
+    if len(ast) != 3:
+        raise LispError("Wrong number of arguments to lambda form")
+    params = ast[1]
+    if not is_list(params):
+        raise LispError("Lambda parameters as non-list")
+    body = ast[2]
+    return Closure(env, params, body)
 
 def apply(ast, env):
-    fn = evaluate(ast[0], env)
+    closure = ast[0]
     args = ast[1:]
-
-    if len(args) != len(fn.params):
-        msg = "Wrong number of arguments, expected %d got %d: %s" \
-            % (len(fn.params), len(args), unparse(ast))
+    if len(args) != len(closure.params):
+        msg = "wrong number of arguments, expected %d got %d" \
+            % (len(closure.params), len(args))
         raise LispError(msg)
-    
-    args = [evaluate(exp, env) for exp in ast[1:]]
-    return evaluate(fn.body, env.extend(dict(zip(fn.params, args))))
+    args = [evaluate(a, env) for a in args]
+    bindings = dict(zip(closure.params, args))
+    new_env = closure.env.extend(bindings)
+    return evaluate(closure.body, new_env)
 
 def eval_cons(ast, env):
     car = evaluate(ast[1], env)
