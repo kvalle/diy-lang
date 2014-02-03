@@ -210,7 +210,7 @@ The good news: this should already be working by now :)
 
 def test_calling_function_recursively():
     """Tests that a named function is included in the environment
-    where it is evaluated"""
+    where it is evaluated."""
     
 
     env = Environment()
