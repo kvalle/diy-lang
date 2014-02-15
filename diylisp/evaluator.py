@@ -22,8 +22,8 @@ def evaluate(ast, env):
         elif ast[0] == 'lambda': return eval_lambda(ast, env)
 
         elif ast[0] == 'cons': return eval_cons(ast, env)
-#        elif ast[0] == 'car': return eval_car(ast, env)
-#        elif ast[0] == 'cdr': return eval_cdr(ast, env)
+        elif ast[0] == 'car': return eval_car(ast, env)
+        elif ast[0] == 'cdr': return eval_cdr(ast, env)
 
         elif ast[0] == 'lambda': return eval_lambda(ast, env)
         elif is_closure(ast[0]): return apply(ast, env)
@@ -108,12 +108,15 @@ def eval_cons(ast, env):
     if tail == 'nil':
         return [head]
     return [head] + tail
-    #return [car] if cdr == 'nil' else [car] + cdr
 
 def eval_car(ast, env):
     lst = evaluate(ast[1], env)
+    if not lst:
+        raise LispError("car of empty list")
     return lst[0]
 
 def eval_cdr(ast, env):
     lst = evaluate(ast[1], env)
-    return 'nil' if len(lst) == 0 else lst[1:]
+    if not lst:
+        return 'nil'
+    return lst[1:]

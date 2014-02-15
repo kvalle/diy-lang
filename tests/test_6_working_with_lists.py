@@ -42,9 +42,27 @@ def test_creating_longer_lists_with_only_cons():
     result = evaluate(parse("(cons 3 (cons (- 4 2) (cons 1 'nil)))"), Environment())
     assert_equals(parse("(3 2 1)"), result)
 
-def test_deconstructing_list_with_car_and_cdr():
+def test_getting_first_element_from_list():
     """"""
-    pass
+    
+    assert_equals("1", interpret("(car (quote (1 2 3 4 5)))", Environment()))
+
+def test_getting_first_element_from_empty_list():
+    """"""
+
+    with assert_raises(LispError):
+        interpret("(car (quote ()))", Environment())
+
+def test_getting_tail_of_list():
+    """"""
+
+    assert_equals("(2 3)", interpret("(cdr '(1 2 3))", Environment()))
+
+def test_getting_nil_as_tail_of_empty_list():
+    """"""
+    
+    assert_equals("nil", interpret("(cdr '())", Environment()))
+
 
 #def test_deconstruction_of_lists():
 #    """Tests picking elements from lists using car and cdr."""
