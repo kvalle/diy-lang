@@ -67,7 +67,7 @@ The workshop is split up into seven parts. Each consist of an introduction, and 
 
 Have fun!
 
-- [Part 1: parsing](parts/1.md)
+- [Part 1: parsing](parts/1.md)
 - [Part 2: evaluating simple expressions](parts/2.md)
 - [Part 3: evaluating complex expressions](parts/3.md)
 - [Part 4: working with variables](parts/4.md)
