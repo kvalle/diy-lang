@@ -15,9 +15,7 @@ We will handle two types of expressions: **atoms** and **lists**.
 
 ### Special Forms
 
-The language will have a set of "special forms". These are the construct built into the language. If a list expression is evaluated, and the first element is one of the following symbols, the special form is executed: 
-
-    `quote`, `atom`, `eq`, `+`, `-`, `*`, `/`, `mod`, `>`, `if`, `define`, `lambda`, `cons`, `car`, `cdr`
+The language will have a set of "special forms". These are the construct built into the language. If a list expression is evaluated, and the first element is one of a number of defined symbols, the special form is executed: 
 
 Here is a brief explanation of each form:
 
