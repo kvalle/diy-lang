@@ -1,10 +1,17 @@
-## DIY Lisp (batteries included, some assembly required)
+## DIY Lisp 
 
-In this tutorial/workshop we'll be implementing our own little language, more or less from scratch.
+> batteries included, some assembly required
+
+In this tutorial/workshop we'll be implementing our own little language, more or less from scratch. 
+
+
+### What we will be making
 
 We will make a relatively simple, but neat, language. We aim for the following features:
 
 - A handful of datatypes (integers, booleans and symbols)
+- Variables
+- A few controll structures
 - First order functions with lexical scoping
 - That nice homemade quality feeling
 
@@ -13,15 +20,7 @@ We will not have:
 - A proper type system
 - Error handling
 - Good performance
-- And much more
-
-### Setup
-
-To get up and running, make sure you have installed [Python](http://www.python.org/) and [Pip](https://pypi.python.org/pypi/pip). Then install the requirements:
-
-    pip install -r requirements.txt
-
-If your are familiar with [virtualenv](http://www.virtualenv.org/en/latest/) you might want to do this in a separate pyenv.
+- And much, much more
 
 
 ### Goal
@@ -51,38 +50,23 @@ The language should be able to interpret the following code by the time we are d
 (fact 5)
 ```
 
-### Part 1 - parsing
+### Prerequisites
 
-The job of the `parse` step is to convert the program represented as a string into a representation we can work with in the `evaluate` step.
+Before we get started, make sure you have installed [Python](http://www.python.org/) and [Pip](https://pypi.python.org/pypi/pip). 
 
-This representation, called the abstract syntax tree (AST), will look like this for our language:
+Then install `nose`, the Python test framework we'll be using.
+
+    pip install nose
+
+*Optional: If your are familiar with [virtualenv](http://www.virtualenv.org/en/latest/) you might want to do this in a separate pyenv.*
 
 
-```python
->>> from diylisp.parser import parse
->>> program = """
-...   (define fact 
-...       ;; Factorial function
-...       (lambda (n) 
-...           (if (eq n 0) 
-...               1 ; Factorial of 0 is 1, and we deny 
-...                 ; the existence of negative numbers
-...               (* n (fact (- n 1))))))
-... """))
->>> parse(program)
-['define', 'fact', ['lambda', ['n'], ['if', ['eq', 'n', 0], 1, ['*', 'n', ['fact', ['-', 'n', 1]]]]]]
-```
+### Get started!
 
-- Comments are removed.
-- Symbols are represented as strings.
-- The lisp list expressions are represented as Python lists.
-- The symbols `#t` and `#f` are represented by Pythons `True` and `False, respectively.
-- Integers are represented as Python integers.
-
-The parsing is done in `parsing.py`. It is your job to implement the `parse` function.
-A lot of the gritty work of counting parentheses and such has been done for you, but you must stitch everything together.
-
-Have a look at the provided functions in the module, and start working. Run the following command until all tests pass.
-
-    nosetests tests/test_1_parsing.py --stop
-
+- [Part 1: parsing](parts/1.md)
+- [Part 2: evaluating simple expressions](parts/2.md)
+- [Part 3: evaluating complex expressions](parts/3.md)
+- [Part 4: working with variables](parts/4.md)
+- [Part 5: functions](parts/5.md)
+- [Part 6: working with lists](parts/6.md)
+- [Part 7: using the language](parts/7.md)
