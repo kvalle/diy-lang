@@ -63,6 +63,10 @@ Then install `nose`, the Python test framework we'll be using.
 
 ### Get started!
 
+The workshop is split up into seven parts. Each consist of an introduction, and a bunch of unit tests which it is your task to make run. When all the tests run, you'll have implemented that part of the language.
+
+Have fun!
+
 - [Part 1: parsing](parts/1.md)
 - [Part 2: evaluating simple expressions](parts/2.md)
 - [Part 3: evaluating complex expressions](parts/3.md)
@@ -70,3 +74,4 @@ Then install `nose`, the Python test framework we'll be using.
 - [Part 5: functions](parts/5.md)
 - [Part 6: working with lists](parts/6.md)
 - [Part 7: using the language](parts/7.md)
+
