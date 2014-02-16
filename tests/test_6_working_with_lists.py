@@ -60,15 +60,5 @@ def test_getting_tail_of_list():
 
 def test_getting_nil_as_tail_of_empty_list():
     """"""
-    
+
     assert_equals("nil", interpret("(cdr '())", Environment()))
-
-
-#def test_deconstruction_of_lists():
-#    """Tests picking elements from lists using car and cdr."""
-#
-#    env = Environment()
-#    interpret("(define lst (list 1 2 3 4 5))", env)
-#    assert_equals("1", interpret("(car lst)", env))
-#    assert_equals("2", interpret("(car (cdr lst))", env))
-#    assert_equals("(3 4 5)", interpret("(cdr (cdr lst))", env))
