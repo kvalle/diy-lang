@@ -50,13 +50,17 @@ The language should be able to interpret the following code by the time we are d
 (fact 5)
 ```
 
+If you find this example unfamiliar, you might want to have a look at [the more detailed description of the language](parts/language.md).
+
 ### Prerequisites
 
 Before we get started, make sure you have installed [Python](http://www.python.org/) and [Pip](https://pypi.python.org/pypi/pip). 
 
 Then install `nose`, the Python test framework we'll be using.
 
-    pip install nose
+```bash
+pip install nose
+```
 
 *Optional: If your are familiar with [virtualenv](http://www.virtualenv.org/en/latest/) you might want to do this in a separate pyenv.*
 
