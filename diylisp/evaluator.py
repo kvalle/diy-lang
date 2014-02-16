@@ -25,7 +25,6 @@ def evaluate(ast, env):
         elif ast[0] == 'car': return eval_car(ast, env)
         elif ast[0] == 'cdr': return eval_cdr(ast, env)
 
-        elif ast[0] == 'lambda': return eval_lambda(ast, env)
         elif is_closure(ast[0]): return apply(ast, env)
         
         elif is_symbol(ast[0]) or is_list(ast[0]):
