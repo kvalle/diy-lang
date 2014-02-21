@@ -24,6 +24,7 @@ def evaluate(ast, env):
         elif ast[0] == 'cons': return eval_cons(ast, env)
         elif ast[0] == 'car': return eval_car(ast, env)
         elif ast[0] == 'cdr': return eval_cdr(ast, env)
+        elif ast[0] == 'empty': return eval_empty(ast, env)
 
         elif is_closure(ast[0]): return apply(ast, env)
         
@@ -116,6 +117,8 @@ def eval_car(ast, env):
 
 def eval_cdr(ast, env):
     lst = evaluate(ast[1], env)
-    if not lst:
-        return 'nil'
     return lst[1:]
+
+def eval_empty(ast, env):
+    lst = evaluate(ast[1], env)
+    return len(lst) == 0

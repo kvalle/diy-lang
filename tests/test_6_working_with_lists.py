@@ -43,22 +43,28 @@ def test_creating_longer_lists_with_only_cons():
     assert_equals(parse("(3 2 1)"), result)
 
 def test_getting_first_element_from_list():
-    """"""
+    """`car` extracts the first element of a list."""
     
     assert_equals("1", interpret("(car (quote (1 2 3 4 5)))", Environment()))
 
 def test_getting_first_element_from_empty_list():
-    """"""
+    """If the list is empty there is no first element, and `car should raise an error."""
 
     with assert_raises(LispError):
         interpret("(car (quote ()))", Environment())
 
 def test_getting_tail_of_list():
-    """"""
+    """`cdr` returns the tail of the list.
+
+    The tail is the list retained after removing the first element."""
 
     assert_equals("(2 3)", interpret("(cdr '(1 2 3))", Environment()))
 
-def test_getting_nil_as_tail_of_empty_list():
-    """"""
+def test_checking_whether_list_is_empty():
+    """The `empty` form checks whether or not a list is empty."""
 
-    assert_equals("nil", interpret("(cdr '())", Environment()))
+    assert_equals("#f", interpret("(empty '(1 2 3))", Environment()))
+    assert_equals("#f", interpret("(empty '(1))", Environment()))
+
+    assert_equals("#t", interpret("(empty '())", Environment()))
+    assert_equals("#t", interpret("(empty (cdr '(1)))", Environment()))
