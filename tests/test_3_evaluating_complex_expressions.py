@@ -7,9 +7,12 @@ from diylisp.evaluator import evaluate
 from diylisp.parser import parse
 
 def test_nested_expression():
-    """All functions (except `quote` wich isn't really a function) should evaluate the 
-    arguments. Thus, nested expressions should work just fine without any further work 
-    at this point."""
+    """All functions (except `quote` and `if` which aren't really functions) should 
+    evaluate their arguments. Thus, nested expressions should work just fine without 
+    any further work at this point.
+
+    If this test is failing, make sure that `+`, `>` and so on is evaluating their
+    arguments before operating on them."""
 
     nested_expression = parse("(> (- (+ 1 3) (* 2 (mod 7 4))) 4)")
     assert_equals(False, evaluate(nested_expression, Environment()))
