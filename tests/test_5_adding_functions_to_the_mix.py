@@ -129,7 +129,7 @@ def test_evaluating_call_to_closure_with_free_variables():
 
 """
 Okay, now we're able to evaluate ASTs with closures as the first element. But normally
-the closures don't just happen to be there all by themselves. Generally we'll finde some
+the closures don't just happen to be there all by themselves. Generally we'll find some
 expression, evaluate it to a closure, and then evaluate a new AST with the closure just
 like we did above.
 
@@ -185,7 +185,7 @@ function calls are done incorrectly.
 """
 
 def test_calling_atom_raises_exception():
-    """A function call to an atom should result in an error."""
+    """A function call to a non-function should result in an error."""
 
     with assert_raises_regexp(LispError, "not a function"):
         evaluate(parse("(#t 'foo 'bar)"), Environment())
@@ -212,22 +212,15 @@ def test_calling_function_recursively():
     """Tests that a named function is included in the environment
     where it is evaluated."""
     
-
     env = Environment()
     evaluate(parse("""
-        (define oposite
-            (lambda (p) 
-                (if p #f #t)))
-    """), env)
-
-    evaluate(parse("""
-        (define fn 
-            ;; Recursive, but meaningless, function
+        (define my-fn 
+            ;; A meaningless, but recursive, function
             (lambda (x) 
-                (if x 
-                    (fn (oposite x))
-                    1000)))
+                (if (eq x 0) 
+                    42
+                    (my-fn (- x 1)))))
     """), env)
 
-    assert_equals(1000, evaluate(parse("(fn #t)"), env))
-    assert_equals(1000, evaluate(parse("(fn #f)"), env))
+    assert_equals(42, evaluate(parse("(my-fn 0)"), env))
+    assert_equals(42, evaluate(parse("(my-fn 10)"), env))
