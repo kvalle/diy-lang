@@ -12,6 +12,7 @@ We will handle two types of expressions: **atoms** and **lists**.
 - Numbers and booleans evaluate to themselves.
 - Symbols are treated as variable references. When evaluated, their values are looked up in the environment.
 - Lists are treated as function calls (or calls to the special forms built into the language).
+- Anything in between semicolons (`;`) and the end of a line is considered a comment and ignored.
 
 ### Special Forms
 
