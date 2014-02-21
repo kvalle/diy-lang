@@ -26,12 +26,6 @@ def test_creating_list_with_cons():
     result = evaluate(parse("(cons 0 '(1 2 3))"), Environment())
     assert_equals(parse("(0 1 2 3)"), result)
 
-def test_creating_list_with_one_element():
-    """`cons` should treat the symbol 'nil as the empty list."""
-
-    result = evaluate(parse("(cons 42 'nil)"), Environment())
-    assert_equals(parse("(42)"), result)
-
 def test_creating_longer_lists_with_only_cons():
     """`cons` needs to evaluate it's arguments.
 
@@ -39,26 +33,26 @@ def test_creating_longer_lists_with_only_cons():
     call-by-value. This means that the arguments must be evaluated before we 
     create the list with their values."""
 
-    result = evaluate(parse("(cons 3 (cons (- 4 2) (cons 1 'nil)))"), Environment())
+    result = evaluate(parse("(cons 3 (cons (- 4 2) (cons 1 '())))"), Environment())
     assert_equals(parse("(3 2 1)"), result)
 
 def test_getting_first_element_from_list():
-    """`car` extracts the first element of a list."""
+    """`head` extracts the first element of a list."""
     
-    assert_equals("1", interpret("(car (quote (1 2 3 4 5)))", Environment()))
+    assert_equals("1", interpret("(head (quote (1 2 3 4 5)))", Environment()))
 
 def test_getting_first_element_from_empty_list():
-    """If the list is empty there is no first element, and `car should raise an error."""
+    """If the list is empty there is no first element, and `head should raise an error."""
 
     with assert_raises(LispError):
-        interpret("(car (quote ()))", Environment())
+        interpret("(head (quote ()))", Environment())
 
 def test_getting_tail_of_list():
-    """`cdr` returns the tail of the list.
+    """`tail` returns the tail of the list.
 
     The tail is the list retained after removing the first element."""
 
-    assert_equals("(2 3)", interpret("(cdr '(1 2 3))", Environment()))
+    assert_equals("(2 3)", interpret("(tail '(1 2 3))", Environment()))
 
 def test_checking_whether_list_is_empty():
     """The `empty` form checks whether or not a list is empty."""
@@ -67,4 +61,4 @@ def test_checking_whether_list_is_empty():
     assert_equals("#f", interpret("(empty '(1))", Environment()))
 
     assert_equals("#t", interpret("(empty '())", Environment()))
-    assert_equals("#t", interpret("(empty (cdr '(1)))", Environment()))
+    assert_equals("#t", interpret("(empty (tail '(1)))", Environment()))
