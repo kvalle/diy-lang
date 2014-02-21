@@ -52,7 +52,7 @@ def test_evaluating_eq_function():
     # From this point, the ASTs might sometimes be too long or cummbersome to
     # write down explicitly, and we'll use `parse` to make them for us.
     # Remember, if you need to have a look at exactly what is passed to `evaluate`, 
-    # just add a print statement.
+    # just add a print statement in the test (or in `evaluate`).
 
     assert_equals(True, evaluate(parse("(eq 'foo 'foo)"), Environment()))
     assert_equals(False, evaluate(parse("(eq 'foo 'bar)"), Environment()))
