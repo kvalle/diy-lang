@@ -4,28 +4,23 @@
 
 In this tutorial/workshop we'll be implementing our own little language, more or less from scratch. 
 
+By the end of the tutorial you will be the proud author of a programming language, and will hopefully better understand how programming languages work  on a fundamental level.
 
 ### What we will be making
 
-We will make a relatively simple, but neat, language. We aim for the following features:
+We will make a relatively simple, but neat language. We aim for the following features:
 
 - A handful of datatypes (integers, booleans and symbols)
 - Variables
-- A few controll structures
 - First order functions with lexical scoping
 - That nice homemade quality feeling
 
-We will not have:
+We will *not* have:
 
 - A proper type system
 - Error handling
 - Good performance
 - And much, much more
-
-
-### Goal
-
-By the end of the tutorial you will have implemented a simple programming language, and will hopefully have understood languages better on a fundamental level. 
 
 The language should be able to interpret the following code by the time we are done:
 
@@ -50,7 +45,7 @@ The language should be able to interpret the following code by the time we are d
 (fact 5)
 ```
 
-If you find this example unfamiliar, you might want to have a look at [the more detailed description of the language](parts/language.md).
+The syntax is that of the languages in the Lisp family. If you find the example unfamiliar, you might want to have a look at [the more detailed description of the language](parts/language.md).
 
 ### Prerequisites
 
@@ -78,4 +73,3 @@ Have fun!
 - [Part 5: functions](parts/5.md)
 - [Part 6: working with lists](parts/6.md)
 - [Part 7: using the language](parts/7.md)
-
