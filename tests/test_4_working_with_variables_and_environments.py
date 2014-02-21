@@ -60,6 +60,17 @@ def test_set_changes_environment_in_place():
     env.set("foo", 2)
     assert_equals(2, env.lookup("foo"))
 
+def test_redefine_variables_illegal():
+    """Variables can only be defined once.
+
+    Setting a variable in an environment where it is already defined should result
+    in an appropriate error.
+    """
+
+    env = Environment({"foo": 1})
+    with assert_raises_regexp(LispError, "already defined"):
+        env.set("foo", 2)
+
 
 """
 With the `Environment` working, it's time to implement evaluation of expressions 
@@ -106,12 +117,6 @@ def test_define_with_nonsymbol_as_variable():
 
     with assert_raises_regexp(LispError, "non-symbol"):
         evaluate(parse("(define #t 42)"), Environment())
-
-def test_redefine_variables_illegal():
-    """Variables can only be defined once!"""
-
-    with assert_raises_regexp(LispError, "already defined"):
-        evaluate(parse("(define foo 42)"), Environment({"foo": "bar"}))
 
 def test_variable_lookup_after_define():
     """Test define and lookup variable in same environment.
