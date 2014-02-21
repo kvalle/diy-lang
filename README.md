@@ -72,4 +72,4 @@ Have fun!
 - [Part 4: working with variables](parts/4.md)
 - [Part 5: functions](parts/5.md)
 - [Part 6: working with lists](parts/6.md)
-- [Part 7: using the language](parts/7.md)
+- [Part 7: using your language](parts/7.md)

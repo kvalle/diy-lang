@@ -11,7 +11,7 @@ function run_tests {
               tests/test_4_working_with_variables_and_environments.py \
               tests/test_5_adding_functions_to_the_mix.py \
               tests/test_6_working_with_lists.py \
-              tests/test_7_final_language.py \
+              tests/test_7_using_the_language.py \
               tests/test_provided_code.py --stop
 }
 
