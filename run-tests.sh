@@ -16,6 +16,11 @@ function run_tests {
 }
 
 run_tests
-while inotifywait -r -e modify . ; do
-    run_tests
-done
+
+if command -v inotifywait >/dev/null; then
+  msg="Prepared to run tests on new changes..."
+  echo -e "\033[1;37m> $msg\033[0m"
+  while inotifywait -q -r -e modify . ; do
+      run_tests
+  done
+fi
