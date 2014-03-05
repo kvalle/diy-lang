@@ -45,7 +45,7 @@ The language should be able to interpret the following code by the time we are d
 (fact 5)
 ```
 
-The syntax is that of the languages in the Lisp family. If you find the example unfamiliar, you might want to have a look at [the more detailed description of the language](parts/language.md).
+The syntax is that of the languages in the Lisp family. If you find the example unfamiliar, you might want to have a look at [a more detailed description of the language](parts/language.md).
 
 ### Prerequisites
 
