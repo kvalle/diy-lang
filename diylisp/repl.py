@@ -2,10 +2,11 @@
 
 import os
 import sys
-from types import LispError
+from os.path import dirname, relpath, join
+
+from types import LispError, Environment
 from parser import remove_comments
-from interpreter import interpret
-from types import Environment
+from interpreter import interpret, interpret_file
 
 # importing this gives readline goodness when running on systems
 # where it is supported (i.e. UNIX-y systems)
@@ -23,6 +24,7 @@ def repl():
     print
 
     env = Environment()
+    interpret_file(join(dirname(relpath(__file__)), '..', 'stdlib.diy'), env)
     while True:
         try:
             source = read_expression()

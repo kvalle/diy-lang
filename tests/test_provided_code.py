@@ -5,6 +5,12 @@ from nose.tools import assert_equals, assert_raises_regexp, assert_raises
 from diylisp.parser import unparse, find_matching_paren
 from diylisp.types import LispError
 
+"""
+This module contains a few tests for the code provided for part 1.
+All tests here should already pass, and should be of no concern to
+you as a workshop attendee.
+"""
+
 ## Tests for find_matching_paren function in parser.py
 
 def test_find_matching_paren():
