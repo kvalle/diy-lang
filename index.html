@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>DIY Lisp</title>
+    <link rel="stylesheet" href="remark-styling.css"/>
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle, inverse
+
+# DIY Lisp
+
+### Make your own programming language
+
+---
+class: inverse, middle
+
+```lisp
+;; Goal of today, make a programming language that can
+;; understand this code.
+
+(define fact 
+    ;; Factorial function
+    (lambda (n) 
+        (if (<= n 1) 
+            1 ; Factorial of 0 is 1, and we deny 
+              ; the existence of negative numbers
+            (* n (fact (- n 1))))))
+
+;; The result of this should be 120
+(fact 5)
+```
+
+---
+class: inverse, middle
+
+https://github.com/kvalle/diy-lisp/blob/master/
+
+- Part 1: [parsing](https://github.com/kvalle/diy-lisp/blob/master/parts/1.md)
+- Part 2: [evaluating simple expressions](https://github.com/kvalle/diy-lisp/blob/master/parts/2.md)
+- Part 3: [evaluating complex expressions](https://github.com/kvalle/diy-lisp/blob/master/parts/3.md)
+- Part 4: [working with variables](https://github.com/kvalle/diy-lisp/blob/master/parts/4.md)
+- Part 5: [functions](https://github.com/kvalle/diy-lisp/blob/master/parts/5.md)
+- Part 6: [working with lists](https://github.com/kvalle/diy-lisp/blob/master/parts/6.md)
+- Part 7: [using your language](https://github.com/kvalle/diy-lisp/blob/master/parts/7.md)
+
+---
+class: inverse, middle, center
+
+start with the README at
+
+.large[
+github.com/[kvalle/diy-lisp](https://github.com/kvalle/diy-lisp)
+]
+
+
+    </textarea>
+    <script src="remark.min.js" type="text/javascript"></script>
+  <!--<script src="http://gnab.github.com/remark/downloads/remark-0.5.5.min.js" type="text/javascript"></script>-->
+    <script type="text/javascript">
+      var slideshow = remark.create({
+          highlightStyle: 'monokai',
+          highlightLanguage: 'no-highlight'
+        }) ;
+    </script>
+  </body>
+</html>
