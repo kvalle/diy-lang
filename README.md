@@ -12,7 +12,7 @@ We will make a relatively simple, but neat language. We aim for the following fe
 
 - A handful of datatypes (integers, booleans and symbols)
 - Variables
-- First order functions with lexical scoping
+- First class functions with lexical scoping
 - That nice homemade quality feeling
 
 We will *not* have:
