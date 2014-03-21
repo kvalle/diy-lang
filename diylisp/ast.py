@@ -3,7 +3,8 @@
 from types import Closure
 
 """
-This module contains a few simple helper functions for checking the type of ASTs.
+This module contains a few simple helper functions for 
+checking the type of ASTs.
 """
 
 def is_symbol(x):

@@ -69,7 +69,7 @@ def test_defining_lambda_with_error_in_body():
     assert_is_instance(evaluate(ast, Environment()), Closure)
 
 """
-Now that we have the `lambda` form implemented, lets see if we can call some functions.
+Now that we have the `lambda` form implemented, let's see if we can call some functions.
 
 When evaluating ASTs which are lists, if the first element isn't one of the special forms
 we have been working with so far, it is a function call. The first element of the list is 

@@ -4,28 +4,23 @@ import re
 from ast import is_boolean, is_list
 from types import LispError
 
+"""
+This it the parser module, with the `parse` function which you'll implenent as part 1 of
+the workshop. It's job is to convert strings into data structures that the evaluator can 
+understand. 
+
+A few other functions are already implemented at the end of the file. These should prove 
+helpful. We don't want to spend the day implementing parenthesis counting, after all.
+
+The functions `parse_multiple` and `unparse` are also implemented. These are needed for the
+REPL to work, but don't worry too much about them.
+"""
+
 def parse(source):
     """Parse string representation of one single expression
     into the corresponding Abstract Syntax Tree."""
 
-    source = remove_comments(source)
-    exp, rest = first_expression(source)
-    if rest:
-        raise LispError('Expected EOF')
-    
-    if exp == "#f":
-        return False
-    elif exp == "#t":
-        return True
-    elif exp.isdigit():
-        return int(exp)
-    elif exp[0] == "'":
-        return ["quote", parse(exp[1:])]
-    elif exp[0] == "(":
-        end = find_matching_paren(exp)
-        return [parse(e) for e in split_exps(exp[1:end])]
-    else:
-        return source
+    raise NotImplementedError("DIY")
 
 def parse_multiple(source):
     """Creates a list of ASTs from program source constituting multiple expressions.
@@ -54,13 +49,14 @@ def unparse(ast):
         # integers or symbols (or lambdas)
         return str(ast)
 
+##
+## Useful utility functions
+## Should come in handy when implementing `parse`
+## 
+
 def remove_comments(source):
     """Remove from a string anything in between a ; and a linebreak"""
     return re.sub(r";.*\n", "\n", source)
-
-##
-## Useful utility functions
-## 
 
 def find_matching_paren(source, start=0):
     """Given a string and the index of an opening parenthesis, determines 
@@ -85,7 +81,8 @@ def split_exps(source):
 
     Example: 
 
-        split_exps("foo bar (baz 123)")
+        > split_exps("foo bar (baz 123)")
+        ["foo", "bar", "(baz 123)"]
     """
 
     rest = source.strip()

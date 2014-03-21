@@ -14,9 +14,7 @@ class LispError(Exception):
 class Closure:
     
     def __init__(self, env, params, body):
-        self.env = env
-        self.params = params
-        self.body = body
+        raise NotImplementedError("DIY")
 
     def __str__(self):
         return "<closure/%d>" % len(self.params)
@@ -24,20 +22,13 @@ class Closure:
 class Environment:
 
     def __init__(self, variables=None):
-        self.bindings = variables if variables else {}
+        raise NotImplementedError("DIY")
 
     def lookup(self, symbol):
-        if symbol in self.bindings:
-            return self.bindings[symbol]
-        else:
-            raise LispError("Variable '%s' is undefined" % symbol)
+        raise NotImplementedError("DIY")
 
     def extend(self, variables):
-        new_bindings = self.bindings.copy()
-        new_bindings.update(variables)
-        return Environment(new_bindings)
+        raise NotImplementedError("DIY")
 
     def set(self, symbol, value):
-        if symbol in self.bindings:
-            raise LispError("Variable '%s' is already defined." % symbol)
-        self.bindings[symbol] = value
+        raise NotImplementedError("DIY")
