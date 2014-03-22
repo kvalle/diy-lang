@@ -5,53 +5,21 @@ from ast import is_boolean, is_list
 from types import LispError
 
 """
-This it the parser module, with the `parse` function which you'll implenent as part 1 of
+This it the parser module, with the `parse` function which you'll implement as part 1 of
 the workshop. It's job is to convert strings into data structures that the evaluator can 
 understand. 
-
-A few other functions are already implemented at the end of the file. These should prove 
-helpful. We don't want to spend the day implementing parenthesis counting, after all.
-
-The functions `parse_multiple` and `unparse` are also implemented. These are needed for the
-REPL to work, but don't worry too much about them.
 """
 
 def parse(source):
-    """Parse string representation of one single expression
+    """Parse string representation of one *single* expression
     into the corresponding Abstract Syntax Tree."""
 
     raise NotImplementedError("DIY")
 
-def parse_multiple(source):
-    """Creates a list of ASTs from program source constituting multiple expressions.
-
-    Example:
-
-        >>> parse_multiple("(foo bar) (baz 1 2 3)")
-        [['foo', 'bar'], ['baz', 1, 2, 3]]
-
-    """
-
-    source = remove_comments(source)
-    return [parse(exp) for exp in split_exps(source)]
-
-def unparse(ast):
-    """Turns an AST back into lisp program source"""
-
-    if is_boolean(ast):
-        return "#t" if ast else "#f"
-    elif is_list(ast):
-        if len(ast) > 0 and ast[0] == "quote":
-            return "'%s" % unparse(ast[1])
-        else:
-            return "(%s)" % " ".join([unparse(x) for x in ast])
-    else:
-        # integers or symbols (or lambdas)
-        return str(ast)
-
 ##
-## Useful utility functions
-## Should come in handy when implementing `parse`
+## Below are a few useful utility functions. These should come in handy when 
+## implementing `parse`. We don't want to spend the day implementing parenthesis 
+## counting, after all.
 ## 
 
 def remove_comments(source):
@@ -109,3 +77,35 @@ def first_expression(source):
         end = match.end()
         atom = source[:end]
         return atom, source[end:]
+
+##
+## The functions below, `parse_multiple` and `unparse` are implemented in order for
+## the REPL to work. Don't worry about them when implementing the language.
+##
+
+def parse_multiple(source):
+    """Creates a list of ASTs from program source constituting multiple expressions.
+
+    Example:
+
+        >>> parse_multiple("(foo bar) (baz 1 2 3)")
+        [['foo', 'bar'], ['baz', 1, 2, 3]]
+
+    """
+
+    source = remove_comments(source)
+    return [parse(exp) for exp in split_exps(source)]
+
+def unparse(ast):
+    """Turns an AST back into lisp program source"""
+
+    if is_boolean(ast):
+        return "#t" if ast else "#f"
+    elif is_list(ast):
+        if len(ast) > 0 and ast[0] == "quote":
+            return "'%s" % unparse(ast[1])
+        else:
+            return "(%s)" % " ".join([unparse(x) for x in ast])
+    else:
+        # integers or symbols (or lambdas)
+        return str(ast)
