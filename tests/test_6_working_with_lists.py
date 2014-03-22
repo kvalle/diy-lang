@@ -3,7 +3,6 @@
 from nose.tools import assert_equals, assert_raises_regexp, \
     assert_raises, assert_false, assert_is_instance
 
-from diylisp.interpreter import interpret
 from diylisp.evaluator import evaluate
 from diylisp.parser import parse
 from diylisp.types import LispError, Environment
@@ -39,26 +38,26 @@ def test_creating_longer_lists_with_only_cons():
 def test_getting_first_element_from_list():
     """`head` extracts the first element of a list."""
     
-    assert_equals("1", interpret("(head (quote (1 2 3 4 5)))", Environment()))
+    assert_equals(1, evaluate(parse("(head '(1 2 3 4 5))"), Environment()))
 
 def test_getting_first_element_from_empty_list():
     """If the list is empty there is no first element, and `head should raise an error."""
 
     with assert_raises(LispError):
-        interpret("(head (quote ()))", Environment())
+        evaluate(parse("(head (quote ()))"), Environment())
 
 def test_getting_tail_of_list():
     """`tail` returns the tail of the list.
 
     The tail is the list retained after removing the first element."""
 
-    assert_equals("(2 3)", interpret("(tail '(1 2 3))", Environment()))
+    assert_equals([2, 3], evaluate(parse("(tail '(1 2 3))"), Environment()))
 
 def test_checking_whether_list_is_empty():
     """The `empty` form checks whether or not a list is empty."""
 
-    assert_equals("#f", interpret("(empty '(1 2 3))", Environment()))
-    assert_equals("#f", interpret("(empty '(1))", Environment()))
+    assert_equals(False, evaluate(parse("(empty '(1 2 3))"), Environment()))
+    assert_equals(False, evaluate(parse("(empty '(1))"), Environment()))
 
-    assert_equals("#t", interpret("(empty '())", Environment()))
-    assert_equals("#t", interpret("(empty (tail '(1)))", Environment()))
+    assert_equals(True, evaluate(parse("(empty '())"), Environment()))
+    assert_equals(True, evaluate(parse("(empty (tail '(1)))"), Environment()))
