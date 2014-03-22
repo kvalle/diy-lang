@@ -97,7 +97,10 @@ def test_lookup_missing_variable():
 def test_define():
     """Test of simple define statement.
 
-    The `define` form is used to define new bindings in the environment."""
+    The `define` form is used to define new bindings in the environment.
+    A `define` call should result in a change in the environment. What you
+    return from evaluating the definition is not important (although it 
+    affects what is printed in the REPL)."""
 
     env = Environment()
     evaluate(parse("(define x 1000)"), env)
