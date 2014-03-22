@@ -7,9 +7,10 @@ from diylisp.evaluator import evaluate
 from diylisp.parser import parse
 
 def test_nested_expression():
-    """All functions (except `quote` and `if` which aren't really functions) should 
-    evaluate their arguments. Thus, nested expressions should work just fine without 
-    any further work at this point.
+    """Remember, functions should evaluate their arguments. 
+
+    (Except `quote` and `if`, that is, which aren't really functions...) Thus, nested 
+    expressions should work just fine without any further work at this point.
 
     If this test is failing, make sure that `+`, `>` and so on is evaluating their
     arguments before operating on them."""
