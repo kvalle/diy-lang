@@ -26,6 +26,9 @@ free to test things out there.
     →  (not #t)
     #f
 
+PS: Note that in these tests, `interpret` is used. In addition to parsing 
+and evaluating, it "unparses" the result, hence strings such as "#t" as the 
+expected result instead of `True`.
 """
 
 def test_not():    
