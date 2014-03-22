@@ -78,6 +78,17 @@ def test_parse_exception_extra_paren():
     with assert_raises_regexp(LispError, 'Expected EOF'):
         parse('(foo (bar x y)))')
 
+def test_parse_with_extra_whitespace():
+    """Excess whitespace should be removed."""
+
+    program = """
+
+       (program    with   much        whitespace)
+    """
+
+    expected_ast = ['program', 'with', 'much', 'whitespace']
+    assert_equals(expected_ast, parse(program))
+
 def test_parse_comments():
     """All comments should be stripped away as part of the parsing."""
 
