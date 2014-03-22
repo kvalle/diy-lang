@@ -44,7 +44,7 @@ def test_evaluating_atom_function():
     assert_equals(False, evaluate(["atom", ["quote", [1, 2]]], Environment()))
 
 def test_evaluating_eq_function():
-    """"""
+    """The `eq` form is used to check whether two expressions are the same atom."""
 
     assert_equals(True, evaluate(["eq", 1, 1], Environment()))
     assert_equals(False, evaluate(["eq", 1, 2], Environment()))
@@ -56,7 +56,9 @@ def test_evaluating_eq_function():
 
     assert_equals(True, evaluate(parse("(eq 'foo 'foo)"), Environment()))
     assert_equals(False, evaluate(parse("(eq 'foo 'bar)"), Environment()))
-    
+
+    # Lists are never equal, because lists are not atoms
+    assert_equals(False, evaluate(parse("(eq '(1 2 3) '(1 2 3))"), Environment()))
 
 def test_basic_math_operators():
     """To be able to do anything useful, we need some basic math operators.
@@ -80,3 +82,4 @@ def test_math_oprators_only_work_on_numbers():
 
     with assert_raises(LispError):
         evaluate(parse("(+ 1 'foo)"), Environment())
+
