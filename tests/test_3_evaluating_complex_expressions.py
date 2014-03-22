@@ -17,7 +17,7 @@ def test_nested_expression():
     their arguments before operating on them."""
 
     nested_expression = parse("(eq #f (> (- (+ 1 3) (* 2 (mod 7 4))) 4))")
-    assert_equals(False, evaluate(nested_expression, Environment()))
+    assert_equals(True, evaluate(nested_expression, Environment()))
 
 
 def test_basic_if_statement():
