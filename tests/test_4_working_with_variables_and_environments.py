@@ -124,5 +124,5 @@ def test_variable_lookup_after_define():
     This test should already be working when the above ones are passing."""
 
     env = Environment()
-    evaluate(parse("(define foo 42)"), env)
-    assert_equals(42, evaluate("foo", env))
+    evaluate(parse("(define foo (+ 2 2))"), env)
+    assert_equals(4, evaluate("foo", env))
