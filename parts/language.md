@@ -28,8 +28,8 @@ Here is a brief explanation of each form:
 - `define` is used to define new variables in the environment.
 - `lambda` creates function closures.
 - `cons` is used to construct lists from a head (element) and the tail (list).
-- `car` returns the first element of a list.
-- `cdr` returns all but the first element of a list.
+- `head` returns the first element of a list.
+- `tail` returns all but the first element of a list.
 
 ### Function calls
 
