@@ -2,7 +2,6 @@
 
 This is not an introduction to Python. 
 For that, see the [Python tutorial](https://docs.python.org/2/tutorial/) or the [Python module index](https://docs.python.org/3/py-modindex.html).
-
 Instead, this lists some tips and pointers that will prove useful when working on your language.
 
 ### Lists
@@ -14,19 +13,19 @@ Lists will comprise our ASTs, so you'll need lists pretty early on. The [tutoria
 We'll be using [dictionaries](https://docs.python.org/2/library/stdtypes.html#typesmapping) when representing the program environments.
 
 - Remember that dicts are mutable in Python. Use the [`copy`](https://docs.python.org/2/library/stdtypes.html#dict.copy) function when a copy is needed.
+- To update a dictionary with values from another, use [`update`](https://docs.python.org/2/library/stdtypes.html#set.update).
 - You will find yourself needing to make a dictionary from a list of keys and a list of values. To do so, combine the [`dict`](https://docs.python.org/2/library/functions.html#func-dict) and [`zip`](https://docs.python.org/2/library/functions.html#zip) functions like this:
     
     ```python
     >>> dict(zip(["foo", "bar"], [1, 2]))
     {'foo': 1, 'bar': 2}
     ```
-- To update a dictionary with values from another, use [`update`](https://docs.python.org/2/library/stdtypes.html#set.update).
 
-Read about dicts in the [documentation](https://docs.python.org/2/tutorial/datastructures.html#dictionaries).
+Read more about dicts in the [documentation](https://docs.python.org/2/tutorial/datastructures.html#dictionaries).
 
 ### Strings
 
-- Strings works in many ways like lists in Python. Thus, you can substring using indices:
+- Strings works in many ways like lists. Thus, you can substring using indices:
 
     ```python
     >>> "hello world"[6:]
@@ -42,9 +41,9 @@ Read about dicts in the [documentation](https://docs.python.org/2/tutorial/datas
     'Hey, cool language!'
     >>> "%d bottles of %s on the wall" % (99, "beer")
     '99 bottles of beer on the wall'
-    >>> "%(num)s bottles of %(what)s on the %(where)s, %(num)d of %(what)s" \
+    >>> "%(num)s bottles of %(what)s on the %(where)s, %(num)d bottles of %(what)s" \
     ...      % {"num": 99, "what": "beer", "where": "wall"}
-    '99 bottles of beer on the wall, 99 of beer'
+    '99 bottles of beer on the wall, 99 bottles of beer'
     ```
 
 ### Classes
@@ -58,7 +57,7 @@ class Knight:
         self.sound = sound
     
     def speak(self):
-        print self.sound, self.sound
+        print self.sound
 ```
 
 You don't provide the `self` when creating instances or calling methods:
