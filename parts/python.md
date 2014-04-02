@@ -67,3 +67,22 @@ You don't provide the `self` when creating instances or calling methods:
 >>> knight.speak()
 ni
 ```
+
+### Default argument values
+
+One thing it is easy to be bitten by is the way Python handles default function argument values. These are members of the function itself, and not "reset" every time the function is called.
+
+```python
+>>> def function(data=[]):
+...     data.append(1)
+...     return data
+...
+>>> function()
+[1]
+>>> function()
+[1, 1]
+>>> function()
+[1, 1, 1]
+```
+
+Beware this when you implement the `Environment` class.
