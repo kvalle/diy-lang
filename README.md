@@ -65,6 +65,8 @@ Finally, clone this repo, and you're ready to go!
 git clone https://github.com/kvalle/diy-lisp.git
 ```
 
+> Also, if you're unfamiliar with Python, you might want to have a look at the basics in the [Python tutorial](https://docs.python.org/2/tutorial/index.html) before we get going. There is also the small [Python cheat sheet](parts/python.md) to help you along.
+
 ### Get started!
 
 The workshop is split up into seven parts. Each consist of an introduction, and a bunch of unit tests which it is your task to make run. When all the tests run, you'll have implemented that part of the language.
