@@ -10,8 +10,7 @@
     ;; Factorial function
     (lambda (n) 
         (if (eq n 0) 
-            1 ; Factorial of 0 is 1, and we deny 
-              ; the existence of negative numbers
+            1 ; Factorial of 0 is 1
             (* n (fact (- n 1))))))
 
 ;; When parsing the file, the last statement is returned

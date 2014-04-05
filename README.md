@@ -25,20 +25,11 @@ We will *not* have:
 The language should be able to interpret the following code by the time we are done:
 
 ```lisp
-;; Some example lisp code. By the end of the tutorial, our Lisp will be
-;; able to run this.
-
-;; To run the code:
-;;
-;;    ./diy example.diy
-;;
-
 (define fact 
     ;; Factorial function
     (lambda (n) 
-        (if (<= n 1) 
-            1 ; Factorial of 0 is 1, and we deny 
-              ; the existence of negative numbers
+        (if (eq n 0) 
+            1 ; Factorial of 0 is 1
             (* n (fact (- n 1))))))
 
 ;; When parsing the file, the last statement is returned
