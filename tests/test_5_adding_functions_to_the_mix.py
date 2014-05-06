@@ -20,7 +20,7 @@ def test_lambda_evaluates_to_lambda():
 
     ast = ["lambda", [], 42]
     closure = evaluate(ast, Environment())
-    assert_is_instance(closure, Closure) 
+    assert_is_instance(closure, Closure)
 
 def test_lambda_closure_keeps_defining_env():
     """The closure should keep a copy of the environment where it was defined.
@@ -31,13 +31,13 @@ def test_lambda_closure_keeps_defining_env():
     env = Environment({"foo": 1, "bar": 2})
     ast = ["lambda", [], 42]
     closure = evaluate(ast, env)
-    assert_equals(closure.env, env) 
+    assert_equals(closure.env, env)
 
 def test_lambda_closure_holds_function():
-    """The closure contains the parameter list and function body too."""    
+    """The closure contains the parameter list and function body too."""
 
     closure = evaluate(parse("(lambda (x y) (+ x y))"), Environment())
-    
+
     assert_equals(["x", "y"], closure.params)
     assert_equals(["+", "x", "y"], closure.body)
 
@@ -72,7 +72,7 @@ def test_defining_lambda_with_error_in_body():
 Now that we have the `lambda` form implemented, let's see if we can call some functions.
 
 When evaluating ASTs which are lists, if the first element isn't one of the special forms
-we have been working with so far, it is a function call. The first element of the list is 
+we have been working with so far, it is a function call. The first element of the list is
 the function, and the rest of the elements are arguments.
 """
 
@@ -80,7 +80,7 @@ def test_evaluating_call_to_closure():
     """The first case we'll handle is when the AST is a list with an actual closure
     as the first element.
 
-    In this first test, we'll start with a closure with no arguments and no free 
+    In this first test, we'll start with a closure with no arguments and no free
     variables. All we need to do is to evaluate and return the function body."""
 
     closure = evaluate(parse("(lambda () (+ 1 2))"), Environment())
@@ -89,7 +89,7 @@ def test_evaluating_call_to_closure():
     assert_equals(3, result)
 
 def test_evaluating_call_to_closure_with_arguments():
-    """The function body must be evaluated in an environment where the parmeters are bound.
+    """The function body must be evaluated in an environment where the parameters are bound.
 
     Create an environment where the function parameters (which are stored in the closure)
     are bound to the actual argument values in the function call. Use this environment
@@ -165,7 +165,7 @@ def test_calling_complex_expression_which_evaluates_to_function():
     """Actually, all ASTs that are not atoms should be evaluated and then called.
 
     In this test, a call is done to the if-expression. The `if` should be evaluated,
-    which will result in a `lambda` expression. The lambda is evaluated, giving a 
+    which will result in a `lambda` expression. The lambda is evaluated, giving a
     closure. The result is an AST with a `closure` as the first element, which we
     already know how to evaluate."""
 
@@ -180,7 +180,7 @@ def test_calling_complex_expression_which_evaluates_to_function():
 
 
 """
-Now that we have the happy cases working, let's see what should happen when 
+Now that we have the happy cases working, let's see what should happen when
 function calls are done incorrectly.
 """
 
@@ -189,9 +189,23 @@ def test_calling_atom_raises_exception():
 
     with assert_raises_regexp(LispError, "not a function"):
         evaluate(parse("(#t 'foo 'bar)"), Environment())
-
     with assert_raises_regexp(LispError, "not a function"):
         evaluate(parse("(42)"), Environment())
+
+def test_make_sure_arguments_to_functions_are_evaluated():
+    """The arguments passed to functions should be evaluated
+
+    We should accept parameters that are produced through function
+    calls. If you are seeing stack overflows, e.g.
+
+    RuntimeError: maximum recursion depth exceeded while calling a Python object
+
+    then you should double-check that you are properly evaluating the passed
+    function arguments."""
+
+    env = Environment()
+    res = evaluate(parse("((lambda (x) x) (+ 1 2))"), env)
+    assert_equals(res, 3)
 
 def test_calling_with_wrong_number_of_arguments():
     """Functions should raise exceptions when called with wrong number of arguments."""
@@ -204,20 +218,20 @@ def test_calling_with_wrong_number_of_arguments():
 
 
 """
-One final test to see that recursive functions are working as expected. 
+One final test to see that recursive functions are working as expected.
 The good news: this should already be working by now :)
 """
 
 def test_calling_function_recursively():
     """Tests that a named function is included in the environment
     where it is evaluated."""
-    
+
     env = Environment()
     evaluate(parse("""
-        (define my-fn 
+        (define my-fn
             ;; A meaningless, but recursive, function
-            (lambda (x) 
-                (if (eq x 0) 
+            (lambda (x)
+                (if (eq x 0)
                     42
                     (my-fn (- x 1)))))
     """), env)
