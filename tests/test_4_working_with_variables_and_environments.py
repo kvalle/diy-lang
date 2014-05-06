@@ -5,7 +5,6 @@ from nose.tools import assert_equals, assert_raises_regexp
 from diylisp.types import LispError, Environment
 from diylisp.evaluator import evaluate
 from diylisp.parser import parse
-from diylisp.interpreter import interpret
 
 """
 Before we go on to evaluating programs using variables, we need to implement
