@@ -5,7 +5,7 @@ from ast import is_boolean, is_list
 from types import LispError
 
 """
-This it the parser module, with the `parse` function which you'll implement as part 1 of
+This is the parser module, with the `parse` function which you'll implement as part 1 of
 the workshop. It's job is to convert strings into data structures that the evaluator can 
 understand. 
 """
