@@ -5,7 +5,7 @@ The syntax of our little language is Lisp-inspired. This is mainly to make it ea
 We will handle two types of expressions: **atoms** and **lists**. 
 
 - Atoms can be numbers (`42`), booleans(`#t` and `#f`) or symbols (`foobar`).
-- Lists consists of a series of zero or more expressions (other atoms or lists) separated by spaces and encosed by parentheses.
+- Lists consists of a series of zero or more expressions (other atoms or lists) separated by spaces and enclosed by parentheses.
 
 ### Evaluation rules
 
