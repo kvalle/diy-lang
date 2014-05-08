@@ -38,7 +38,7 @@ def test_lookup_from_inner_env():
     assert_equals(True, env.lookup("bar"))
 
 def test_lookup_deeply_nested_var():
-    """Extending overwrites old bidings to the same variable name."""
+    """Extending overwrites old bindings to the same variable name."""
 
     env = Environment({"a": 1}).extend({"b": 2}).extend({"c": 3}).extend({"foo": 100})
     assert_equals(100, env.lookup("foo"))
