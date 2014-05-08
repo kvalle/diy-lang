@@ -21,7 +21,7 @@ def test_nested_expression():
 
 
 def test_basic_if_statement():
-    """If statements are the basic controll structures.
+    """If statements are the basic control structures.
 
     The `if` should first evaluate it's first argument. If this evaluates to true, then
     the second argument is evaluated and returned. Otherwise the third and last argument
