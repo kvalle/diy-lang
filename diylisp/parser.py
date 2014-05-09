@@ -53,7 +53,10 @@ def parse_list(expression):
 
 def parse_quote_shorthand(expression):
     if expression[0] != "'":
-        return expression
+        if expression[0] != '(':
+            return parse_atom(expression)
+        else:
+            return parse_list(expression)
 
     ast = []
     ast.append("quote")

@@ -16,4 +16,97 @@ in a day, after all.)
 
 def evaluate(ast, env):
     """Evaluate an Abstract Syntax Tree in the specified environment."""
-    raise NotImplementedError("DIY")
+
+    print ast
+
+    if is_atom(ast):
+        return ast
+    elif ast[0] == "quote":
+        if len(ast) != 2:
+            raise LispError("quote takes one argument: %s" & unparse(ast))
+        else:
+            return evaluate(ast[1], env);
+    elif ast[0] == "atom":
+        if len(ast) != 2:
+            raise LispError("atom takes one argument: %s" % unparse(ast))
+        else:
+            return is_atom(evaluate(ast[1], env))
+    elif ast[0] == "eq":
+        if len(ast) != 3:
+            raise LispError("eq takes two arguments: %s" % unparse(ast))
+        else:
+	    arg1_evaluated = evaluate(ast[1], env)
+	    arg2_evaluated = evaluate(ast[2], env)
+	    
+	    if not is_atom(arg1_evaluated) or not is_atom(arg2_evaluated):
+                return False
+            else:
+                return arg1_evaluated == arg2_evaluated
+    elif ast[0] == "+":
+        if len(ast) != 3:
+            raise LispError("+ takes two arguments: %s" % unparse(ast))
+        else:
+	    arg1_evaluated = evaluate(ast[1], env)
+	    arg2_evaluated = evaluate(ast[2], env)
+
+            if not is_integer(arg1_evaluated) or not is_integer(arg2_evaluated):
+                raise LispError("arguments for + must be integers: %s" % unparse(ast))
+            else:
+                return arg1_evaluated + arg2_evaluated
+    elif ast[0] == "-":
+        if len(ast) != 3:
+            raise LispError("- takes two arguments: %s" % unparse(ast))
+        else:
+	    arg1_evaluated = evaluate(ast[1], env)
+	    arg2_evaluated = evaluate(ast[2], env)
+
+            if not is_integer(arg1_evaluated) or not is_integer(arg2_evaluated):
+                raise LispError("arguments for - must be integers: %s" % unparse(ast))
+            else:
+                return arg1_evaluated - arg2_evaluated
+    elif ast[0] == "/":
+        if len(ast) != 3:
+            raise LispError("/ takes two arguments: %s" % unparse(ast))
+        else:
+	    arg1_evaluated = evaluate(ast[1], env)
+	    arg2_evaluated = evaluate(ast[2], env)
+
+            if not is_integer(arg1_evaluated) or not is_integer(arg2_evaluated):
+                raise LispError("arguments for / must be integers: %s" % unparse(ast))
+            else:
+                return int(arg1_evaluated / arg2_evaluated)
+    elif ast[0] == "*":
+        if len(ast) != 3:
+            raise LispError("* takes two arguments: %s" % unparse(ast))
+        else:
+	    arg1_evaluated = evaluate(ast[1], env)
+	    arg2_evaluated = evaluate(ast[2], env)
+
+            if not is_integer(arg1_evaluated) or not is_integer(arg2_evaluated):
+                raise LispError("arguments for * must be integers: %s" % unparse(ast))
+            else:
+                return arg1_evaluated * arg2_evaluated
+    elif ast[0] == ">":
+        if len(ast) != 3:
+            raise LispError("> takes two arguments: %s" % unparse(ast))
+        else:
+	    arg1_evaluated = evaluate(ast[1], env)
+	    arg2_evaluated = evaluate(ast[2], env)
+
+            if not is_integer(arg1_evaluated) or not is_integer(arg2_evaluated):
+                raise LispError("arguments for > must be integers: %s" % unparse(ast))
+            else:
+                return arg1_evaluated > arg2_evaluated
+    elif ast[0] == "mod":
+        if len(ast) != 3:
+            raise LispError("mod takes two arguments: %s" % unparse(ast))
+        else:
+	    arg1_evaluated = evaluate(ast[1], env)
+	    arg2_evaluated = evaluate(ast[2], env)
+
+            if not is_integer(arg1_evaluated) or not is_integer(arg2_evaluated):
+                raise LispError("arguments for mod must be integers: %s" % unparse(ast))
+            else:
+                return arg1_evaluated % arg2_evaluated
+    else:
+        return ast
