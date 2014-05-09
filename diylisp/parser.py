@@ -14,7 +14,36 @@ def parse(source):
     """Parse string representation of one *single* expression
     into the corresponding Abstract Syntax Tree."""
 
-    raise NotImplementedError("DIY")
+    remove_comments(source)
+
+    ast = parse_expressions(source)
+    return ast
+
+def parse_expressions(source):
+    expressions = split_exps(source)
+
+    ast = []
+    for expression in expressions:
+        if expression[0] != '(':
+            ast.append(parse_atom(expression))
+        else:
+            ast.append(parse_list(expression))
+
+    return ast
+
+def parse_atom(atom):
+    if atom == "#t":
+        return True
+    elif atom == "#f":
+        return False
+    elif atom.isdigit():
+        return int(atom)
+    else:
+        return atom
+
+def parse_list(expression):
+    expression = expression[1:-1];
+    return parse_expressions(expression)
 
 ##
 ## Below are a few useful utility functions. These should come in handy when 
@@ -48,7 +77,6 @@ def split_exps(source):
     that can be parsed individually.
 
     Example: 
-
         > split_exps("foo bar (baz 123)")
         ["foo", "bar", "(baz 123)"]
     """
