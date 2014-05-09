@@ -18,7 +18,10 @@ def evaluate(ast, env):
     """Evaluate an Abstract Syntax Tree in the specified environment."""
 
     if is_atom(ast):
-        return ast
+        if is_symbol(ast):
+            return env.lookup(ast)
+        else:
+            return ast
     elif ast[0] == "quote":
         if len(ast) != 2:
             raise LispError("quote takes one argument: %s" & unparse(ast))
@@ -114,5 +117,14 @@ def evaluate(ast, env):
                 return evaluate(ast[2], env)
             else:
                 return evaluate(ast[3], env)
+    elif ast[0] == "define":
+        if len(ast) != 3:
+            raise LispError("define takes two arguments: %s" % unparse(ast))
+        else:
+            if not is_symbol(ast[1]):
+                raise LispError("the first argument for define must be a symbol: %s" % unparse(ast))
+            else:
+                env.set(ast[1], evaluate(ast[2], env))
+                return ast[2]
     else:
         return ast
