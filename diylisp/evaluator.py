@@ -17,8 +17,6 @@ in a day, after all.)
 def evaluate(ast, env):
     """Evaluate an Abstract Syntax Tree in the specified environment."""
 
-    print ast
-
     if is_atom(ast):
         return ast
     elif ast[0] == "quote":
@@ -108,5 +106,13 @@ def evaluate(ast, env):
                 raise LispError("arguments for mod must be integers: %s" % unparse(ast))
             else:
                 return arg1_evaluated % arg2_evaluated
+    elif ast[0] == "if":
+        if len(ast) != 4:
+            raise LispError("if takes three arguments: %s" % unparse(ast))
+        else:
+            if evaluate(ast[1], env):
+                return evaluate(ast[2], env)
+            else:
+                return evaluate(ast[3], env)
     else:
         return ast
