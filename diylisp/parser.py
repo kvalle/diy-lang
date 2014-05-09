@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import re
-from ast import is_boolean, is_list
+from ast import is_boolean, is_list, is_atom
 from types import LispError
 
 """
@@ -14,9 +14,13 @@ def parse(source):
     """Parse string representation of one *single* expression
     into the corresponding Abstract Syntax Tree."""
 
-    remove_comments(source)
+    source = remove_comments(source)
 
     ast = parse_expressions(source)
+
+    if len(ast) == 1:
+	return ast[0]
+
     return ast
 
 def parse_expressions(source):
@@ -38,12 +42,24 @@ def parse_atom(atom):
         return False
     elif atom.isdigit():
         return int(atom)
+    elif atom[0] == "'":
+        return parse_quote_shorthand(atom)
     else:
         return atom
 
 def parse_list(expression):
     expression = expression[1:-1];
     return parse_expressions(expression)
+
+def parse_quote_shorthand(expression):
+    if expression[0] != "'":
+        return expression
+
+    ast = []
+    ast.append("quote")
+    ast.append(parse_quote_shorthand(expression[1:]))
+
+    return ast
 
 ##
 ## Below are a few useful utility functions. These should come in handy when 
@@ -53,7 +69,7 @@ def parse_list(expression):
 
 def remove_comments(source):
     """Remove from a string anything in between a ; and a linebreak"""
-    return re.sub(r";.*\n", "\n", source)
+    return re.sub(r";+.*\n", "\n", source)
 
 def find_matching_paren(source, start=0):
     """Given a string and the index of an opening parenthesis, determines 
@@ -100,6 +116,8 @@ def first_expression(source):
     elif source[0] == "(":
         last = find_matching_paren(source)
         return source[:last + 1], source[last + 1:]
+    elif source[0] == ")":
+        raise LispError("Expected EOF")
     else:
         match = re.match(r"^[^\s)']+", source)
         end = match.end()
