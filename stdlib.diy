@@ -4,5 +4,68 @@
     (lambda (b)
         (if b #f #t)))
 
-;; DIY -- Implement the rest of your standard library
-;; here as part 7 of the workshop.
+(define or
+    (lambda (a b)
+        (if a
+            #t
+            b)))
+
+(define and
+    (lambda (a b)
+        (if a
+            b
+            #f)))
+
+(define xor
+    (lambda (a b)
+        (if a
+            (not b)
+	    b)))
+
+;; More comparators
+
+(define >=
+    (lambda (a b)
+        (if (> a b)
+            #t
+            (eq a b))))
+
+(define <=
+    (lambda (a b)
+        (if (> b a)
+            #t
+            (eq a b))))
+
+(define <
+    (lambda (a b)
+        (if (> b a)
+            (not (eq a b))
+            #f)))
+
+;; List operations
+
+(define sum
+    (lambda (list)
+        (sum_helper list 0)))
+
+(define sum_helper
+    (lambda (list total)
+        (if (empty list)
+            total
+            (sum_helper (tail list) (+ total (head list))))))
+
+(define length
+    (lambda (list)
+        (length_helper list 0)))
+
+(define length_helper
+    (lambda (list len)
+        (if (empty list)
+            len
+            (length_helper (tail list) (+ len 1)))))
+
+(define append
+    (lambda (list1 list2)
+        (if (empty list1)
+            list2
+            (append (tail list1) (cons (head list1) list2)))))

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import re
-from ast import is_boolean, is_list
+from ast import is_boolean, is_list, is_atom
 from types import LispError
 
 """
@@ -14,7 +14,55 @@ def parse(source):
     """Parse string representation of one *single* expression
     into the corresponding Abstract Syntax Tree."""
 
-    raise NotImplementedError("DIY")
+    source = remove_comments(source)
+
+    ast = parse_expressions(source)
+
+    if len(ast) == 1:
+	return ast[0]
+
+    return ast
+
+def parse_expressions(source):
+    expressions = split_exps(source)
+
+    ast = []
+    for expression in expressions:
+        if expression[0] != '(':
+            ast.append(parse_atom(expression))
+        else:
+            ast.append(parse_list(expression))
+
+    return ast
+
+def parse_atom(atom):
+    if atom == "#t":
+        return True
+    elif atom == "#f":
+        return False
+    elif atom.isdigit():
+        return int(atom)
+    elif atom[0] == "'":
+        return parse_quote_shorthand(atom)
+    else:
+        return atom
+
+def parse_list(expression):
+    expression = expression[1:-1];
+    return parse_expressions(expression)
+
+def parse_quote_shorthand(expression):
+    if expression[0] != "'":
+        if expression[0] != '(':
+            return parse_atom(expression)
+        else:
+            return parse_list(expression)
+
+    ast = []
+    ast.append("quote")
+    ast.append(parse_quote_shorthand(expression[1:]))
+
+    return ast
 
 ##
 ## Below are a few useful utility functions. These should come in handy when 
@@ -24,7 +72,7 @@ def parse(source):
 
 def remove_comments(source):
     """Remove from a string anything in between a ; and a linebreak"""
-    return re.sub(r";.*\n", "\n", source)
+    return re.sub(r";+.*\n", "\n", source)
 
 def find_matching_paren(source, start=0):
     """Given a string and the index of an opening parenthesis, determines 
@@ -48,7 +96,6 @@ def split_exps(source):
     that can be parsed individually.
 
     Example: 
-
         > split_exps("foo bar (baz 123)")
         ["foo", "bar", "(baz 123)"]
     """
@@ -72,6 +119,8 @@ def first_expression(source):
     elif source[0] == "(":
         last = find_matching_paren(source)
         return source[:last + 1], source[last + 1:]
+    elif source[0] == ")":
+        raise LispError("Expected EOF")
     else:
         match = re.match(r"^[^\s)']+", source)
         end = match.end()
