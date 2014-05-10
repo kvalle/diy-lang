@@ -136,20 +136,12 @@ def evaluate(ast, env):
                 return Closure(env, ast[1], ast[2])
     elif is_closure(ast[0]):
         return evaluate_closure(ast, env)
+    elif is_symbol(ast[0]) and is_closure(env.lookup(ast[0])):
+        return evaluate_closure([env.lookup(ast[0])] + ast[1:], env)
     else:
-        closure = evaluate(ast[0], env)
-        if not is_closure(closure):
-            raise LispError("only lambdas can be called: %s" % unparse(ast))
-
-        closure_eval_list = []
-        closure_eval_list.append(closure)
-        closure_eval_list += ast[1:]
-        return evaluate_closure(closure_eval_list, env)
+        return ast
 
 def evaluate_closure(ast, env):
-    if len(ast[0].params) != len(ast) - 1:
-        raise LispError("lambda called with the wrong number of arguments, expected %d, got %d: %s" % (len(ast[0].params), len(ast) - 1, unparse(ast)))
-
     closure_eval_env = ast[0].env.extend({})
     i = 0
     while i < len(ast[0].params):

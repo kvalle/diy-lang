@@ -14,7 +14,9 @@ class LispError(Exception):
 class Closure:
     
     def __init__(self, env, params, body):
-        raise NotImplementedError("DIY")
+        self.env = env
+        self.params = params
+        self.body = body
 
     def __str__(self):
         return "<closure/%d>" % len(self.params)
@@ -45,5 +47,11 @@ class Environment:
         except KeyError:
             self.variables[symbol] = value
             return
-	
+
 	raise LispError("Symbol %s is already defined" % symbol)
+
+    def __str__(self):
+        env_string = ""
+        for key in self.variables:
+            env_string += key + ": " + self.variables[key] + "\n"
+        return env_string
