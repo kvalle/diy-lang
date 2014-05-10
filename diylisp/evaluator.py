@@ -26,7 +26,7 @@ def evaluate(ast, env):
         if len(ast) != 2:
             raise LispError("quote takes one argument: %s" & unparse(ast))
         else:
-            return evaluate(ast[1], env);
+            return ast[1];
     elif ast[0] == "atom":
         if len(ast) != 2:
             raise LispError("atom takes one argument: %s" % unparse(ast))
@@ -136,10 +136,62 @@ def evaluate(ast, env):
                 return Closure(env, ast[1], ast[2])
     elif is_closure(ast[0]):
         return evaluate_closure(ast, env)
+    elif ast[0] == "cons":
+        if len(ast) != 3:
+            raise LispError("cons takes two arguments: %s" % unparse(ast))
+        else:
+            arg1_evaluated = evaluate(ast[1], env)
+            arg2_evaluated = evaluate(ast[2], env)
+
+            if not is_atom(arg1_evaluated):
+                raise LispError("the first argument to cons must be an atom: %s" % unparse(ast))
+            elif not is_list(arg2_evaluated):
+                raise LispError("the second argument to cons must be a list: %s" % unparse(ast))
+            else:
+                new_list = []
+                new_list.append(arg1_evaluated)
+                new_list += arg2_evaluated
+                return new_list
+    elif ast[0] == "head":
+        if len(ast) != 2:
+            raise LispError("head takes one argument: %s" % unparse(ast))
+        else:
+            arg_evaluated = evaluate(ast[1], env)
+
+            if not is_list(arg_evaluated):
+                raise LispError("the argument to head must be a list: %s" % unparse(ast))
+            elif len(arg_evaluated) < 1:
+                raise LispError("the argument to head needs at least one element: %s" % unparse(ast))
+            else:
+                return arg_evaluated[0]
+    elif ast[0] == "tail":
+        if len(ast) != 2:
+            raise LispError("tail takes one argument: %s" % unparse(ast))
+        else:
+            arg_evaluated = evaluate(ast[1], env)
+
+            if not is_list(arg_evaluated):
+                raise LispError("the argument to tail must be a list: %s" % unparse(ast))
+            elif len(arg_evaluated) < 1:
+                raise LispError("the argument to tail needs at least one element: %s" % unparse(ast))
+            else:
+                return arg_evaluated[1:]
+    elif ast[0] == "empty":
+        if len(ast) != 2:
+            raise LispError("empty takes one argument: %s" % unparse(ast))
+        else:
+            arg_evaluated = evaluate(ast[1], env)
+
+            if not is_list(arg_evaluated):
+                raise LispError("the argument to empty must be a list: %s" % unparse(ast))
+            elif len(arg_evaluated) < 1:
+                return True
+            else:
+                return False
     else:
         closure = evaluate(ast[0], env)
         if not is_closure(closure):
-            raise LispError("only lambdas can be called: %s" % unparse(ast))
+            raise LispError("only closures can be called: %s" % unparse(ast))
 
         closure_eval_list = []
         closure_eval_list.append(closure)
