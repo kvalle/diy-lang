@@ -49,7 +49,7 @@ Then install `nose`, the Python test framework we'll be using.
 pip install nose
 ```
 
-*Optional: If your are familiar with [virtualenv](http://www.virtualenv.org/en/latest/) you might want to do this in a separate pyenv.*
+*Optional: If you are familiar with [virtualenv](http://www.virtualenv.org/en/latest/) you might want to do this in a separate pyenv.*
 
 Finally, clone this repo, and you're ready to go!
 
