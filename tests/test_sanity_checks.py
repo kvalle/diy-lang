@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 from nose.tools import assert_equals
-from os.path import dirname, relpath, join
 
-from diylisp.interpreter import interpret, interpret_file
+from diylisp.interpreter import interpret
 from diylisp.types import Environment
+
 
 def test_gcd():
     """Tests Greates Common Dividor (GCD)."""

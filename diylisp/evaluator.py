@@ -14,6 +14,7 @@ making your work a bit easier. (We're supposed to get through this thing
 in a day, after all.)
 """
 
+
 def evaluate(ast, env):
     """Evaluate an Abstract Syntax Tree in the specified environment."""
     raise NotImplementedError("DIY")

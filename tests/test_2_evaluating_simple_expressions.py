@@ -11,14 +11,17 @@ from diylisp.parser import parse
 We will start by implementing evaluation of simple expressions.
 """
 
+
 def test_evaluating_boolean():
     """Booleans should evaluate to themselves."""
     assert_equals(True, evaluate(True, Environment()))
     assert_equals(False, evaluate(False, Environment()))
 
+
 def test_evaluating_integer():
     """...and so should integers."""
     assert_equals(42, evaluate(42, Environment()))
+
 
 def test_evaluating_quote():
     """When a call is done to the `quote` form, the argument should be returned without 
@@ -29,6 +32,7 @@ def test_evaluating_quote():
 
     assert_equals("foo", evaluate(["quote", "foo"], Environment()))
     assert_equals([1, 2, False], evaluate(["quote", [1, 2, False]], Environment()))
+
 
 def test_evaluating_atom_function():
     """The `atom` form is used to determine whether an expression is an atom.
@@ -42,6 +46,7 @@ def test_evaluating_atom_function():
     assert_equals(True, evaluate(["atom", 42], Environment()))
     assert_equals(True, evaluate(["atom", ["quote", "foo"]], Environment()))
     assert_equals(False, evaluate(["atom", ["quote", [1, 2]]], Environment()))
+
 
 def test_evaluating_eq_function():
     """The `eq` form is used to check whether two expressions are the same atom."""
@@ -60,6 +65,7 @@ def test_evaluating_eq_function():
     # Lists are never equal, because lists are not atoms
     assert_equals(False, evaluate(parse("(eq '(1 2 3) '(1 2 3))"), Environment()))
 
+
 def test_basic_math_operators():
     """To be able to do anything useful, we need some basic math operators.
 
@@ -77,9 +83,15 @@ def test_basic_math_operators():
     assert_equals(False, evaluate([">", 2, 7], Environment()))
     assert_equals(False, evaluate([">", 7, 7], Environment()))
 
-def test_math_oprators_only_work_on_numbers():
+
+def test_math_operators_only_work_on_numbers():
     """The math functions should only allow numbers as arguments."""
 
     with assert_raises(LispError):
         evaluate(parse("(+ 1 'foo)"), Environment())
-
+    with assert_raises(LispError):
+        evaluate(parse("(- 1 'foo)"), Environment())
+    with assert_raises(LispError):
+        evaluate(parse("(/ 1 'foo)"), Environment())
+    with assert_raises(LispError):
+        evaluate(parse("(mod 1 'foo)"), Environment())
