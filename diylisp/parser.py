@@ -10,6 +10,7 @@ the workshop. Its job is to convert strings into data structures that the evalua
 understand. 
 """
 
+
 def parse(source):
     """Parse string representation of one *single* expression
     into the corresponding Abstract Syntax Tree."""
@@ -22,9 +23,11 @@ def parse(source):
 ## counting, after all.
 ## 
 
+
 def remove_comments(source):
     """Remove from a string anything in between a ; and a linebreak"""
     return re.sub(r";.*\n", "\n", source)
+
 
 def find_matching_paren(source, start=0):
     """Given a string and the index of an opening parenthesis, determines 
@@ -43,6 +46,7 @@ def find_matching_paren(source, start=0):
             open_brackets -= 1
     return pos
 
+
 def split_exps(source):
     """Splits a source string into subexpressions 
     that can be parsed individually.
@@ -59,6 +63,7 @@ def split_exps(source):
         exp, rest = first_expression(rest)
         exps.append(exp)
     return exps
+
 
 def first_expression(source):
     """Split string into (exp, rest) where exp is the 
@@ -83,6 +88,7 @@ def first_expression(source):
 ## the REPL to work. Don't worry about them when implementing the language.
 ##
 
+
 def parse_multiple(source):
     """Creates a list of ASTs from program source constituting multiple expressions.
 
@@ -95,6 +101,7 @@ def parse_multiple(source):
 
     source = remove_comments(source)
     return [parse(exp) for exp in split_exps(source)]
+
 
 def unparse(ast):
     """Turns an AST back into lisp program source"""

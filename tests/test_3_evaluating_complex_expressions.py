@@ -6,6 +6,7 @@ from diylisp.types import Environment
 from diylisp.evaluator import evaluate
 from diylisp.parser import parse
 
+
 def test_nested_expression():
     """Remember, functions should evaluate their arguments. 
 
@@ -30,11 +31,13 @@ def test_basic_if_statement():
     if_expression = parse("(if #t 42 1000)")
     assert_equals(42, evaluate(if_expression, Environment()))
 
+
 def test_that_only_correct_branch_is_evaluated():
     """The branch of the if statement that is discarded should never be evaluated."""
 
     if_expression = parse("(if #f (this should not be evaluated) 42)")
     assert_equals(42, evaluate(if_expression, Environment()))
+
 
 def test_if_with_sub_expressions():
     """A final test with a more complex if expression.

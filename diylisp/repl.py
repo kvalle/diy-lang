@@ -12,6 +12,7 @@ from interpreter import interpret, interpret_file
 # where it is supported (i.e. UNIX-y systems)
 import readline
 
+
 def repl():
     """Start the interactive Read-Eval-Print-Loop"""
     print
@@ -44,8 +45,9 @@ def repl():
             print faded("  " + str(e.__class__.__name__) + ":"),
             print str(e)
 
+
 def read_expression():
-    "Read from stdin until we have at least one s-expression"
+    """Read from stdin until we have at least one s-expression"""
 
     exp = ""
     open_parens = 0
@@ -58,17 +60,18 @@ def read_expression():
 
     return exp.strip()
 
+
 def read_line(prompt):
-    "Return touple of user input line and number of unclosed parens"
+    """Return touple of user input line and number of unclosed parens"""
 
     line = raw_input(colored(prompt, "grey", "bold"))
     line = remove_comments(line + "\n")
-    return (line, line.count("(") - line.count(")"))
+    return line, line.count("(") - line.count(")")
 
 
 def colored(text, color, attr=None):
     attributes = {
-        'bold': 1, 
+        'bold': 1,
         'dark': 2
     }
     colors = {
@@ -92,6 +95,7 @@ def colored(text, color, attr=None):
     reset = format % colors['reset']
 
     return color + attr + text + reset
+
 
 def faded(text):
     return colored(text, "grey", attr='bold')
