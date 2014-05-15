@@ -41,7 +41,7 @@ The syntax is that of the languages in the Lisp family. If you find the example 
 ### Prerequisites
 
 Before we get started, make sure you have installed [Python](http://www.python.org/) and [Pip](https://pypi.python.org/pypi/pip). 
-*(You'll want to get Python 2.7, since it [turns out](https://github.com/kvalle/diy-lisp/issues/2) the tutorial doesn't work too well with Python 3.)*
+*(It should now work with Python 3. If you have any problem with it, please [fill an issue](https://github.com/kvalle/diy-lisp/issues).)*
 
 Then install `nose`, the Python test framework we'll be using.
 
