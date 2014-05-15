@@ -2,9 +2,9 @@
 
 from os.path import dirname, join
 
-from evaluator import evaluate
-from parser import parse, unparse, parse_multiple
-from types import Environment
+from .evaluator import evaluate
+from .parser import parse, unparse, parse_multiple
+from .types import Environment
 
 
 def interpret(source, env=None):

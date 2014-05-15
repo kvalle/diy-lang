@@ -7,6 +7,6 @@ from diylisp.interpreter import interpret_file
 from diylisp.repl import repl
 
 if len(sys.argv) > 1:
-    print interpret_file(sys.argv[1])
+    print(interpret_file(sys.argv[1]))
 else:
     repl()

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from types import Closure
+from .types import Closure
 
 """
 This module contains a few simple helper functions for

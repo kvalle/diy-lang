@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from types import LispError
-from parser import unparse
+from .types import LispError
+from .parser import unparse
 
 
 def assert_exp_length(ast, length):

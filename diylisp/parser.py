@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import re
-from ast import is_boolean, is_list
-from types import LispError
+from .ast import is_boolean, is_list
+from .types import LispError
 
 """
 This is the parser module, with the `parse` function which you'll implement as part 1 of

@@ -4,9 +4,9 @@ import os
 import sys
 from os.path import dirname, relpath, join
 
-from types import LispError, Environment
-from parser import remove_comments
-from interpreter import interpret, interpret_file
+from .types import LispError, Environment
+from .parser import remove_comments
+from .interpreter import interpret, interpret_file
 
 # importing this gives readline goodness when running on systems
 # where it is supported (i.e. UNIX-y systems)
@@ -15,35 +15,35 @@ import readline
 
 def repl():
     """Start the interactive Read-Eval-Print-Loop"""
-    print
-    print "                 " + faded("                             \`.    T       ")
-    print "    Welcome to   " + faded("   .--------------.___________) \   |    T  ")
-    print "   the DIY-lisp  " + faded("   |//////////////|___________[ ]   !  T |  ")
-    print "       REPL      " + faded("   `--------------'           ) (      | !  ")
-    print "                 " + faded("                              '-'      !    ")
-    print faded("  use ^D to exit")
-    print
+    print()
+    print("                 " + faded("                             \`.    T       "))
+    print("    Welcome to   " + faded("   .--------------.___________) \   |    T  "))
+    print("   the DIY-lisp  " + faded("   |//////////////|___________[ ]   !  T |  "))
+    print("       REPL      " + faded("   `--------------'           ) (      | !  "))
+    print("                 " + faded("                              '-'      !    "))
+    print(faded("  use ^D to exit"))
+    print()
 
     env = Environment()
     interpret_file(join(dirname(relpath(__file__)), '..', 'stdlib.diy'), env)
     while True:
         try:
             source = read_expression()
-            print interpret(source, env)
-        except LispError, e:
-            print colored("!", "red"),
-            print faded(str(e.__class__.__name__) + ":"),
-            print str(e)
+            print(interpret(source, env))
+        except LispError as e:
+            print(colored("!", "red"))
+            print(faded(str(e.__class__.__name__) + ":"))
+            print(str(e))
         except KeyboardInterrupt:
             msg = "Interupted. " + faded("(Use ^D to exit)")
-            print "\n" + colored("! ", "red") + msg
+            print("\n" + colored("! ", "red") + msg)
         except EOFError:
-            print faded("\nBye! o/")
+            print(faded("\nBye! o/"))
             sys.exit(0)
-        except Exception, e:
-            print colored("! ", "red") + faded("The Python is showing through…")
-            print faded("  " + str(e.__class__.__name__) + ":"),
-            print str(e)
+        except Exception as e:
+            print(colored("! ", "red") + faded("The Python is showing through…"))
+            print(faded("  " + str(e.__class__.__name__) + ":"))
+            print(str(e))
 
 
 def read_expression():
@@ -64,7 +64,7 @@ def read_expression():
 def read_line(prompt):
     """Return touple of user input line and number of unclosed parens"""
 
-    line = raw_input(colored(prompt, "grey", "bold"))
+    line = input(colored(prompt, "grey", "bold"))
     line = remove_comments(line + "\n")
     return line, line.count("(") - line.count(")")
 
