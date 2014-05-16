@@ -80,7 +80,7 @@ def test_parse_exception_missing_paren():
 def test_parse_exception_extra_paren():
     """Another exception is raised if the expression is too large.
 
-    The parse function expects to recieve only one single expression. Anything
+    The parse function expects to receive only one single expression. Anything
     more than this, should result in the proper exception."""
 
     with assert_raises_regexp(LispError, 'Expected EOF'):
