@@ -17,7 +17,8 @@ def test_creating_lists_by_quoting():
     be seen as a call to the first element -- `1` in this case, which obviously isn't
     even a function."""
 
-    assert_equals([1, 2, 3, True], evaluate(parse("'(1 2 3 #t)"), Environment()))
+    assert_equals(parse("(1 2 3 #t)"),
+                  evaluate(parse("'(1 2 3 #t)"), Environment()))
 
 
 def test_creating_list_with_cons():
