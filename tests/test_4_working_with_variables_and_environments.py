@@ -8,7 +8,7 @@ from diylisp.parser import parse
 
 """
 Before we go on to evaluating programs using variables, we need to implement
-an envionment to store them in.
+an environment to store them in.
 
 It is time to fill in the blanks in the `Environment` class located in `types.py`.
 """
