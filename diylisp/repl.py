@@ -12,6 +12,11 @@ from .interpreter import interpret, interpret_file
 # where it is supported (i.e. UNIX-y systems)
 import readline
 
+# Python 2 / Python 3 compatibility
+try:
+    input = raw_input
+except NameError:
+    pass
 
 def repl():
     """Start the interactive Read-Eval-Print-Loop"""
