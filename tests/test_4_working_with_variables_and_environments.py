@@ -117,7 +117,11 @@ def test_define():
 
 
 def test_define_with_wrong_number_of_arguments():
-    """Defines should have exactly two arguments, or raise an error"""
+    """Defines should have exactly two arguments, or raise an error.
+
+    This type of check could benefit the other forms we implement as well,
+    and you might want to add them elsewhere. It quickly get tiresome to 
+    test for this however, so the tests won't require you to."""
 
     with assert_raises_regexp(LispError, "Wrong number of arguments"):
         evaluate(parse("(define x)"), Environment())

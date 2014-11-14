@@ -15,7 +15,7 @@ We'll start by implementing the `lambda` form which is used to create function c
 """
 
 
-def test_lambda_evaluates_to_lambda():
+def test_lambda_evaluates_to_closure():
     """The lambda form should evaluate to a Closure"""
 
     ast = ["lambda", [], 42]
