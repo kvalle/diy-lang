@@ -20,14 +20,14 @@ except NameError:
 
 def repl():
     """Start the interactive Read-Eval-Print-Loop"""
-    print()
+    print("")
     print("                 " + faded("                             \`.    T       "))
     print("    Welcome to   " + faded("   .--------------.___________) \   |    T  "))
     print("   the DIY-lisp  " + faded("   |//////////////|___________[ ]   !  T |  "))
     print("       REPL      " + faded("   `--------------'           ) (      | !  "))
     print("                 " + faded("                              '-'      !    "))
     print(faded("  use ^D to exit"))
-    print()
+    print("")
 
     env = Environment()
     interpret_file(join(dirname(relpath(__file__)), '..', 'stdlib.diy'), env)
