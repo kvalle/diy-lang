@@ -20,10 +20,21 @@ function run_tests {
 
 run_tests
 
-if command -v inotifywait >/dev/null; then
+function log_test_run {
   msg="Prepared to run tests on new changes..."
   echo -e "\033[1;37m> $msg\033[0m"
+}
+
+if command -v inotifywait >/dev/null; then
+  log_test_run
   while inotifywait -q -r -e modify . ; do
-      run_tests
+    run_tests
+  done
+fi
+
+if command -v fswatch >/dev/null; then
+  log_test_run
+  while fswatch -1 .; do
+    run_tests
   done
 fi
