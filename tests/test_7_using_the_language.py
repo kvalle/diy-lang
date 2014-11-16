@@ -89,9 +89,11 @@ def test_length():
 
 
 def test_append():
+    assert_equals("()", interpret("(append '() '())", env))
+    assert_equals("(1)", interpret("(append '() '(1))", env))
+    assert_equals("(2)", interpret("(append '(2) '())", env))
     assert_equals("(1 2 3 4 5)", interpret("(append '(1 2) '(3 4 5))", env))
     assert_equals("(#t #f 'maybe)", interpret("(append '(#t) '(#f 'maybe))", env))
-    assert_equals("()", interpret("(append '() '())", env))
 
 
 def test_filter():
@@ -112,9 +114,9 @@ def test_map():
 
 
 def test_reverse():
-    assert_equals("(4 3 2 1)", interpret("(reverse '(1 2 3 4))", env))
     assert_equals("()", interpret("(reverse '())", env))
-
+    assert_equals("(1)", interpret("(reverse '(1))", env))
+    assert_equals("(4 3 2 1)", interpret("(reverse '(1 2 3 4))", env))
 
 def test_range():
     assert_equals("(1 2 3 4 5)", interpret("(range 1 5)", env))
@@ -123,6 +125,13 @@ def test_range():
 
 
 def test_sort():
+    assert_equals("()", interpret("'()", env))
+    assert_equals("(1)", interpret("'(1)", env))
     assert_equals("(1 2 3 4 5 6 7)",
                   interpret("(sort '(6 3 7 2 4 1 5))", env))
-    assert_equals("()", interpret("'()", env))
+    assert_equals("(1 2 3 4 5 6 7)",
+                  interpret("(sort '(1 2 3 4 5 6 7))", env))
+    assert_equals("(1 2 3 4 5 6 7)",
+                  interpret("(sort '(7 6 5 4 3 2 1))", env))
+    assert_equals("(1 1 1)",
+                  interpret("(sort '(1 1 1))", env))

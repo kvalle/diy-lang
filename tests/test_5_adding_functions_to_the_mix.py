@@ -232,6 +232,12 @@ def test_calling_with_wrong_number_of_arguments():
     with assert_raises_regexp(LispError, error_msg):
         evaluate(parse("(fn 1 2 3)"), env)
 
+def test_calling_nothing():
+    """Calling nothing should fail (remember to quote empty data lists)"""
+
+    with assert_raises(LispError):
+        evaluate(parse("()"), Environment())
+
 
 """
 One final test to see that recursive functions are working as expected.
