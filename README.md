@@ -59,6 +59,30 @@ git clone https://github.com/kvalle/diy-lisp.git
 
 > Also, if you're unfamiliar with Python, you might want to have a look at the basics in the [Python tutorial](https://docs.python.org/2/tutorial/index.html) before we get going. There is also the small [Python cheat sheet](parts/python.md) to help you along.
 
+### A few tips
+
+Take the time to consider the following points before we get going:
+
+- **Keep things simple**
+  
+  	Don't make things more complicated than they need to be. The tests should hopefully guide you every step of the way.
+
+- **Read the test descriptions**
+
+  	Each test has a small text describing what you are going to implement and why. Reading these should make things easier, and you might end up learning more.
+
+- **Use the provided functions**
+
+  	Some of the more boring details are already taken care of. Take the time to look at the functions provided in `parser.py`, and the various imports in files where you need to do some work.
+
+- **The Python cheat sheet in `python.md`**
+
+  	Unless you're fluent in Python, there should be some helpful pointers in the [Python cheat sheet](https://github.com/kvalle/diy-lisp/blob/master/parts/python.md).
+
+- **Description of your language**
+
+  	Unfamiliar with Lisp? Read a description of the language you are going to make in [language.md](https://github.com/kvalle/diy-lisp/blob/master/parts/language.md).
+
 ### Get started!
 
 The workshop is split up into seven parts. Each consist of an introduction, and a bunch of unit tests which it is your task to make run. When all the tests run, you'll have implemented that part of the language.
