@@ -32,6 +32,7 @@ def test_evaluating_quote():
 
     assert_equals("foo", evaluate(["quote", "foo"], Environment()))
     assert_equals([1, 2, False], evaluate(["quote", [1, 2, False]], Environment()))
+    assert_equals([], evaluate(["quote", []], Environment()))
 
 
 def test_evaluating_atom_function():

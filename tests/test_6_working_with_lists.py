@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from nose.tools import assert_equals, assert_raises
+from nose.tools import assert_equals, assert_raises, assert_raises_regexp
 
 from diylisp.evaluator import evaluate
 from diylisp.parser import parse
@@ -42,6 +42,7 @@ def test_creating_longer_lists_with_only_cons():
 def test_getting_first_element_from_list():
     """`head` extracts the first element of a list."""
 
+    assert_equals(1, evaluate(parse("(head '(1))"), Environment()))
     assert_equals(1, evaluate(parse("(head '(1 2 3 4 5))"), Environment()))
 
 
@@ -51,6 +52,11 @@ def test_getting_first_element_from_empty_list():
     with assert_raises(LispError):
         evaluate(parse("(head (quote ()))"), Environment())
 
+def test_getting_head_from_value():
+    """Must be list to get `head`."""
+
+    with assert_raises(LispError):
+        evaluate(parse("(head #t)"), Environment())
 
 def test_getting_tail_of_list():
     """`tail` returns the tail of the list.
@@ -58,7 +64,19 @@ def test_getting_tail_of_list():
     The tail is the list retained after removing the first element."""
 
     assert_equals([2, 3], evaluate(parse("(tail '(1 2 3))"), Environment()))
+    assert_equals([], evaluate(parse("(tail '(1))"), Environment()))
 
+def test_getting_tail_from_empty_list():
+    """If the list is empty there is no tail, and `tail` should raise an error."""
+
+    with assert_raises(LispError):
+        evaluate(parse("(tail (quote ()))"), Environment())
+
+def test_getting_tail_from_value():
+    """Must be list to get `tail`."""
+
+    with assert_raises(LispError):
+        evaluate(parse("(tail 1)"), Environment())
 
 def test_checking_whether_list_is_empty():
     """The `empty` form checks whether or not a list is empty."""
@@ -68,3 +86,9 @@ def test_checking_whether_list_is_empty():
 
     assert_equals(True, evaluate(parse("(empty '())"), Environment()))
     assert_equals(True, evaluate(parse("(empty (tail '(1)))"), Environment()))
+
+def test_getting_empty_from_value():
+    """Must be list to see if empty."""
+
+    with assert_raises(LispError):
+        evaluate(parse("(empty 321)"), Environment())
