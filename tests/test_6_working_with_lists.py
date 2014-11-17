@@ -27,15 +27,6 @@ def test_creating_list_with_cons():
     result = evaluate(parse("(cons 0 '(1 2 3))"), Environment())
     assert_equals(parse("(0 1 2 3)"), result)
 
-def test_type_checking_in_cons():
-    """The `cons` functions adds an atom to a list."""
-
-    with assert_raises_regexp(LispError, "First parameter to cons must be atom"):
-        evaluate(parse("(cons '() '(1 2 3))"), Environment())
-
-    with assert_raises_regexp(LispError, "Second parameter to cons must be list"):
-        evaluate(parse("(cons 1 2)"), Environment())
-
 
 def test_creating_longer_lists_with_only_cons():
     """`cons` needs to evaluate it's arguments.
