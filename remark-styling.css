@@ -166,3 +166,7 @@ img {
 .gray {
   color: #666;
 }
+
+.no-bullets ul {
+  list-style-type: none;
+}
