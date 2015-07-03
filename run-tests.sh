@@ -15,6 +15,7 @@ function run_tests {
               tests/test_6_working_with_lists.py \
               tests/test_7_using_the_language.py \
               tests/test_sanity_checks.py \
+              tests/test_8_meta_circular_evaluator.py \
               --stop
 }
 
