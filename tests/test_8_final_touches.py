@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from nose.tools import assert_equals
+from nose.plugins.skip import SkipTest
 from os.path import dirname, relpath, join
 
 from diylisp.interpreter import interpret, interpret_file
@@ -11,14 +12,19 @@ path = join(dirname(relpath(__file__)), '..', 'stdlib.diy')
 interpret_file(path, env)
 
 """
-Alright, so, for our last trick, we'll be implementing `evaluate` within the 
-language itself. But before we do that, let's implement a few other things that
-might just happen to come in handy.
+In this last part, we provide tests for some suggestions on how to improve
+the language a bit. Treat these tasks as optional, and suggestions only.
+Feel free to do something completely different, if you fancy.
+"""
+
+"""
+Suggestion 1: `cond`
 
 First off, we will implement a new control structure found in most Lisps, the 
 `cond` form (not to be confused with `cons`). The name `cond` is short for 
 "conditional", and is sort of an buffed up version of `if`.
 
+Implement this as a new case in the `evaluate` function in `evaluator.py`.
 """
 
 
@@ -90,3 +96,20 @@ def test_cond_returnes_false_as_default():
     """
 
     assert_equals("#f", interpret(program, env))
+
+
+"""
+Suggestion 2: Strings
+"""
+
+"""
+Suggestion 3: `let`
+"""
+
+"""
+Suggestion 4: `defn`
+"""
+
+"""
+Suggestion 5: IO
+"""
