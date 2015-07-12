@@ -121,8 +121,8 @@ def test_parsing_simple_strings():
     > and now we pay the price. We could have represented our types as tuples 
     > of type and value, or perhaps made classes for all of them.
     >
-    > Feel free to go back and fix this, just remember to update the tests along 
-    > the way.
+    > Feel free to go back and fix this. Refactor as much as you wish -- just
+    > remember to update the tests accordingly.
     """
 
     ast = parse('"foo bar"')
@@ -169,6 +169,36 @@ def test_evaluating_strings():
     random_quote = '"The limits of my language means the limits of my world."'
 
     assert_equals(random_quote, interpret(random_quote, env))
+
+def test_empty_strings_behave_as_empty_lists():
+    """
+    It is common in many languages for strings to behave as lists. This can be
+    rather convenient, so let's make it that way here as well.
+
+    We have four basic list functions: `cons`, `head`, `tail` and `empty`.
+
+    To take the easy one first: `empty` should only return `#t` for the empty
+    string (and empty lists, as before).
+    """
+
+    assert_equals("#t", interpret('(empty "")'))
+    assert_equals("#f", interpret('(empty "not empty")'))
+
+def test_strings_have_heads_and_tails():
+    """
+    Next, `head` and `tail` needs to extract the first character and the rest
+    of the charactes, respectively, from the string.
+    """
+
+    assert_equals('"f"', interpret('(head "foobar")'))
+    assert_equals('"oobar"', interpret('(tail "foobar")'))
+
+def test_consing_strings_back_together():
+    """
+    Finally, we need to be able to reconstruct a strings from its head and tail
+    """
+
+    assert_equals('"foobar"', interpret('(cons "f" "oobar")'))
 
 
 """

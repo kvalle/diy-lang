@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from .types import Environment, LispError, Closure
-from .ast import is_boolean, is_atom, is_symbol, is_list, is_closure, is_integer
+from .types import Environment, LispError, Closure, String
+from .ast import is_boolean, is_atom, is_symbol, is_list, is_closure, is_integer, is_string
 from .asserts import assert_exp_length, assert_valid_definition, assert_boolean
 from .parser import unparse
 
@@ -17,4 +17,3 @@ in a day, after all.)
 def evaluate(ast, env):
     """Evaluate an Abstract Syntax Tree in the specified environment."""
     raise NotImplementedError("DIY")
-
