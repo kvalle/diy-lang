@@ -94,7 +94,6 @@ def test_parse_with_extra_whitespace():
 
        (program    with   much        whitespace)
     """
-
     expected_ast = ['program', 'with', 'much', 'whitespace']
     assert_equals(expected_ast, parse(program))
 

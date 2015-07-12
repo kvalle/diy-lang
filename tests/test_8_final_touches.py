@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 
-from nose.tools import assert_equals
+from nose.tools import assert_equals, assert_is_instance, assert_raises_regexp
 from nose.plugins.skip import SkipTest
 from os.path import dirname, relpath, join
 
 from diylisp.interpreter import interpret, interpret_file
-from diylisp.types import Environment
+from diylisp.types import Environment, String, LispError
+from diylisp.parser import parse
 
 env = Environment()
 path = join(dirname(relpath(__file__)), '..', 'stdlib.diy')
@@ -100,7 +101,75 @@ def test_cond_returnes_false_as_default():
 
 """
 Suggestion 2: Strings
+
+So far, our new language have been missing a central data type, one that no
+real language could do without -- strings. So, lets add them to the language.
 """
+
+def test_parsing_simple_strings():
+    """
+    First things first, we need to be able to parse the strings.
+
+    Since we already use python strings for our symbols, we need something else.
+    Lets use a simple data type, `String`, which you will (rather conveniently)
+    find ready made in the file `types.py`.
+
+    > Side note:
+    > 
+    > This is where it starts to show that we could have used smarter 
+    > representation of our types. We wanted to keep things simple early on, 
+    > and now we pay the price. We could have represented our types as tuples 
+    > of type and value, or perhaps made classes for all of them.
+    >
+    > Feel free to go back and fix this, just remember to update the tests along 
+    > the way.
+    """
+
+    ast = parse('"foo bar"')
+    assert_is_instance(ast, String) 
+    assert_equals("foo bar", ast.val)
+
+def test_parsing_strings_with_escaped_double_quotes():
+    """
+    We should be able to create strings with "-characters by escaping them.
+    """
+
+    ast = parse('"Say \\"what\\" one more time!"')
+
+    assert_is_instance(ast, String) 
+    assert_equals('Say \\"what\\" one more time!', ast.val)
+
+def test_parsing_unclosed_strings():
+    """
+    Strings that are not closed result in an parse error.
+    """
+
+    with assert_raises_regexp(LispError, 'Unclosed string'):
+        parse('"hey, close me!')
+
+def test_parsing_strings_are_closed_by_first_closing_quotes():
+    """
+    Strings are delimited by the first and last (unescaped) double quotes.
+
+    Thus, unescaped quotes followed by anything at all should be considered
+    invalid and throw an exception.
+    """
+
+    with assert_raises_regexp(LispError, 'Expected EOF'):
+        parse('"foo" bar"')
+
+def test_evaluating_strings():
+    """
+    Strings is one of the basic data types, and thus an atom. Strings should
+    therefore evaluate to themselves.
+
+    Update the `is_atom` function in `ast.py` to make this happen.
+    """
+
+    random_quote = '"The limits of my language means the limits of my world."'
+
+    assert_equals(random_quote, interpret(random_quote, env))
+
 
 """
 Suggestion 3: `let`

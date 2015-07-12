@@ -17,7 +17,7 @@ class Closure:
     def __init__(self, env, params, body):
         raise NotImplementedError("DIY")
 
-    def __str__(self):
+    def __string__(self):
         return "<closure/%d>" % len(self.params)
 
 
@@ -33,3 +33,17 @@ class Environment:
 
     def set(self, symbol, value):
         raise NotImplementedError("DIY")
+
+
+class String:
+    """
+    Simple data object for representing Lisp strings.
+
+    Ignore this until you start working on part 8.
+    """
+
+    def __init__(self, val=""):
+        self.val = val
+
+    def __str__(self):
+        return "\"{}\"".format(self.val)

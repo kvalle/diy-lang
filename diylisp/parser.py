@@ -2,14 +2,13 @@
 
 import re
 from .ast import is_boolean, is_list
-from .types import LispError
+from .types import LispError, String
 
 """
 This is the parser module, with the `parse` function which you'll implement as part 1 of
 the workshop. Its job is to convert strings into data structures that the evaluator can 
 understand. 
 """
-
 
 def parse(source):
     """Parse string representation of one *single* expression
@@ -71,12 +70,18 @@ def first_expression(source):
     rest of the string after this expression."""
     
     source = source.strip()
+
     if source[0] == "'":
         exp, rest = first_expression(source[1:])
         return source[0] + exp, rest
     elif source[0] == "(":
         last = find_matching_paren(source)
         return source[:last + 1], source[last + 1:]
+    elif source[0] == '"':
+        for n in xrange(1, len(source)):
+            if source[n] == '"' and source[n-1] != '\\':
+                return source[:n+1], source[n + 1:]
+        raise LispError("Unclosed string: {}".format(source)) 
     else:
         match = re.match(r"^[^\s)']+", source)
         end = match.end()
