@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from nose.tools import assert_equals, assert_is_instance, assert_raises_regexp
+from nose.tools import assert_equals, assert_is_instance, assert_raises_regexp, with_setup
 from nose.plugins.skip import SkipTest
 from os.path import dirname, relpath, join
 
@@ -8,9 +8,13 @@ from diylisp.interpreter import interpret, interpret_file
 from diylisp.types import Environment, String, LispError
 from diylisp.parser import parse
 
-env = Environment()
-path = join(dirname(relpath(__file__)), '..', 'stdlib.diy')
-interpret_file(path, env)
+env = None
+
+def prepare_env():
+    global env
+    env = Environment()
+    path = join(dirname(relpath(__file__)), '..', 'stdlib.diy')
+    interpret_file(path, env)
 
 """
 In this last part, we provide tests for some suggestions on how to improve
@@ -28,7 +32,7 @@ First off, we will implement a new control structure found in most Lisps, the
 Implement this as a new case in the `evaluate` function in `evaluator.py`.
 """
 
-
+@with_setup(prepare_env)
 def test_cond_returns_right_branch():
     """
     `cond` takes as arguments an variable a list of tuples (two-element lists, 
@@ -45,6 +49,7 @@ def test_cond_returns_right_branch():
     """
     assert_equals("bar", interpret(program, env))
 
+@with_setup(prepare_env)
 def test_cond_dosnt_evaluate_all_branches():
     """
     Of all the second tuple elements, only the one we return is ever evaluated.
@@ -59,6 +64,7 @@ def test_cond_dosnt_evaluate_all_branches():
     """
     assert_equals("42", interpret(program, env))
 
+@with_setup(prepare_env)
 def test_cond_not_evaluating_more_predicateds_than_neccessary():
     """
     Once we find an predicate that evaluates to `#t`, no more predicates should
@@ -72,6 +78,7 @@ def test_cond_not_evaluating_more_predicateds_than_neccessary():
     """
     assert_equals("2", interpret(program, env))
 
+@with_setup(prepare_env)
 def test_cond_evaluates_predicates():
     """
     Remember to evaluate the predicates before checking whether they are true.
@@ -84,6 +91,7 @@ def test_cond_evaluates_predicates():
 
     assert_equals("tru-dat", interpret(program, env))
 
+@with_setup(prepare_env)
 def test_cond_returnes_false_as_default():
     """
     If we evalaute all the predicates, only to find that none of them turned out 
@@ -106,6 +114,7 @@ So far, our new language have been missing a central data type, one that no
 real language could do without -- strings. So, lets add them to the language.
 """
 
+@with_setup(prepare_env)
 def test_parsing_simple_strings():
     """
     First things first, we need to be able to parse the strings.
@@ -129,6 +138,7 @@ def test_parsing_simple_strings():
     assert_is_instance(ast, String) 
     assert_equals("foo bar", ast.val)
 
+@with_setup(prepare_env)
 def test_parsing_strings_with_escaped_double_quotes():
     """
     We should be able to create strings with "-characters by escaping them.
@@ -139,6 +149,7 @@ def test_parsing_strings_with_escaped_double_quotes():
     assert_is_instance(ast, String) 
     assert_equals('Say \\"what\\" one more time!', ast.val)
 
+@with_setup(prepare_env)
 def test_parsing_unclosed_strings():
     """
     Strings that are not closed result in an parse error.
@@ -147,6 +158,7 @@ def test_parsing_unclosed_strings():
     with assert_raises_regexp(LispError, 'Unclosed string'):
         parse('"hey, close me!')
 
+@with_setup(prepare_env)
 def test_parsing_strings_are_closed_by_first_closing_quotes():
     """
     Strings are delimited by the first and last (unescaped) double quotes.
@@ -158,6 +170,7 @@ def test_parsing_strings_are_closed_by_first_closing_quotes():
     with assert_raises_regexp(LispError, 'Expected EOF'):
         parse('"foo" bar"')
 
+@with_setup(prepare_env)
 def test_evaluating_strings():
     """
     Strings is one of the basic data types, and thus an atom. Strings should
@@ -170,6 +183,7 @@ def test_evaluating_strings():
 
     assert_equals(random_quote, interpret(random_quote, env))
 
+@with_setup(prepare_env)
 def test_empty_strings_behave_as_empty_lists():
     """
     It is common in many languages for strings to behave as lists. This can be
@@ -184,6 +198,7 @@ def test_empty_strings_behave_as_empty_lists():
     assert_equals("#t", interpret('(empty "")'))
     assert_equals("#f", interpret('(empty "not empty")'))
 
+@with_setup(prepare_env)
 def test_strings_have_heads_and_tails():
     """
     Next, `head` and `tail` needs to extract the first character and the rest
@@ -193,6 +208,7 @@ def test_strings_have_heads_and_tails():
     assert_equals('"f"', interpret('(head "foobar")'))
     assert_equals('"oobar"', interpret('(tail "foobar")'))
 
+@with_setup(prepare_env)
 def test_consing_strings_back_together():
     """
     Finally, we need to be able to reconstruct a strings from its head and tail
@@ -203,7 +219,81 @@ def test_consing_strings_back_together():
 
 """
 Suggestion 3: `let`
+
+The `let` enables us to make localized bindings.
+
+It takes two arguments. First a list of bindings, secondly an expression to be
+evaluated within an environment where those bindings exist.
 """
+
+@with_setup(prepare_env)
+def test_let_returns_result_of_the_given_expression():
+    """
+    The result when evaluating a `let` binding is the evaluation of the 
+    expression given as argument.
+
+    Let's first try one without any bindings.
+    """
+
+    program = "(let () (if #t 'yep 'nope))"
+
+    assert_equals("yep", interpret(program, env))
+
+@with_setup(prepare_env)
+def test_let_extends_environment():
+    """
+    The evaluation of the inner expression should have available the bindings
+    provided within the first argument.
+    """
+
+    program = """
+        (let (foo (+ 1000 42))
+             foo)
+    """
+
+    assert_equals("1042", interpret(program, env))
+
+@with_setup(prepare_env)
+def test_let_bindings_have_access_to_previous_bindings():
+    """
+    Each new binding should have access to the previous bindings in the list
+    """
+
+    program = """
+        (let (foo 10
+              bar (+ foo 5))
+             bar)
+    """
+
+    assert_equals("15", interpret(program, env))
+
+@with_setup(prepare_env)
+def test_let_bindings_overshadow_outer_environment():
+    """
+    Each new binding should have access to the previous bindings in the list
+    """
+
+    interpret("(define foo 1)", env)
+
+    program = """
+        (let (foo 2)
+             foo)
+    """
+
+    assert_equals("2", interpret(program, env))
+
+@with_setup(prepare_env)
+def test_let_bindings_do_not_affect_outer_environment():
+    """
+    After the let is evaluated, all of it's bindings are forgotten
+    """
+
+    interpret("(define foo 1)", env)
+
+    assert_equals("2", interpret("(let (foo 2) foo)", env))
+    assert_equals("1", interpret("foo", env))
+
+
 
 """
 Suggestion 4: `defn`
