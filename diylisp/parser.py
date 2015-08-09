@@ -77,11 +77,6 @@ def first_expression(source):
     elif source[0] == "(":
         last = find_matching_paren(source)
         return source[:last + 1], source[last + 1:]
-    elif source[0] == '"':
-        for n in xrange(1, len(source)):
-            if source[n] == '"' and source[n-1] != '\\':
-                return source[:n+1], source[n + 1:]
-        raise LispError("Unclosed string: {}".format(source)) 
     else:
         match = re.match(r"^[^\s)']+", source)
         end = match.end()
