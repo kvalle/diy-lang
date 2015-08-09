@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 
-from nose.tools import assert_equals, assert_is_instance, assert_raises_regexp, with_setup
-from nose.plugins.skip import SkipTest
 from os.path import dirname, relpath, join
 
+from nose.plugins.skip import SkipTest
+from nose.tools import assert_true, assert_equals, assert_is_instance, \
+    assert_raises_regexp, with_setup
+
 from diylisp.interpreter import interpret, interpret_file
-from diylisp.types import Environment, String, LispError
+from diylisp.types import Environment, String, LispError, Closure
 from diylisp.parser import parse
 
 env = None
@@ -297,7 +299,54 @@ def test_let_bindings_do_not_affect_outer_environment():
 
 """
 Suggestion 4: `defn`
+
+So far, to define functions we have had to write
+
+    (define my-function 
+        (lambda (foo bar)
+            'fuction-body-here))
+
+It is a bit ugly to have to make a lambda every time you want a named function.
+
+Let's add some syntactic sugar, shall we:
+
+    (defn my-function (foo bar)
+        'function-body-here)
+
 """
+
+@with_setup(prepare_env)
+def test_defn_binds_the_variable_just_like_define():
+    """
+    Like `define`, the `defn` form should bind a variable to the environment.
+
+    This variable should be a closure, just like if we had defined a new
+    variable using the old `define` + `lambda` syntax.
+    """
+
+    interpret("(defn foo (x) (> x 10))", env)
+
+    assert_is_instance(env.lookup("foo"), Closure)
+
+@with_setup(prepare_env)
+def test_defn_result_in_the_correct_closure():
+    """
+    The closure created should be no different than from the old syntax.
+
+    Remember: you should be able to reuse the most of what you need from
+    the `define` implementation. No need to do all the heavy lifting twice.
+    """
+
+    interpret("(defn foo-1 (x) (> x 10))", env)
+    interpret("(define foo-2 (lambda (x) (> x 10)))", env)
+
+    foo1 = env.lookup("foo-1")
+    foo2 = env.lookup("foo-2")
+
+    assert_equals(foo1.body, foo2.body)
+    assert_equals(foo1.params, foo2.params)
+    assert_equals(foo1.env, foo2.env)
+
 
 """
 Suggestion 5: IO
