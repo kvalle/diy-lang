@@ -33,6 +33,6 @@ def is_closure(x):
 def is_atom(x):
     return (is_symbol(x) or
         is_integer(x) or
-        is_string(x)
+        is_string(x) or
         is_boolean(x) or
         is_closure(x))
