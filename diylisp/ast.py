@@ -12,7 +12,7 @@ def is_symbol(x):
     return isinstance(x, str)
 
 def is_string(x):
-	return isinstance(x, String)
+    return isinstance(x, String)
 
 def is_list(x):
     return isinstance(x, list)
@@ -32,7 +32,7 @@ def is_closure(x):
 
 def is_atom(x):
     return (is_symbol(x) or
-    	is_integer(x) or
+        is_integer(x) or
         is_string(x)
-    	is_boolean(x) or
-    	is_closure(x))
+        is_boolean(x) or
+        is_closure(x))
