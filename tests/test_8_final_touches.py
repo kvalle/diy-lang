@@ -347,7 +347,3 @@ def test_defn_result_in_the_correct_closure():
     assert_equals(foo1.params, foo2.params)
     assert_equals(foo1.env, foo2.env)
 
-
-"""
-Suggestion 5: IO
-"""
