@@ -29,7 +29,7 @@ Suggestion 1: `cond`
 
 First off, we will implement a new control structure found in most Lisps, the 
 `cond` form (not to be confused with `cons`). The name `cond` is short for 
-"conditional", and is sort of an buffed up version of `if`.
+"conditional", and is sort of a buffed up version of `if`.
 
 Implement this as a new case in the `evaluate` function in `evaluator.py`.
 """
@@ -37,11 +37,10 @@ Implement this as a new case in the `evaluate` function in `evaluator.py`.
 @with_setup(prepare_env)
 def test_cond_returns_right_branch():
     """
-    `cond` takes as arguments an variable a list of tuples (two-element lists, 
-    or "conses").
+    `cond` takes as arguments a list of tuples (two-element lists, or "conses").
 
-    The first element of each tuple is evaluated in order, until noe evaluates 
-    to `#t`. The second element of that tuple is returned. 
+    The first element of each tuple is evaluated in order, until one evaluates 
+    to `#t`. The second element of that tuple is returned.
     """
 
     program = """
@@ -69,7 +68,7 @@ def test_cond_dosnt_evaluate_all_branches():
 @with_setup(prepare_env)
 def test_cond_not_evaluating_more_predicateds_than_neccessary():
     """
-    Once we find an predicate that evaluates to `#t`, no more predicates should
+    Once we find a predicate that evaluates to `#t`, no more predicates should
     be evaluated.
     """
 
@@ -112,7 +111,7 @@ def test_cond_returnes_false_as_default():
 """
 Suggestion 2: Strings
 
-So far, our new language have been missing a central data type, one that no
+So far, our new language has been missing a central data type, one that no
 real language could do without -- strings. So, lets add them to the language.
 """
 
@@ -213,7 +212,7 @@ def test_strings_have_heads_and_tails():
 @with_setup(prepare_env)
 def test_consing_strings_back_together():
     """
-    Finally, we need to be able to reconstruct a strings from its head and tail
+    Finally, we need to be able to reconstruct a string from its head and tail
     """
 
     assert_equals('"foobar"', interpret('(cons "f" "oobar")'))
@@ -222,7 +221,7 @@ def test_consing_strings_back_together():
 """
 Suggestion 3: `let`
 
-The `let` enables us to make localized bindings.
+The `let` form enables us to make local bindings.
 
 It takes two arguments. First a list of bindings, secondly an expression to be
 evaluated within an environment where those bindings exist.
@@ -272,7 +271,7 @@ def test_let_bindings_have_access_to_previous_bindings():
 @with_setup(prepare_env)
 def test_let_bindings_overshadow_outer_environment():
     """
-    Each new binding should have access to the previous bindings in the list
+    Let bindings should shadow definitions in from outer environments
     """
 
     interpret("(define foo 1)", env)
@@ -333,7 +332,7 @@ def test_defn_result_in_the_correct_closure():
     """
     The closure created should be no different than from the old syntax.
 
-    Remember: you should be able to reuse the most of what you need from
+    Remember: you should be able to reuse most of what you need from
     the `define` implementation. No need to do all the heavy lifting twice.
     """
 
