@@ -17,7 +17,7 @@ class Closure:
     def __init__(self, env, params, body):
         raise NotImplementedError("DIY")
 
-    def __string__(self):
+    def __repr__(self):
         return "<closure/%d>" % len(self.params)
 
 
