@@ -23,7 +23,7 @@ class Closure:
 
 class Environment:
     def __init__(self, variables=None):
-        self.variables = variables if variables else {}
+        self.bindings = variables if variables else {}
 
     def lookup(self, symbol):
         raise NotImplementedError("DIY")

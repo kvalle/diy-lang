@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from nose.tools import assert_equals, assert_raises, assert_raises_regexp
+from nose.tools import assert_equals, assert_raises, assert_raises_regexp, \
+    assert_false, assert_is_instance
 
 from diylisp.evaluator import evaluate
 from diylisp.parser import parse

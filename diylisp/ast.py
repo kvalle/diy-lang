@@ -11,8 +11,10 @@ checking the type of ASTs.
 def is_symbol(x):
     return isinstance(x, str)
 
+
 def is_string(x):
     return isinstance(x, String)
+
 
 def is_list(x):
     return isinstance(x, list)
