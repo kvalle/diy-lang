@@ -46,4 +46,4 @@ class String:
         self.val = val
 
     def __str__(self):
-        return "\"{}\"".format(self.val)
+        return '"{}"'.format(self.val)
