@@ -96,3 +96,4 @@ Have fun!
 - [Part 5: functions](parts/5.md)
 - [Part 6: working with lists](parts/6.md)
 - [Part 7: using your language](parts/7.md)
+- [Part 8: final touches](parts/8.md)
