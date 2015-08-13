@@ -339,9 +339,6 @@ def test_defn_binds_the_variable_just_like_define():
 def test_defn_result_in_the_correct_closure():
     """
     The closure created should be no different than from the old syntax.
-
-    Remember: you should be able to reuse most of what you need from
-    the `define` implementation. No need to do all the heavy lifting twice.
     """
 
     interpret("(defn foo-1 (x) (> x 10))", env)
