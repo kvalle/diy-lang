@@ -2,7 +2,6 @@
 
 from .types import Environment, LispError, Closure, String
 from .ast import is_boolean, is_atom, is_symbol, is_list, is_closure, is_integer, is_string
-from .asserts import assert_exp_length, assert_valid_definition, assert_boolean
 from .parser import unparse
 
 """
