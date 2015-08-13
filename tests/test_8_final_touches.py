@@ -140,6 +140,14 @@ def test_parsing_simple_strings():
     assert_equals("foo bar", ast.val)
 
 @with_setup(prepare_env)
+def test_parsing_empty_string():
+    """
+    Empty strings are strings too!
+    """
+
+    assert_equals('', parse('""').val)
+
+@with_setup(prepare_env)
 def test_parsing_strings_with_escaped_double_quotes():
     """
     We should be able to create strings with "-characters by escaping them.
