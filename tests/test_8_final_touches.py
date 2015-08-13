@@ -256,7 +256,7 @@ def test_let_extends_environment():
     """
 
     program = """
-        (let (foo (+ 1000 42))
+        (let ((foo (+ 1000 42)))
              foo)
     """
 
@@ -269,8 +269,8 @@ def test_let_bindings_have_access_to_previous_bindings():
     """
 
     program = """
-        (let (foo 10
-              bar (+ foo 5))
+        (let ((foo 10)
+              (bar (+ foo 5)))
              bar)
     """
 
@@ -285,7 +285,7 @@ def test_let_bindings_overshadow_outer_environment():
     interpret("(define foo 1)", env)
 
     program = """
-        (let (foo 2)
+        (let ((foo 2))
              foo)
     """
 
@@ -299,7 +299,7 @@ def test_let_bindings_do_not_affect_outer_environment():
 
     interpret("(define foo 1)", env)
 
-    assert_equals("2", interpret("(let (foo 2) foo)", env))
+    assert_equals("2", interpret("(let ((foo 2)) foo)", env))
     assert_equals("1", interpret("foo", env))
 
 
