@@ -184,8 +184,6 @@ def test_evaluating_strings():
     """
     Strings is one of the basic data types, and thus an atom. Strings should
     therefore evaluate to themselves.
-
-    Update the `is_atom` function in `ast.py` to make this happen.
     """
 
     random_quote = '"The limits of my language means the limits of my world."'
