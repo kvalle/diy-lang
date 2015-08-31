@@ -85,7 +85,7 @@ Take the time to consider the following points before we get going:
 
 ### Get started!
 
-The workshop is split up into seven parts. Each consist of an introduction, and a bunch of unit tests which it is your task to make run. When all the tests run, you'll have implemented that part of the language.
+The workshop is split up into eight parts. Each consist of an introduction, and a bunch of unit tests which it is your task to make run. When all the tests run, you'll have implemented that part of the language.
 
 Have fun!
 
