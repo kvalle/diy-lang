@@ -19,20 +19,70 @@ class: center, middle, inverse
 class: inverse, middle
 
 ```lisp
-;; Goal of today: make a programming language that can
-;; understand this code.
+;; Goal: 
+;;
+;; Make a programming language that can understand 
+;; this code.
 
-(define fact 
-    ;; Factorial function
+(define fact
+    ; Factorial function
     (lambda (n) 
         (if (<= n 1) 
             1 ; Factorial of 0 is 1, and we deny 
               ; the existence of negative numbers
             (* n (fact (- n 1))))))
 
-;; The result of this should be 120
+; The result of this should be 120
 (fact 5)
 ```
+
+???
+
+Goal: Make this.
+
+- A handful of datatypes (integers, booleans and symbols)
+- Variables
+- First class functions
+- Lexical scoping
+
+We will not have:
+
+- A proper type system
+- Error handling
+- Good performance
+- etc
+
+
+---
+class: inverse, middle
+
+.leftcol-medium[
+```lisp
+;; Your language
+
+(define fact
+    (lambda (n) 
+        (if (<= n 1) 
+            1
+            (* n (fact (- n 1))))))
+
+(fact 5)
+```
+]
+
+.rightcol-medium[
+```python
+# Python
+
+def fact(n):
+    if n <= 1: 
+        return 1
+    else:
+        return n * fact(n - 1)
+
+fact(5)
+```
+]
 
 ---
 class: inverse, middle
@@ -50,14 +100,6 @@ class: inverse, middle
 
 ]
 
----
-class: inverse, middle, center
-
-start with the README at
-
-.large[
-  github.com/[kvalle/diy-lisp](https://github.com/kvalle/diy-lisp)
-]
 
 ---
 class: inverse, middle
@@ -78,6 +120,8 @@ class: inverse, middle, center
 
 ---
 class: inverse, middle, center
+
+start with the README at
 
 .large[
   github.com/[kvalle/diy-lisp](https://github.com/kvalle/diy-lisp)
