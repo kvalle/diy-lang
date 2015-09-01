@@ -69,7 +69,7 @@ def read_expression():
 def read_line(prompt):
     """Return touple of user input line and number of unclosed parens"""
 
-    line = input(colored(prompt, "grey", "bold"))
+    line = input(colored(prompt, "reset", "dark"))
     line = remove_comments(line + "\n")
     return line, line.count("(") - line.count(")")
 
@@ -103,4 +103,4 @@ def colored(text, color, attr=None):
 
 
 def faded(text):
-    return colored(text, "grey", attr='bold')
+    return colored(text, "reset", attr='dark')
