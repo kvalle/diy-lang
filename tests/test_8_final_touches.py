@@ -179,6 +179,38 @@ def test_parsing_strings_are_closed_by_first_closing_quotes():
     with assert_raises_regexp(LispError, 'Expected EOF'):
         parse('"foo" bar"')
 
+
+@with_setup(prepare_env)
+def test_parsing_strings_with_parens_in_them():
+    """
+    Strings should be allowed to contain parens.
+
+    The parser, so far, rather naively counts parens to determine the end of
+    a list. We need to make a small adjustment to make it knows not to consider
+    parens within strings. 
+
+    Tip: You'll probably need to change the function `find_matching_paren` in
+    `parser.py` to solve this.
+    """
+
+    actual = parse("(define foo \"string with a ) inside it\")")
+    expected = ["define", "foo", String("string with a ) inside it")]
+
+    assert_equals(expected, actual)
+
+@with_setup(prepare_env)
+def test_parsing_of_strings():
+    """
+    A final sanity check, to make sure parsing strings works.
+
+    This test should already pass if you've done the above correctly.
+    """
+
+    program = "(head '(#t \"()((()()) wtf \\\" ())) is )))) ()() going on \"))"
+
+    assert_equals("#t", interpret(program))
+
+
 @with_setup(prepare_env)
 def test_evaluating_strings():
     """
@@ -222,6 +254,7 @@ def test_consing_strings_back_together():
     """
 
     assert_equals('"foobar"', interpret('(cons "f" "oobar")'))
+
 
 
 """
