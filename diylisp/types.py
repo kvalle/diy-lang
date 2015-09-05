@@ -47,3 +47,6 @@ class String:
 
     def __str__(self):
         return '"{}"'.format(self.val)
+
+    def __eq__(self, other):
+        return isinstance(other, String) and other.val == self.val
