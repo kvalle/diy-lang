@@ -16,8 +16,8 @@ def test_nested_expression():
     If this test is failing, make sure that `+`, `>` and so on is evaluating 
     their arguments before operating on them."""
 
-    nested_expression = parse("(eq #f (> (- (+ 1 3) (* 2 (mod 7 4))) 4))")
-    assert_equals(True, evaluate(nested_expression, Environment()))
+    ast = parse("(eq #f (> (- (+ 1 3) (* 2 (mod 7 4))) 4))")
+    assert_equals(True, evaluate(ast, Environment()))
 
 
 def test_basic_if_statement():
@@ -27,27 +27,24 @@ def test_basic_if_statement():
     the second argument is evaluated and returned. Otherwise the third and last argument
     is evaluated and returned instead."""
 
-    if_expression = parse("(if #t 42 1000)")
-    assert_equals(42, evaluate(if_expression, Environment()))
-    if_expression = parse("(if #f 42 1000)")
-    assert_equals(1000, evaluate(if_expression, Environment()))
-    if_expression = parse("(if #t #t #f)")
-    assert_equals(True, evaluate(if_expression, Environment()))
+    assert_equals(42, evaluate(parse("(if #t 42 1000)"), Environment()))
+    assert_equals(1000, evaluate(parse("(if #f 42 1000)"), Environment()))
+    assert_equals(True, evaluate(parse("(if #t #t #f)"), Environment()))
 
 
 def test_that_only_correct_branch_is_evaluated():
     """The branch of the if statement that is discarded should never be evaluated."""
 
-    if_expression = parse("(if #f (this should not be evaluated) 42)")
-    assert_equals(42, evaluate(if_expression, Environment()))
+    ast = parse("(if #f (this should not be evaluated) 42)")
+    assert_equals(42, evaluate(ast, Environment()))
 
 def test_if_with_sub_expressions():
     """A final test with a more complex if expression.
     This test should already be passing if the above ones are."""
 
-    if_expression = parse("""
+    ast = parse("""
         (if (> 1 2)
             (- 1000 1)
             (+ 40 (- 3 1)))
     """)
-    assert_equals(42, evaluate(if_expression, Environment()))
+    assert_equals(42, evaluate(ast, Environment()))

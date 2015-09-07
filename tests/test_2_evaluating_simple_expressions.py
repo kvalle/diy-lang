@@ -14,11 +14,13 @@ We will start by implementing evaluation of simple expressions.
 
 def test_evaluating_boolean():
     """Booleans should evaluate to themselves."""
+
     assert_equals(True, evaluate(True, Environment()))
     assert_equals(False, evaluate(False, Environment()))
 
 
 def test_evaluating_integer():
+    
     """...and so should integers."""
     assert_equals(42, evaluate(42, Environment()))
 
