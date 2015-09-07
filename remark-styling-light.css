@@ -33,7 +33,7 @@ li p { line-height: 1.25em; }
 .large { font-size: 2em; }
 .very-large { font-size: 3em; }
 a, a > code {
-  color: #E74C3C;
+  color: #D56461;
   text-decoration: none;
 }
 code {
@@ -43,20 +43,21 @@ code {
   padding: 3px;
 
   background: transparent !important;
-  color: #2980B9 !important;
+  color: #31353D !important;
   font-size: 16px;
 }
 code .title,
 code .keyword {
-    color: #E74C3C !important;
+    color: #D56461 !important;
 }
 code .comment {
-    color: #a5c7d0 !important;
+    color: #85abb5 !important;
 }
 code .prompt,
 code .string,
-code .built_in {
-    color: #9A5719 !important;
+code .built_in,
+code .number {
+    color: #609BB5 !important;
 }
 .pull-left {
   float: left;
@@ -77,12 +78,12 @@ code .built_in {
   padding: 15px;
 }
 .inverse {
-  background: #ECF0F1;
-  color: #3498DB;
+  background: #f3efe9;
+  color: #205C69;
 
 }
 .inverse h1, .inverse h2 {
-  color: #2C3E50;
+  color: #46A9BD;
   line-height: 0.8em;
 }
 
