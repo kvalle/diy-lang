@@ -30,10 +30,10 @@ h3 { font-size: 1.6em; }
 }
 li p { line-height: 1.25em; }
 .red { color: #fa0000; }
-.large { font-size: 2em; }
+.large { font-size: 1.7em; }
 .very-large { font-size: 3em; }
 a, a > code {
-  color: #D56461;
+  color: #E06966;
   text-decoration: none;
 }
 code {
@@ -79,7 +79,7 @@ code .number {
 }
 .inverse {
   background: #f3efe9;
-  color: #205C69;
+  color: #5f888f;
 
 }
 .inverse h1, .inverse h2 {
