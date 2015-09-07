@@ -57,7 +57,7 @@ code .prompt,
 code .string,
 code .built_in,
 code .number {
-    color: #609BB5 !important;
+    color: #4c81a9 !important;
 }
 .pull-left {
   float: left;
