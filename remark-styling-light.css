@@ -33,7 +33,7 @@ li p { line-height: 1.25em; }
 .large { font-size: 1.7em; }
 .very-large { font-size: 3em; }
 a, a > code {
-  color: #E06966;
+  color: #e9625f;
   text-decoration: none;
 }
 code {
@@ -48,7 +48,7 @@ code {
 }
 code .title,
 code .keyword {
-    color: #D56461 !important;
+    color: #e9625f !important;
 }
 code .comment {
     color: #85abb5 !important;
