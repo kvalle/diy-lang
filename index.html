@@ -112,7 +112,23 @@ class: inverse, middle
 ---
 class: inverse, middle
 
-something about evaluating
+```python
+>>> from diylisp.parser import parse
+>>> from diylisp.evaluator import evaluate
+>>> from diylisp.types import Environment
+>>> 
+>>> ast = parse("""
+...     (if (> 1 2)
+...         (- 1000 1)
+...         (+ 40 (- 3 1)))
+... """)
+>>> 
+>>> ast
+['if', ['>', 1, 2], ['-', 1000, 1], ['+', 40, ['-', 3, 1]]]
+>>> 
+>>> evaluate(ast, Environment())
+42
+```
 
 ---
 class: inverse, middle
@@ -133,7 +149,18 @@ class: inverse, middle
 ---
 class: inverse, middle
 
-something about stdlib
+```lisp
+→  (define append
+…      (lambda (lst1 lst2)
+…          (if (empty lst1)
+…              lst2
+…              (cons (head lst1)
+…                    (append (tail lst1)
+…                            lst2)))))
+append
+→  (append '(1 2 3) '(foo bar baz))
+(1 2 3 foo bar baz)
+```
 
 ---
 class: inverse, middle
@@ -185,10 +212,16 @@ class: inverse, middle, center
 ---
 class: inverse, middle, center
 
-start with the README at
+for Python, go to
 
 .large[
   github.com/[kvalle/diy-lisp](https://github.com/kvalle/diy-lisp)
+]
+
+for Java, go to
+
+.large[
+  github.com/[bendiksolheim/diy-lisp-java](https://github.com/bendiksolheim/diy-lisp-java)
 ]
 
     </textarea>
