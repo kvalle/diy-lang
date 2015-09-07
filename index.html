@@ -55,33 +55,13 @@ We will not have:
 ---
 class: inverse, middle
 
-.leftcol-medium[
-```lisp
-;; Your language
-
-(define fact
-    (lambda (n) 
-        (if (<= n 1) 
-            1
-            (* n (fact (- n 1))))))
-
-(fact 5)
 ```
-]
-
-.rightcol-medium[
-```python
-# Python
-
-def fact(n):
-    if n <= 1: 
-        return 1
-    else:
-        return n * fact(n - 1)
-
-fact(5)
+                  +-----------+        +-------------+
+          text    |           |  AST   |             |  result
+        +-------->|  parser   |+------>|  evaluator  |+-------->
+                  |           |        |             |
+                  +-----------+        +-------------+
 ```
-]
 
 ---
 class: inverse, middle
@@ -89,16 +69,101 @@ class: inverse, middle
 .no-bullets[
 
   - 1: [parsing](https://github.com/kvalle/diy-lisp/blob/master/parts/1.md)
+  - 2: evaluating simple expressions
+  - 3: evaluating complex expressions
+  - 4: working with variables
+  - 5: functions
+  - 6: working with lists
+  - 7: using your language
+  - 8: final touches
+
+]
+
+---
+class: inverse, middle
+
+```parser
+>>> from diylisp.parser import parse
+>>> 
+>>> parse("""
+... (define not
+...     (lambda (b)
+...         (if b #f #t)))
+... """)
+['define', 'not', ['lambda', ['b'], ['if', 'b', False, True]]]
+```
+
+---
+class: inverse, middle
+
+.no-bullets[
+
+  - 1: parsing
   - 2: [evaluating simple expressions](https://github.com/kvalle/diy-lisp/blob/master/parts/2.md)
   - 3: [evaluating complex expressions](https://github.com/kvalle/diy-lisp/blob/master/parts/3.md)
   - 4: [working with variables](https://github.com/kvalle/diy-lisp/blob/master/parts/4.md)
   - 5: [functions](https://github.com/kvalle/diy-lisp/blob/master/parts/5.md)
   - 6: [working with lists](https://github.com/kvalle/diy-lisp/blob/master/parts/6.md)
+  - 7: using your language
+  - 8: final touches
+
+]
+
+---
+class: inverse, middle
+
+something about evaluating
+
+---
+class: inverse, middle
+
+.no-bullets[
+
+  - 1: parsing
+  - 2: evaluating simple expressions
+  - 3: evaluating complex expressions
+  - 4: working with variables
+  - 5: functions
+  - 6: working with lists
   - 7: [using your language](https://github.com/kvalle/diy-lisp/blob/master/parts/7.md)
+  - 8: final touches
+
+]
+
+---
+class: inverse, middle
+
+something about stdlib
+
+---
+class: inverse, middle
+
+.no-bullets[
+
+  - 1: parsing
+  - 2: evaluating simple expressions
+  - 3: evaluating complex expressions
+  - 4: working with variables
+  - 5: functions
+  - 6: working with lists
+  - 7: using your language
   - 8: [final touches](https://github.com/kvalle/diy-lisp/blob/master/parts/8.md)
 
 ]
 
+---
+class: inverse, middle
+
+```
+                      _______________             
+                     [ extra credit! ]            
+                      ---------------             
+                             \   ^__^             
+                              \  (oo)\_______     
+                                 (__)\       )\/\ 
+                                     ||----w |    
+                                     ||     ||    
+```
 
 ---
 class: inverse, middle
