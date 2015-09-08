@@ -30,7 +30,13 @@ def repl():
     print("")
 
     env = Environment()
-    interpret_file(join(dirname(relpath(__file__)), '..', 'stdlib.diy'), env)
+    try:
+        interpret_file(join(dirname(relpath(__file__)), '..', 'stdlib.diy'), env)
+    except LispError as e:
+        # Just ignore definitions from stdlib until `define` is implemented
+        if e.message != "Lookup error on variable `define`":
+            raise e
+
     while True:
         try:
             source = read_expression()
