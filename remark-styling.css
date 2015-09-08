@@ -74,6 +74,14 @@ code {
   line-height: 0.8em;
 }
 
+.remark-slide-container {
+    background: #272822;
+}
+
+.remark-slide-scaler {
+    box-shadow: none !important;
+}
+
 /* Slide-specific styling */
 #slide-inverse .footnote {
   bottom: 12px;
@@ -92,9 +100,6 @@ code {
   padding: 1px 20px;
   height: 90px;
   width: 120px;
-  -moz-box-shadow: 0 0 10px #777;
-  -webkit-box-shadow: 0 0 10px #777;
-  box-shadow: 0 0 10px #777;
 }
 #slide-how .slides .first {
   background: #fff;
