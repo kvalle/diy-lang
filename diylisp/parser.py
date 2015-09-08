@@ -78,7 +78,7 @@ def first_expression(source):
         last = find_matching_paren(source)
         return source[:last + 1], source[last + 1:]
     else:
-        match = re.match(r"^[^\s)']+", source)
+        match = re.match(r"^[^\s)(']+", source)
         end = match.end()
         atom = source[:end]
         return atom, source[end:]
