@@ -88,6 +88,9 @@ def test_checking_whether_list_is_empty():
     assert_equals(True, evaluate(parse("(empty '())"), Environment()))
     assert_equals(True, evaluate(parse("(empty (tail '(1)))"), Environment()))
 
+    assert_equals(False, evaluate(parse("(empty somelist)"), Environment({"somelist" : [1,2,3]})))
+    assert_equals(True, evaluate(parse("(empty somelist)"), Environment({"somelist" : []})))
+
 def test_getting_empty_from_value():
     """Must be list to see if empty."""
 
