@@ -2,7 +2,6 @@
 
 import os
 import sys
-from os.path import dirname, relpath, join
 
 from .types import LispError, Environment
 from .parser import remove_comments
@@ -18,7 +17,7 @@ try:
 except NameError:
     pass
 
-def repl():
+def repl(env=None):
     """Start the interactive Read-Eval-Print-Loop"""
     print("")
     print("                 " + faded("                             \`.    T       "))
@@ -29,13 +28,8 @@ def repl():
     print(faded("  use ^D to exit"))
     print("")
 
-    env = Environment()
-    try:
-        interpret_file(join(dirname(relpath(__file__)), '..', 'stdlib.diy'), env)
-    except LispError as e:
-        # Just ignore definitions from stdlib until `define` is implemented
-        if e.message != "Lookup error on variable `define`":
-            raise e
+    if env is None:
+        env = Environment()
 
     while True:
         try:
