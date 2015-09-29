@@ -8,7 +8,7 @@
   <body>
     <textarea id="source">
 
-class: center, middle, inverse
+class: inverse, center, middle
 
 # DIY Lisp
 
@@ -54,14 +54,17 @@ We will not have:
 ---
 class: inverse, middle
 
+.small-line-height[
 ```
                   ┌──────────┐         ┌─────────────┐
-           text   │          │   AST   │             │   result
+           text   │          │   AST   │             │  result
+                  │          │         │             │
         ├────────>│  parser  ├────────>│  evaluator  ├──────────>
+                  │          │         │             │
                   │          │         │             │
                   └──────────┘         └─────────────┘
 ```
-
+]
 ???
 
 │ ─ ┌ ┐ └ ┘ ┼ ┴ ┬ ├ ┤
@@ -69,20 +72,23 @@ class: inverse, middle
 ---
 class: inverse, middle
 
+
 ```lisp
                            (if (> 1 2) #t #f)
 ```
-
+.small-line-height[
 ```
                                     |
                                     v
                             ┌───────────────┐
+                            │               │
                             │     parse()   │
+                            │               │
                             └───────┬───────┘
                                     │
                                     v
 ```
-
+]
 ```python
                         ["if" [">" 1 2] True False]
 ```
@@ -104,23 +110,31 @@ class: inverse, middle
 <br />
 <br />
 
+.small-line-height[
 ```python
                             ┌──────────┐
+                            │          │
                             │   "if"   │
+                            │          │
                             └────┬─────┘
                                  |
                   ┌──────────────┼──────────────┐
                   |              |              |
               ┌───┴───┐      ┌───┴───┐      ┌───┴───┐
+              │       │      │       │      │       │
               |  ">"  |      | True  |      | False |
+              │       │      │       │      │       │
               └───┬───┘      └───────┘      └───────┘
                   |
           ┌───────┴──────┐
           |              |
       ┌───┴───┐      ┌───┴───┐
+      │       │      │       │
       |   1   |      |   2   |
+      │       │      │       │
       └───────┘      └───────┘
 ```
+]
 
 ---
 class: inverse, middle
@@ -129,15 +143,19 @@ class: inverse, middle
                         ["if" [">" 1 2] True False]
 ```
 
+.small-line-height[
 ```
                                     |
                                     v
                             ┌───────────────┐
+                            │               │
                             |   evaluate()  |
+                            │               │
                             └───────┬───────┘
                                     |
                                     v
 ```
+]
 
 ```python
                                   False

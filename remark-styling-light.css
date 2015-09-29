@@ -13,6 +13,7 @@
 }
 
 body {
+    background: #f3efe9 !important;
   font-family: 'Droid Serif';
   font-size: 20px;
 }
@@ -45,6 +46,10 @@ code {
   background: transparent !important;
   color: #31353D !important;
   font-size: 16px;
+}
+
+.small-line-height code {
+  line-height: .85;
 }
 code .title,
 code .keyword {
@@ -182,4 +187,8 @@ img {
 
 .no-bullets ul {
   list-style-type: none;
+}
+
+.remark-slide-scaler {
+    box-shadow: none !important;
 }
