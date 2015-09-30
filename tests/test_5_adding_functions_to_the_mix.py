@@ -110,6 +110,19 @@ def test_evaluating_call_to_closure_with_arguments():
     assert_equals(9, evaluate(ast, env))
 
 
+def test_creating_closure_with_environment():
+    """The function parameters must properly shadow the outer scope's bindings.
+
+    When the same bindings exist in the environment and function parameters,
+    the function parameters must properly overwrite the environment bindings."""
+
+    env = Environment({ "a": 42, "b": "foo" })
+    closure = evaluate(parse("(lambda (a b) (+ a b))"), env)
+    ast = [closure, 4, 5]
+
+    assert_equals(9, evaluate(ast, env))
+
+
 def test_call_to_function_should_evaluate_arguments():
     """Call to function should evaluate all arguments.
 
