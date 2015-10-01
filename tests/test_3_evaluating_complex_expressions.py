@@ -48,3 +48,15 @@ def test_if_with_sub_expressions():
             (+ 40 (- 3 1)))
     """)
     assert_equals(42, evaluate(ast, Environment()))
+
+def test_that_quote_does_not_evaluate_its_argument():
+    """Calling `quote`, should still return its argument without evaluating it.
+    This test should already be passing, but lets just make sure that `quote` still works
+    as intended now that we have a few more powerful features."""
+
+    ast = parse("""
+        '(if (> 1 50)
+             (- 1000 1)
+             #f)
+    """)
+    assert_equals(['if', ['>', 1, 50], ['-', 1000, 1], False], evaluate(ast, Environment()))
