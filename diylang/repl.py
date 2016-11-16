@@ -3,7 +3,7 @@
 import os
 import sys
 
-from .types import LispError, Environment
+from .types import DiyLangError, Environment
 from .parser import remove_comments
 from .interpreter import interpret, interpret_file
 
@@ -22,7 +22,7 @@ def repl(env=None):
     print("")
     print("                 " + faded("                             \`.    T       "))
     print("    Welcome to   " + faded("   .--------------.___________) \   |    T  "))
-    print("   the DIY-lisp  " + faded("   |//////////////|___________[ ]   !  T |  "))
+    print("   the DIY Lang  " + faded("   |//////////////|___________[ ]   !  T |  "))
     print("       REPL      " + faded("   `--------------'           ) (      | !  "))
     print("                 " + faded("                              '-'      !    "))
     print(faded("  use ^D to exit"))
@@ -35,7 +35,7 @@ def repl(env=None):
         try:
             source = read_expression()
             print(interpret(source, env))
-        except LispError as e:
+        except DiyLangError as e:
             print(colored("!", "red"))
             print(faded(str(e.__class__.__name__) + ":"))
             print(str(e))

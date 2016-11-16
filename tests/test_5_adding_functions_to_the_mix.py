@@ -3,10 +3,10 @@
 from nose.tools import assert_equals, assert_raises_regexp, \
     assert_raises, assert_true, assert_is_instance
 
-from diylisp.ast import is_list
-from diylisp.evaluator import evaluate
-from diylisp.parser import parse
-from diylisp.types import Closure, LispError, Environment
+from diylang.ast import is_list
+from diylang.evaluator import evaluate
+from diylang.parser import parse
+from diylang.types import Closure, DiyLangError, Environment
 
 """
 This part is all about defining and using functions.
@@ -50,14 +50,14 @@ def test_lambda_arguments_are_lists():
     closure = evaluate(parse("(lambda (x y) (+ x y))"), Environment())
     assert_true(is_list(closure.params))
 
-    with assert_raises(LispError):
+    with assert_raises(DiyLangError):
         evaluate(parse("(lambda not-a-list (body of fn))"), Environment())
 
 
 def test_lambda_number_of_arguments():
     """The `lambda` form should expect exactly two arguments."""
 
-    with assert_raises_regexp(LispError, "number of arguments"):
+    with assert_raises_regexp(DiyLangError, "number of arguments"):
         evaluate(parse("(lambda (foo) (bar) (baz))"), Environment())
 
 
@@ -214,9 +214,9 @@ function calls are done incorrectly.
 def test_calling_atom_raises_exception():
     """A function call to a non-function should result in an error."""
 
-    with assert_raises_regexp(LispError, "not a function"):
+    with assert_raises_regexp(DiyLangError, "not a function"):
         evaluate(parse("(#t 'foo 'bar)"), Environment())
-    with assert_raises_regexp(LispError, "not a function"):
+    with assert_raises_regexp(DiyLangError, "not a function"):
         evaluate(parse("(42)"), Environment())
 
 
@@ -242,13 +242,13 @@ def test_calling_with_wrong_number_of_arguments():
     env = Environment()
     evaluate(parse("(define fn (lambda (p1 p2) 'whatever))"), env)
     error_msg = "wrong number of arguments, expected 2 got 3"
-    with assert_raises_regexp(LispError, error_msg):
+    with assert_raises_regexp(DiyLangError, error_msg):
         evaluate(parse("(fn 1 2 3)"), env)
 
 def test_calling_nothing():
     """Calling nothing should fail (remember to quote empty data lists)"""
 
-    with assert_raises(LispError):
+    with assert_raises(DiyLangError):
         evaluate(parse("()"), Environment())
 
 

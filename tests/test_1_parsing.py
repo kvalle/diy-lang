@@ -2,8 +2,8 @@
 
 from nose.tools import assert_equals, assert_raises_regexp
 
-from diylisp.parser import parse, unparse
-from diylisp.types import LispError
+from diylang.parser import parse, unparse
+from diylang.types import DiyLangError
 
 
 def test_parse_single_symbol():
@@ -18,7 +18,7 @@ def test_parse_single_symbol():
 def test_parse_boolean():
     """Parsing single booleans.
 
-    Booleans are the special symbols #t and #f. In the ASTs they are represented 
+    Booleans are the special symbols #t and #f. In the ASTs they are represented
     by Pythons True and False, respectively. """
 
     assert_equals(True, parse('#t'))
@@ -40,7 +40,7 @@ def test_parse_integer():
 def test_parse_list_of_symbols():
     """Parsing list of only symbols.
 
-    A list is represented by a number of elements surrounded by parens. Python lists 
+    A list is represented by a number of elements surrounded by parens. Python lists
     are used to represent lists as ASTs.
 
     Tip: The useful helper function `find_matching_paren` is already provided in
@@ -54,7 +54,7 @@ def test_parse_list_of_symbols():
 def test_parse_list_of_mixed_types():
     """Parsing a list containing different types.
 
-    When parsing lists, make sure each of the sub-expressions are also parsed 
+    When parsing lists, make sure each of the sub-expressions are also parsed
     properly."""
 
     assert_equals(['foo', True, 123], parse('(foo #t 123)'))
@@ -73,7 +73,7 @@ def test_parse_on_nested_list():
 def test_parse_exception_missing_paren():
     """The proper exception should be raised if the expresions is incomplete."""
 
-    with assert_raises_regexp(LispError, 'Incomplete expression'):
+    with assert_raises_regexp(DiyLangError, 'Incomplete expression'):
         parse('(foo (bar x y)')
 
 
@@ -83,7 +83,7 @@ def test_parse_exception_extra_paren():
     The parse function expects to receive only one single expression. Anything
     more than this, should result in the proper exception."""
 
-    with assert_raises_regexp(LispError, 'Expected EOF'):
+    with assert_raises_regexp(DiyLangError, 'Expected EOF'):
         parse('(foo (bar x y)))')
 
 
@@ -105,7 +105,7 @@ def test_parse_comments():
     ;; this first line is a comment
     (define variable
         ; here is another comment
-        (if #t 
+        (if #t
             42 ; inline comment!
             (something else)))
     """
@@ -120,11 +120,11 @@ def test_parse_larger_example():
     """Test a larger example to check that everything works as expected"""
 
     program = """
-        (define fact 
+        (define fact
         ;; Factorial function
-        (lambda (n) 
-            (if (<= n 1) 
-                1 ; Factorial of 0 is 1, and we deny 
+        (lambda (n)
+            (if (<= n 1)
+                1 ; Factorial of 0 is 1, and we deny
                   ; the existence of negative numbers
                 (* n (fact (- n 1))))))
     """

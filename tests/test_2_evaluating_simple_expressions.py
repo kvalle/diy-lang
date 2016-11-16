@@ -2,10 +2,10 @@
 
 from nose.tools import assert_equals, assert_raises
 
-from diylisp.types import LispError
-from diylisp.types import Environment
-from diylisp.evaluator import evaluate
-from diylisp.parser import parse
+from diylang.types import DiyLangError
+from diylang.types import Environment
+from diylang.evaluator import evaluate
+from diylang.parser import parse
 
 """
 We will start by implementing evaluation of simple expressions.
@@ -20,13 +20,13 @@ def test_evaluating_boolean():
 
 
 def test_evaluating_integer():
-    
+
     """...and so should integers."""
     assert_equals(42, evaluate(42, Environment()))
 
 
 def test_evaluating_quote():
-    """When a call is done to the `quote` form, the argument should be returned without 
+    """When a call is done to the `quote` form, the argument should be returned without
     being evaluated.
 
     (quote foo) -> foo
@@ -59,7 +59,7 @@ def test_evaluating_eq_function():
 
     # From this point, the ASTs might sometimes be too long or cummbersome to
     # write down explicitly, and we'll use `parse` to make them for us.
-    # Remember, if you need to have a look at exactly what is passed to `evaluate`, 
+    # Remember, if you need to have a look at exactly what is passed to `evaluate`,
     # just add a print statement in the test (or in `evaluate`).
 
     assert_equals(True, evaluate(parse("(eq 'foo 'foo)"), Environment()))
@@ -90,11 +90,11 @@ def test_basic_math_operators():
 def test_math_operators_only_work_on_numbers():
     """The math functions should only allow numbers as arguments."""
 
-    with assert_raises(LispError):
+    with assert_raises(DiyLangError):
         evaluate(parse("(+ 1 'foo)"), Environment())
-    with assert_raises(LispError):
+    with assert_raises(DiyLangError):
         evaluate(parse("(- 1 'foo)"), Environment())
-    with assert_raises(LispError):
+    with assert_raises(DiyLangError):
         evaluate(parse("(/ 1 'foo)"), Environment())
-    with assert_raises(LispError):
+    with assert_raises(DiyLangError):
         evaluate(parse("(mod 1 'foo)"), Environment())

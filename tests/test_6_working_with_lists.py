@@ -3,9 +3,9 @@
 from nose.tools import assert_equals, assert_raises, assert_raises_regexp, \
     assert_false, assert_is_instance
 
-from diylisp.evaluator import evaluate
-from diylisp.parser import parse
-from diylisp.types import LispError, Environment
+from diylang.evaluator import evaluate
+from diylang.parser import parse
+from diylang.types import DiyLangError, Environment
 
 
 def test_creating_lists_by_quoting():
@@ -32,8 +32,8 @@ def test_creating_list_with_cons():
 def test_creating_longer_lists_with_only_cons():
     """`cons` needs to evaluate it's arguments.
 
-    Like all the other special forms and functions in our language, `cons` is 
-    call-by-value. This means that the arguments must be evaluated before we 
+    Like all the other special forms and functions in our language, `cons` is
+    call-by-value. This means that the arguments must be evaluated before we
     create the list with their values."""
 
     result = evaluate(parse("(cons 3 (cons (- 4 2) (cons 1 '())))"), Environment())
@@ -50,13 +50,13 @@ def test_getting_first_element_from_list():
 def test_getting_first_element_from_empty_list():
     """If the list is empty there is no first element, and `head should raise an error."""
 
-    with assert_raises(LispError):
+    with assert_raises(DiyLangError):
         evaluate(parse("(head (quote ()))"), Environment())
 
 def test_getting_head_from_value():
     """Must be list to get `head`."""
 
-    with assert_raises(LispError):
+    with assert_raises(DiyLangError):
         evaluate(parse("(head #t)"), Environment())
 
 def test_getting_tail_of_list():
@@ -70,13 +70,13 @@ def test_getting_tail_of_list():
 def test_getting_tail_from_empty_list():
     """If the list is empty there is no tail, and `tail` should raise an error."""
 
-    with assert_raises(LispError):
+    with assert_raises(DiyLangError):
         evaluate(parse("(tail (quote ()))"), Environment())
 
 def test_getting_tail_from_value():
     """Must be list to get `tail`."""
 
-    with assert_raises(LispError):
+    with assert_raises(DiyLangError):
         evaluate(parse("(tail 1)"), Environment())
 
 def test_checking_whether_list_is_empty():
@@ -94,5 +94,5 @@ def test_checking_whether_list_is_empty():
 def test_getting_empty_from_value():
     """Must be list to see if empty."""
 
-    with assert_raises(LispError):
+    with assert_raises(DiyLangError):
         evaluate(parse("(empty 321)"), Environment())

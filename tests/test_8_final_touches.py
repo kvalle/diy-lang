@@ -6,9 +6,9 @@ from nose.plugins.skip import SkipTest
 from nose.tools import assert_true, assert_equals, assert_is_instance, \
     assert_raises_regexp, with_setup
 
-from diylisp.interpreter import interpret, interpret_file
-from diylisp.types import Environment, String, LispError, Closure
-from diylisp.parser import parse
+from diylang.interpreter import interpret, interpret_file
+from diylang.types import Environment, String, DiyLangError, Closure
+from diylang.parser import parse
 
 env = None
 
@@ -27,9 +27,9 @@ Feel free to do something completely different, if you fancy.
 """
 Suggestion 1: `cond`
 
-First off, we will implement a new control structure found in most Lisps, the 
-`cond` form (not to be confused with `cons`). The name `cond` is short for 
-"conditional", and is sort of a buffed up version of `if`.
+First off, we will implement a new control structure, the `cond` form (not to
+be confused with `cons`). The name `cond` is short for "conditional", and is
+sort of a buffed up version of `if`.
 
 Implement this as a new case in the `evaluate` function in `evaluator.py`.
 """
@@ -39,7 +39,7 @@ def test_cond_returns_right_branch():
     """
     `cond` takes as arguments a list of tuples (two-element lists, or "conses").
 
-    The first element of each tuple is evaluated in order, until one evaluates 
+    The first element of each tuple is evaluated in order, until one evaluates
     to `#t`. The second element of that tuple is returned.
     """
 
@@ -95,7 +95,7 @@ def test_cond_evaluates_predicates():
 @with_setup(prepare_env)
 def test_cond_returnes_false_as_default():
     """
-    If we evalaute all the predicates, only to find that none of them turned out 
+    If we evalaute all the predicates, only to find that none of them turned out
     to be true, then `cond` should return `#f`.
     """
 
@@ -125,10 +125,10 @@ def test_parsing_simple_strings():
     find ready made in the file `types.py`.
 
     > Side note:
-    > 
-    > This is where it starts to show that we could have used smarter 
-    > representation of our types. We wanted to keep things simple early on, 
-    > and now we pay the price. We could have represented our types as tuples 
+    >
+    > This is where it starts to show that we could have used smarter
+    > representation of our types. We wanted to keep things simple early on,
+    > and now we pay the price. We could have represented our types as tuples
     > of type and value, or perhaps made classes for all of them.
     >
     > Feel free to go back and fix this. Refactor as much as you wish -- just
@@ -136,7 +136,7 @@ def test_parsing_simple_strings():
     """
 
     ast = parse('"foo bar"')
-    assert_is_instance(ast, String) 
+    assert_is_instance(ast, String)
     assert_equals("foo bar", ast.val)
 
 @with_setup(prepare_env)
@@ -155,7 +155,7 @@ def test_parsing_strings_with_escaped_double_quotes():
 
     ast = parse('"Say \\"what\\" one more time!"')
 
-    assert_is_instance(ast, String) 
+    assert_is_instance(ast, String)
     assert_equals('Say \\"what\\" one more time!', ast.val)
 
 @with_setup(prepare_env)
@@ -164,7 +164,7 @@ def test_parsing_unclosed_strings():
     Strings that are not closed result in an parse error.
     """
 
-    with assert_raises_regexp(LispError, 'Unclosed string'):
+    with assert_raises_regexp(DiyLangError, 'Unclosed string'):
         parse('"hey, close me!')
 
 @with_setup(prepare_env)
@@ -176,7 +176,7 @@ def test_parsing_strings_are_closed_by_first_closing_quotes():
     invalid and throw an exception.
     """
 
-    with assert_raises_regexp(LispError, 'Expected EOF'):
+    with assert_raises_regexp(DiyLangError, 'Expected EOF'):
         parse('"foo" bar"')
 
 
@@ -187,7 +187,7 @@ def test_parsing_strings_with_parens_in_them():
 
     The parser, so far, rather naively counts parens to determine the end of
     a list. We need to make a small adjustment to make it knows not to consider
-    parens within strings. 
+    parens within strings.
 
     Tip: You'll probably need to change the function `find_matching_paren` in
     `parser.py` to solve this.
@@ -269,7 +269,7 @@ evaluated within an environment where those bindings exist.
 @with_setup(prepare_env)
 def test_let_returns_result_of_the_given_expression():
     """
-    The result when evaluating a `let` binding is the evaluation of the 
+    The result when evaluating a `let` binding is the evaluation of the
     expression given as argument.
 
     Let's first try one without any bindings.
@@ -340,7 +340,7 @@ Suggestion 4: `defn`
 
 So far, to define functions we have had to write
 
-    (define my-function 
+    (define my-function
         (lambda (foo bar)
             'fuction-body-here))
 
@@ -381,4 +381,3 @@ def test_defn_result_in_the_correct_closure():
     assert_equals(foo1.body, foo2.body)
     assert_equals(foo1.params, foo2.params)
     assert_equals(foo1.env, foo2.env)
-
