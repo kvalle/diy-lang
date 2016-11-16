@@ -21,7 +21,7 @@
     (lambda (n)
         (if (<= n 1)
             1 ; Factorial of 0 is 1, and we deny
-            ; the existence of negative numbers
+              ; the existence of negative numbers
             (* n (fact (- n 1))))))
 
 (fact 5) ; The result of this should be 120
