@@ -6,27 +6,14 @@
     <link rel="stylesheet" href="remark-styling.css"/>
   </head>
   <body>
-    <textarea id="source">
 
-class: center, middle, inverse
+<h1>DIY Lang</h1>
 
-# DIY Lang
+<h2>Make your own programming language</h2>
 
-### Make your own programming language
+<p>Welcome to the DIY Lang workshop. The goal of the workshop is to write a language capable of evaluating, for example, the following code:</p>
 
-.footnote[
-    by [Bendik Solheim]() and [Kjetil Valle]()
-]
-
----
-class: inverse, middle
-
-```lisp
-;; Goal: 
-;;
-;; Make a programming language that can understand 
-;; this code.
-
+<pre>
 (define fact
     ; Factorial function
     (lambda (n) 
@@ -36,205 +23,22 @@ class: inverse, middle
             (* n (fact (- n 1))))))
 
 (fact 5) ; The result of this should be 120
-```
+</pre>
 
-???
+<p>The workshop has eight parts:</p>
 
-Goal: Make this.
+<ol>
+  <li><a href="https://github.com/kvalle/diy-lang/blob/master/parts/1.md">parsing</a></li>
+  <li><a href="https://github.com/kvalle/diy-lang/blob/master/parts/2.md">evaluating simple expressions</a></li>
+  <li><a href="https://github.com/kvalle/diy-lang/blob/master/parts/3.md">evaluating complex expressions</a></li>
+  <li><a href="https://github.com/kvalle/diy-lang/blob/master/parts/4.md">working with variables</a></li>
+  <li><a href="https://github.com/kvalle/diy-lang/blob/master/parts/5.md">functions</a></li>
+  <li><a href="https://github.com/kvalle/diy-lang/blob/master/parts/6.md">working with lists</a></li>
+  <li><a href="https://github.com/kvalle/diy-lang/blob/master/parts/7.md">using your language</a></li>
+  <li><a href="https://github.com/kvalle/diy-lang/blob/master/parts/8.md">final touches</a></li>
+</ol>
 
-- A handful of datatypes (integers, booleans and symbols)
-- Variables
-- First class functions
-- Lexical scoping
+<p>The full materials for the workshop is located at <a href="http://github.com/kvalle/diy-lang">github.com/kvalle/diy-lang</a>. Go there, and clone the repo to get started.</p>
 
-We will not have:
-
-- A proper type system
-- Error handling
-- Good performance
-- etc
-
-
----
-class: inverse, middle, center
-
-# Test-driven
-
-
----
-class: inverse, middle
-
-```
-                  +----------+         +-------------+
-           text   |          |   AST   |             |   result
-        +-------->|  parser  |+------->|  evaluator  |+--------->
-                  |          |         |             |
-                  +----------+         +-------------+
-```
-
-
----
-class: inverse, middle
-
-.no-bullets[
-
-  - 1: [parsing](https://github.com/kvalle/diy-lang/blob/master/parts/1.md)
-  - 2: evaluating simple expressions
-  - 3: evaluating complex expressions
-  - 4: working with variables
-  - 5: functions
-  - 6: working with lists
-  - 7: using your language
-  - 8: final touches
-
-]
-
----
-class: inverse, middle
-
-```parser
->>> from diylang.parser import parse
->>> 
->>> parse("""
-... (define not
-...     (lambda (b)
-...         (if b #f #t)))
-... """)
-['define', 'not', ['lambda', ['b'], ['if', 'b', False, True]]]
-```
-
----
-class: inverse, middle
-
-.no-bullets[
-
-  - 1: parsing
-  - 2: [evaluating simple expressions](https://github.com/kvalle/diy-lang/blob/master/parts/2.md)
-  - 3: [evaluating complex expressions](https://github.com/kvalle/diy-lang/blob/master/parts/3.md)
-  - 4: [working with variables](https://github.com/kvalle/diy-lang/blob/master/parts/4.md)
-  - 5: [functions](https://github.com/kvalle/diy-lang/blob/master/parts/5.md)
-  - 6: [working with lists](https://github.com/kvalle/diy-lang/blob/master/parts/6.md)
-  - 7: using your language
-  - 8: final touches
-
-]
-
----
-class: inverse, middle
-
-```python
->>> from diylang.parser import parse
->>> from diylang.evaluator import evaluate
->>> from diylang.types import Environment
->>> 
->>> ast = parse("""
-...     (if (> 1 2)
-...         (- 1000 1)
-...         (+ 40 (- 3 1)))
-... """)
->>> 
->>> ast
-['if', ['>', 1, 2], ['-', 1000, 1], ['+', 40, ['-', 3, 1]]]
->>> 
->>> evaluate(ast, Environment())
-42
-```
-
----
-class: inverse, middle
-
-.no-bullets[
-
-  - 1: parsing
-  - 2: evaluating simple expressions
-  - 3: evaluating complex expressions
-  - 4: working with variables
-  - 5: functions
-  - 6: working with lists
-  - 7: [using your language](https://github.com/kvalle/diy-lang/blob/master/parts/7.md)
-  - 8: final touches
-
-]
-
----
-class: inverse, middle
-
-```lisp
-→  (define append
-…      (lambda (lst1 lst2)
-…          (if (empty lst1)
-…              lst2
-…              (cons (head lst1)
-…                    (append (tail lst1)
-…                            lst2)))))
-append
-→  (append '(1 2 3) '(foo bar baz))
-(1 2 3 foo bar baz)
-```
-
----
-class: inverse, middle
-
-.leftcol-large[
-.no-bullets[
-
-  - 1: parsing
-  - 2: evaluating simple expressions
-  - 3: evaluating complex expressions
-  - 4: working with variables
-  - 5: functions
-  - 6: working with lists
-  - 7: using your language
-  - 8: [final touches](https://github.com/kvalle/diy-lang/blob/master/parts/8.md)
-
-]
-]
-
-.rightcol-medium[
-
-```
-
-   _______________             
-  [ extra credit! ]            
-   ---------------             
-          \   ^__^             
-           \  (oo)\_______     
-              (__)\       )\/\ 
-                  ||----w |    
-                  ||     ||    
-```
-]
-
----
-class: inverse, middle
-
-### Remember:
-
-- Keep things simple
-- Read the test descriptions
-- Use the provided functions
-- The Python cheat sheet in [python.md](https://github.com/kvalle/diy-lang/blob/master/parts/python.md)
-- Description of your language in [language.md](https://github.com/kvalle/diy-lang/blob/master/parts/language.md)
-
----
-class: inverse, middle, center
-
-# Questions?
-
----
-class: inverse, middle, center
-
-# [diy-lang.com](http://diy-lang.com)
-
-
-    </textarea>
-    <script src="remark.min.js" type="text/javascript"></script>
-  <!--<script src="http://gnab.github.com/remark/downloads/remark-0.5.5.min.js" type="text/javascript"></script>-->
-    <script type="text/javascript">
-      var slideshow = remark.create({
-          highlightStyle: 'monokai',
-          highlightLanguage: 'no-highlight'
-        }) ;
-    </script>
   </body>
 </html>
