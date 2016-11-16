@@ -1,4 +1,4 @@
-## DIY Lisp 
+## DIY Lang
 
 > batteries included, some assembly required
 
@@ -41,7 +41,7 @@ The syntax is that of the languages in the Lisp family. If you find the example 
 ### Prerequisites
 
 Before we get started, make sure you have installed [Python](http://www.python.org/) and [Pip](https://pypi.python.org/pypi/pip). 
-*(It should now work with Python 3. If you have any problem with it, please [fill an issue](https://github.com/kvalle/diy-lisp/issues).)*
+*(It should now work with Python 3. If you have any problem with it, please [fill an issue](https://github.com/kvalle/diy-lang/issues).)*
 
 Then install `nose`, the Python test framework we'll be using.
 
@@ -54,7 +54,7 @@ pip install nose
 Finally, clone this repo, and you're ready to go!
 
 ```bash
-git clone https://github.com/kvalle/diy-lisp.git
+git clone https://github.com/kvalle/diy-lang.git
 ```
 
 > Also, if you're unfamiliar with Python, you might want to have a look at the basics in the [Python tutorial](https://docs.python.org/2/tutorial/index.html) before we get going. There is also the small [Python cheat sheet](parts/python.md) to help you along.
@@ -77,11 +77,11 @@ Take the time to consider the following points before we get going:
 
 - **The Python cheat sheet in `python.md`**
 
-  	Unless you're fluent in Python, there should be some helpful pointers in the [Python cheat sheet](https://github.com/kvalle/diy-lisp/blob/master/parts/python.md).
+  	Unless you're fluent in Python, there should be some helpful pointers in the [Python cheat sheet](https://github.com/kvalle/diy-lang/blob/master/parts/python.md).
 
 - **Description of your language**
 
-  	Unfamiliar with Lisp? Read a description of the language you are going to make in [language.md](https://github.com/kvalle/diy-lisp/blob/master/parts/language.md).
+  	Unfamiliar with Lisp? Read a description of the language you are going to make in [language.md](https://github.com/kvalle/diy-lang/blob/master/parts/language.md).
 
 ### Get started!
 
