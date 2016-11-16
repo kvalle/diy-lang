@@ -32,6 +32,8 @@ li p { line-height: 1.25em; }
 .red { color: #fa0000; }
 .large { font-size: 1.7em; }
 .very-large { font-size: 3em; }
+.small { font-size: 0.7em; }
+.very-small { font-size: 0.4em; }
 a, a > code {
   color: rgb(249, 38, 114);
   text-decoration: none;
@@ -132,6 +134,10 @@ code {
 
 
 /* custom stuff */
+
+.remark-slide-number {
+  display: none;
+}
 
 img {
   max-width: 80%;
