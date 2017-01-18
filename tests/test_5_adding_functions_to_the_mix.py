@@ -16,7 +16,10 @@ We'll start by implementing the `lambda` form which is used to create function c
 
 
 def test_lambda_evaluates_to_closure():
-    """The lambda form should evaluate to a Closure"""
+    """TEST 5.1: The lambda form should evaluate to a Closure
+
+    Tip: You'll find the Closure class ready in types.py, just finish the constructor
+    """
 
     ast = ["lambda", [], 42]
     closure = evaluate(ast, Environment())
@@ -24,10 +27,11 @@ def test_lambda_evaluates_to_closure():
 
 
 def test_lambda_closure_keeps_defining_env():
-    """The closure should keep a copy of the environment where it was defined.
+    """TEST 5.2: The closure should keep a copy of the environment where it was defined.
 
     Once we start calling functions later, we'll need access to the environment
-    from when the function was created in order to resolve all free variables."""
+    from when the function was created in order to resolve all free variables.
+    """
 
     env = Environment({"foo": 1, "bar": 2})
     ast = ["lambda", [], 42]
@@ -36,7 +40,7 @@ def test_lambda_closure_keeps_defining_env():
 
 
 def test_lambda_closure_holds_function():
-    """The closure contains the parameter list and function body too."""
+    """TEST 5.3: The closure contains the parameter list and function body too."""
 
     closure = evaluate(parse("(lambda (x y) (+ x y))"), Environment())
 
@@ -45,7 +49,7 @@ def test_lambda_closure_holds_function():
 
 
 def test_lambda_arguments_are_lists():
-    """The parameters of a `lambda` should be a list."""
+    """TEST 5.4: The parameters of a `lambda` should be a list."""
 
     closure = evaluate(parse("(lambda (x y) (+ x y))"), Environment())
     assert_true(is_list(closure.params))
@@ -55,17 +59,18 @@ def test_lambda_arguments_are_lists():
 
 
 def test_lambda_number_of_arguments():
-    """The `lambda` form should expect exactly two arguments."""
+    """TEST 5.5: The `lambda` form should expect exactly two arguments."""
 
     with assert_raises_regexp(DiyLangError, "number of arguments"):
         evaluate(parse("(lambda (foo) (bar) (baz))"), Environment())
 
 
 def test_defining_lambda_with_error_in_body():
-    """The function body should not be evaluated when the lambda is defined.
+    """TEST 5.6: The function body should not be evaluated when the lambda is defined.
 
     The call to `lambda` should return a function closure holding, among other things
-    the function body. The body should not be evaluated before the function is called."""
+    the function body. The body should not be evaluated before the function is called.
+    """
 
     ast = parse("""
             (lambda (x y)
@@ -84,11 +89,12 @@ the function, and the rest of the elements are arguments.
 
 
 def test_evaluating_call_to_closure():
-    """The first case we'll handle is when the AST is a list with an actual closure
+    """TEST 5.7: The first case we'll handle is when the AST is a list with an actual closure
     as the first element.
 
     In this first test, we'll start with a closure with no arguments and no free
-    variables. All we need to do is to evaluate and return the function body."""
+    variables. All we need to do is to evaluate and return the function body.
+    """
 
     closure = evaluate(parse("(lambda () (+ 1 2))"), Environment())
     ast = [closure]
@@ -97,11 +103,14 @@ def test_evaluating_call_to_closure():
 
 
 def test_evaluating_call_to_closure_with_arguments():
-    """The function body must be evaluated in an environment where the parameters are bound.
+    """TEST 5.8: The function body must be evaluated in an environment where the parameters are bound.
 
     Create an environment where the function parameters (which are stored in the closure)
     are bound to the actual argument values in the function call. Use this environment
-    when evaluating the function body."""
+    when evaluating the function body.
+
+    Tip: The `zip` and `dict` functions should prove useful when constructing the new environment.
+    """
 
     env = Environment()
     closure = evaluate(parse("(lambda (a b) (+ a b))"), env)
@@ -111,10 +120,11 @@ def test_evaluating_call_to_closure_with_arguments():
 
 
 def test_creating_closure_with_environment():
-    """The function parameters must properly shadow the outer scope's bindings.
+    """TEST 5.9: The function parameters must properly shadow the outer scope's bindings.
 
     When the same bindings exist in the environment and function parameters,
-    the function parameters must properly overwrite the environment bindings."""
+    the function parameters must properly overwrite the environment bindings.
+    """
 
     env = Environment({ "a": 42, "b": "foo" })
     closure = evaluate(parse("(lambda (a b) (+ a b))"), env)
@@ -124,10 +134,11 @@ def test_creating_closure_with_environment():
 
 
 def test_call_to_function_should_evaluate_arguments():
-    """Call to function should evaluate all arguments.
+    """TEST 5.10: Call to function should evaluate all arguments.
 
     When a function is applied, the arguments should be evaluated before being bound
-    to the parameter names."""
+    to the parameter names.
+    """
 
     env = Environment()
     closure = evaluate(parse("(lambda (a) (+ a 5))"), env)
@@ -137,12 +148,13 @@ def test_call_to_function_should_evaluate_arguments():
 
 
 def test_evaluating_call_to_closure_with_free_variables():
-    """The body should be evaluated in the environment from the closure.
+    """TEST 5.11: The body should be evaluated in the environment from the closure.
 
     The function's free variables, i.e. those not specified as part of the parameter list,
     should be looked up in the environment from where the function was defined. This is
     the environment included in the closure. Make sure this environment is used when
-    evaluating the body."""
+    evaluating the body.
+    """
 
     closure = evaluate(parse("(lambda (x) (+ x y))"), Environment({"y": 1}))
     ast = [closure, 0]
@@ -162,11 +174,12 @@ like we did above.
 
 
 def test_calling_very_simple_function_in_environment():
-    """A call to a symbol corresponds to a call to its value in the environment.
+    """TEST 5.12: A call to a symbol corresponds to a call to its value in the environment.
 
     When a symbol is the first element of the AST list, it is resolved to its value in
     the environment (which should be a function closure). An AST with the variables
-    replaced with its value should then be evaluated instead."""
+    replaced with its value should then be evaluated instead.
+    """
 
     env = Environment()
     evaluate(parse("(define add (lambda (x y) (+ x y)))"), env)
@@ -177,10 +190,11 @@ def test_calling_very_simple_function_in_environment():
 
 
 def test_calling_lambda_directly():
-    """It should be possible to define and call functions directly.
+    """TEST 5.13: It should be possible to define and call functions directly.
 
     A lambda definition in the call position of an AST should be evaluated, and then
-    evaluated as before."""
+    evaluated as before.
+    """
 
     ast = parse("((lambda (x) x) 42)")
     result = evaluate(ast, Environment())
@@ -188,12 +202,14 @@ def test_calling_lambda_directly():
 
 
 def test_calling_complex_expression_which_evaluates_to_function():
-    """Actually, all ASTs that are not atoms should be evaluated and then called.
+    """TEST 5.14: Actually, all ASTs that are lists beginning with anything except
+    atoms, or with a symbol, should be evaluated and then called.
 
     In this test, a call is done to the if-expression. The `if` should be evaluated,
     which will result in a `lambda` expression. The lambda is evaluated, giving a
     closure. The result is an AST with a `closure` as the first element, which we
-    already know how to evaluate."""
+    already know how to evaluate.
+    """
 
     ast = parse("""
         ((if #f
@@ -212,7 +228,7 @@ function calls are done incorrectly.
 
 
 def test_calling_atom_raises_exception():
-    """A function call to a non-function should result in an error."""
+    """TEST 5.15: A function call to a non-function should result in an error."""
 
     with assert_raises_regexp(DiyLangError, "not a function"):
         evaluate(parse("(#t 'foo 'bar)"), Environment())
@@ -221,7 +237,7 @@ def test_calling_atom_raises_exception():
 
 
 def test_make_sure_arguments_to_functions_are_evaluated():
-    """The arguments passed to functions should be evaluated
+    """TEST 5.16: The arguments passed to functions should be evaluated
 
     We should accept parameters that are produced through function
     calls. If you are seeing stack overflows, e.g.
@@ -229,7 +245,8 @@ def test_make_sure_arguments_to_functions_are_evaluated():
     RuntimeError: maximum recursion depth exceeded while calling a Python object
 
     then you should double-check that you are properly evaluating the passed
-    function arguments."""
+    function arguments.
+    """
 
     env = Environment()
     res = evaluate(parse("((lambda (x) x) (+ 1 2))"), env)
@@ -237,7 +254,7 @@ def test_make_sure_arguments_to_functions_are_evaluated():
 
 
 def test_calling_with_wrong_number_of_arguments():
-    """Functions should raise exceptions when called with wrong number of arguments."""
+    """TEST 5.17: Functions should raise exceptions when called with wrong number of arguments."""
 
     env = Environment()
     evaluate(parse("(define fn (lambda (p1 p2) 'whatever))"), env)
@@ -245,8 +262,9 @@ def test_calling_with_wrong_number_of_arguments():
     with assert_raises_regexp(DiyLangError, error_msg):
         evaluate(parse("(fn 1 2 3)"), env)
 
+
 def test_calling_nothing():
-    """Calling nothing should fail (remember to quote empty data lists)"""
+    """TEST 5.18: Calling nothing should fail (remember to quote empty data lists)"""
 
     with assert_raises(DiyLangError):
         evaluate(parse("()"), Environment())
@@ -259,8 +277,9 @@ The good news: this should already be working by now :)
 
 
 def test_calling_function_recursively():
-    """Tests that a named function is included in the environment
-    where it is evaluated."""
+    """TEST 5.19: Tests that a named function is included in the environment where
+    it is evaluated.
+    """
 
     env = Environment()
     evaluate(parse("""

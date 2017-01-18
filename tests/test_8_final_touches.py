@@ -50,6 +50,7 @@ def test_cond_returns_right_branch():
     """
     assert_equals("bar", interpret(program, env))
 
+
 @with_setup(prepare_env)
 def test_cond_dosnt_evaluate_all_branches():
     """
@@ -65,6 +66,7 @@ def test_cond_dosnt_evaluate_all_branches():
     """
     assert_equals("42", interpret(program, env))
 
+
 @with_setup(prepare_env)
 def test_cond_not_evaluating_more_predicateds_than_neccessary():
     """
@@ -79,6 +81,7 @@ def test_cond_not_evaluating_more_predicateds_than_neccessary():
     """
     assert_equals("2", interpret(program, env))
 
+
 @with_setup(prepare_env)
 def test_cond_evaluates_predicates():
     """
@@ -91,6 +94,7 @@ def test_cond_evaluates_predicates():
     """
 
     assert_equals("tru-dat", interpret(program, env))
+
 
 @with_setup(prepare_env)
 def test_cond_returnes_false_as_default():
@@ -106,6 +110,7 @@ def test_cond_returnes_false_as_default():
     """
 
     assert_equals("#f", interpret(program, env))
+
 
 
 """
@@ -139,6 +144,7 @@ def test_parsing_simple_strings():
     assert_is_instance(ast, String)
     assert_equals("foo bar", ast.val)
 
+
 @with_setup(prepare_env)
 def test_parsing_empty_string():
     """
@@ -146,6 +152,7 @@ def test_parsing_empty_string():
     """
 
     assert_equals('', parse('""').val)
+
 
 @with_setup(prepare_env)
 def test_parsing_strings_with_escaped_double_quotes():
@@ -158,6 +165,7 @@ def test_parsing_strings_with_escaped_double_quotes():
     assert_is_instance(ast, String)
     assert_equals('Say \\"what\\" one more time!', ast.val)
 
+
 @with_setup(prepare_env)
 def test_parsing_unclosed_strings():
     """
@@ -166,6 +174,7 @@ def test_parsing_unclosed_strings():
 
     with assert_raises_regexp(DiyLangError, 'Unclosed string'):
         parse('"hey, close me!')
+
 
 @with_setup(prepare_env)
 def test_parsing_strings_are_closed_by_first_closing_quotes():
@@ -198,6 +207,7 @@ def test_parsing_strings_with_parens_in_them():
 
     assert_equals(expected, actual)
 
+
 @with_setup(prepare_env)
 def test_parsing_of_strings():
     """
@@ -222,6 +232,7 @@ def test_evaluating_strings():
 
     assert_equals(random_quote, interpret(random_quote, env))
 
+
 @with_setup(prepare_env)
 def test_empty_strings_behave_as_empty_lists():
     """
@@ -237,6 +248,7 @@ def test_empty_strings_behave_as_empty_lists():
     assert_equals("#t", interpret('(empty "")'))
     assert_equals("#f", interpret('(empty "not empty")'))
 
+
 @with_setup(prepare_env)
 def test_strings_have_heads_and_tails():
     """
@@ -246,6 +258,7 @@ def test_strings_have_heads_and_tails():
 
     assert_equals('"f"', interpret('(head "foobar")'))
     assert_equals('"oobar"', interpret('(tail "foobar")'))
+
 
 @with_setup(prepare_env)
 def test_consing_strings_back_together():
@@ -279,6 +292,7 @@ def test_let_returns_result_of_the_given_expression():
 
     assert_equals("yep", interpret(program, env))
 
+
 @with_setup(prepare_env)
 def test_let_extends_environment():
     """
@@ -292,6 +306,7 @@ def test_let_extends_environment():
     """
 
     assert_equals("1042", interpret(program, env))
+
 
 @with_setup(prepare_env)
 def test_let_bindings_have_access_to_previous_bindings():
@@ -307,6 +322,7 @@ def test_let_bindings_have_access_to_previous_bindings():
 
     assert_equals("15", interpret(program, env))
 
+
 @with_setup(prepare_env)
 def test_let_bindings_overshadow_outer_environment():
     """
@@ -321,6 +337,7 @@ def test_let_bindings_overshadow_outer_environment():
     """
 
     assert_equals("2", interpret(program, env))
+
 
 @with_setup(prepare_env)
 def test_let_bindings_do_not_affect_outer_environment():
@@ -366,6 +383,7 @@ def test_defn_binds_the_variable_just_like_define():
 
     assert_is_instance(env.lookup("foo"), Closure)
 
+
 @with_setup(prepare_env)
 def test_defn_result_in_the_correct_closure():
     """
@@ -381,3 +399,8 @@ def test_defn_result_in_the_correct_closure():
     assert_equals(foo1.body, foo2.body)
     assert_equals(foo1.params, foo2.params)
     assert_equals(foo1.env, foo2.env)
+
+
+
+
+foo = 

@@ -13,21 +13,20 @@ We will start by implementing evaluation of simple expressions.
 
 
 def test_evaluating_boolean():
-    """Booleans should evaluate to themselves."""
+    """TEST 2.1: Booleans should evaluate to themselves."""
 
     assert_equals(True, evaluate(True, Environment()))
     assert_equals(False, evaluate(False, Environment()))
 
 
 def test_evaluating_integer():
-
-    """...and so should integers."""
+    """TEST 2.2: ...and so should integers."""
     assert_equals(42, evaluate(42, Environment()))
 
 
 def test_evaluating_quote():
-    """When a call is done to the `quote` form, the argument should be returned without
-    being evaluated.
+    """TEST 2.3: When a call is done to the `quote` form, the argument should be 
+    returned without being evaluated.
 
     (quote foo) -> foo
     """
@@ -38,7 +37,7 @@ def test_evaluating_quote():
 
 
 def test_evaluating_atom_function():
-    """The `atom` form is used to determine whether an expression is an atom.
+    """TEST 2.4: The `atom` form is used to determine whether an expression is an atom.
 
     Atoms are expressions that are not list, i.e. integers, booleans or symbols.
     Remember that the argument to `atom` must be evaluated before the check is done.
@@ -52,7 +51,7 @@ def test_evaluating_atom_function():
 
 
 def test_evaluating_eq_function():
-    """The `eq` form is used to check whether two expressions are the same atom."""
+    """TEST 2.5: The `eq` form is used to check whether two expressions are the same atom."""
 
     assert_equals(True, evaluate(["eq", 1, 1], Environment()))
     assert_equals(False, evaluate(["eq", 1, 2], Environment()))
@@ -70,7 +69,7 @@ def test_evaluating_eq_function():
 
 
 def test_basic_math_operators():
-    """To be able to do anything useful, we need some basic math operators.
+    """TEST 2.6: To be able to do anything useful, we need some basic math operators.
 
     Since we only operate with integers, `/` must represent integer division.
     `mod` is the modulo operator.
@@ -88,7 +87,7 @@ def test_basic_math_operators():
 
 
 def test_math_operators_only_work_on_numbers():
-    """The math functions should only allow numbers as arguments."""
+    """TEST 2.7: The math functions should only allow numbers as arguments."""
 
     with assert_raises(DiyLangError):
         evaluate(parse("(+ 1 'foo)"), Environment())

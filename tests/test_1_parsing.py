@@ -7,7 +7,7 @@ from diylang.types import DiyLangError
 
 
 def test_parse_single_symbol():
-    """Parsing a single symbol.
+    """TEST 1.1: Parsing a single symbol.
 
     Symbols are represented by text strings. Parsing a single atom should result
     in an AST consisting of only that symbol."""
@@ -16,7 +16,7 @@ def test_parse_single_symbol():
 
 
 def test_parse_boolean():
-    """Parsing single booleans.
+    """TEST 1.2: Parsing single booleans.
 
     Booleans are the special symbols #t and #f. In the ASTs they are represented
     by Pythons True and False, respectively. """
@@ -26,7 +26,7 @@ def test_parse_boolean():
 
 
 def test_parse_integer():
-    """Parsing single integer.
+    """TEST 1.3: Parsing single integer.
 
     Integers are represented in the ASTs as Python ints.
 
@@ -38,7 +38,7 @@ def test_parse_integer():
 
 
 def test_parse_list_of_symbols():
-    """Parsing list of only symbols.
+    """TEST 1.4: Parsing list of only symbols.
 
     A list is represented by a number of elements surrounded by parens. Python lists
     are used to represent lists as ASTs.
@@ -52,7 +52,7 @@ def test_parse_list_of_symbols():
 
 
 def test_parse_list_of_mixed_types():
-    """Parsing a list containing different types.
+    """TEST 1.5: Parsing a list containing different types.
 
     When parsing lists, make sure each of the sub-expressions are also parsed
     properly."""
@@ -61,7 +61,7 @@ def test_parse_list_of_mixed_types():
 
 
 def test_parse_on_nested_list():
-    """Parsing should also handle nested lists properly."""
+    """TEST 1.6: Parsing should also handle nested lists properly."""
 
     program = '(foo (bar ((#t)) x) (baz y))'
     ast = ['foo',
@@ -71,14 +71,14 @@ def test_parse_on_nested_list():
 
 
 def test_parse_exception_missing_paren():
-    """The proper exception should be raised if the expresions is incomplete."""
+    """TEST 1.7: The proper exception should be raised if the expresions is incomplete."""
 
     with assert_raises_regexp(DiyLangError, 'Incomplete expression'):
         parse('(foo (bar x y)')
 
 
 def test_parse_exception_extra_paren():
-    """Another exception is raised if the expression is too large.
+    """TEST 1.8: Another exception is raised if the expression is too large.
 
     The parse function expects to receive only one single expression. Anything
     more than this, should result in the proper exception."""
@@ -88,7 +88,10 @@ def test_parse_exception_extra_paren():
 
 
 def test_parse_with_extra_whitespace():
-    """Excess whitespace should be removed."""
+    """TEST 1.9: Excess whitespace should be removed.
+
+    Tip: String objects have a handy .strip() method.
+    """
 
     program = """
 
@@ -99,7 +102,7 @@ def test_parse_with_extra_whitespace():
 
 
 def test_parse_comments():
-    """All comments should be stripped away as part of the parsing."""
+    """TEST 1.10: All comments should be stripped away as part of the parsing."""
 
     program = """
     ;; this first line is a comment
@@ -117,7 +120,7 @@ def test_parse_comments():
 
 
 def test_parse_larger_example():
-    """Test a larger example to check that everything works as expected"""
+    """TEST 1.11: Test a larger example to check that everything works as expected"""
 
     program = """
         (define fact
@@ -139,7 +142,7 @@ def test_parse_larger_example():
 
 
 def test_expand_single_quoted_symbol():
-    """Quoting is a shorthand syntax for calling the `quote` form.
+    """TEST 1.12: Quoting is a shorthand syntax for calling the `quote` form.
 
     Examples:
 
@@ -151,11 +154,12 @@ def test_expand_single_quoted_symbol():
 
 
 def test_nested_quotes():
+    """TEST 1.13: Nested quotes should work as expected"""
     assert_equals(["quote", ["quote", ["quote", ["quote", "foo"]]]], parse("''''foo"))
 
 
 def test_expand_crazy_quote_combo():
-    """One final test to see that quote expansion works."""
+    """TEST 1.14: One final test to see that quote expansion works."""
 
     source = "'(this ''''(makes ''no) 'sense)"
     assert_equals(source, unparse(parse(source)))
