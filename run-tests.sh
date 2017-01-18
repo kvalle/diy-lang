@@ -35,7 +35,5 @@ fi
 
 if command -v fswatch >/dev/null; then
   log_test_run
-  while fswatch -1 .; do
-    run_tests
-  done
+  fswatch . | (while read; do run_tests; done)
 fi
