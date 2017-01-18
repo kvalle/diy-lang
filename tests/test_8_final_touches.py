@@ -224,7 +224,7 @@ def test_parsing_of_strings():
 @with_setup(prepare_env)
 def test_evaluating_strings():
     """
-    Strings is one of the basic data types, and thus an atom. Strings should
+    Strings are one of the basic data types, and thus an atom. Strings should
     therefore evaluate to themselves.
     """
 
@@ -400,7 +400,3 @@ def test_defn_result_in_the_correct_closure():
     assert_equals(foo1.params, foo2.params)
     assert_equals(foo1.env, foo2.env)
 
-
-
-
-foo = 
