@@ -4,5 +4,106 @@
     (lambda (b)
         (if b #f #t)))
 
-;; DIY -- Implement the rest of your standard library
-;; here as part 7 of the workshop.
+(define or
+    (lambda (a b)
+        (if a #t (if b #t #f))))
+
+(define and
+    (lambda (a b)
+        (if a (if b #t #f) #f)))
+
+(define xor
+    (lambda (a b)
+        (and
+         (or a b)
+         (not (and a b)))))
+
+(define >=
+    (lambda (a b)
+        (or (> a b) (eq a b))))
+
+(define <=
+    (lambda (a b)
+        (not (> a b))))
+
+(define <
+    (lambda (a b)
+        (not (>= a b))))
+
+(define length
+    (lambda (ls)
+        (if (empty ls)
+            0
+            (+ 1
+               (length (tail ls))))))
+
+(define sum
+    (lambda (ls)
+        (if (empty ls)
+            0
+            (+ (head ls)
+               (sum (tail ls))))))
+
+(define range
+    (lambda (from to)
+        (if (> from to)
+            '()
+            (cons from
+                  (range (+ 1 from)
+                         to)))))
+
+(define append
+    (lambda (ls1 ls2)
+        (if (empty ls1)
+            ls2
+            (cons (head ls1)
+                  (append (tail ls1)
+                          ls2)))))
+
+(define reverse
+    (lambda (ls)
+        (if (empty ls)
+            '()
+            (append (reverse (tail ls))
+                    (cons (head ls)
+                          '())))))
+
+(define filter
+    (lambda (fn ls)
+        (if (empty ls)
+            '()
+            (if (fn (head ls))
+                (cons (head ls)
+                      (filter fn (tail ls)))
+                (filter fn (tail ls))))))
+
+(define map
+    (lambda (fn ls)
+        (if (empty ls)
+            '()
+            (cons (fn (head ls))
+                  (map fn (tail ls))))))
+
+(define reduce
+    (lambda (fn acc ls)
+        (if (empty ls)
+            acc
+            (reduce fn
+                    (fn acc (head ls))
+                    (tail ls)))))
+
+(define smaller-or-equal
+    (lambda (lst pivot)
+        (filter (lambda (x) (<= x pivot)) lst)))
+
+(define larger
+    (lambda (lst pivot)
+        (filter (lambda (x) (> x pivot)) lst)))
+
+(define sort
+    (lambda (lst)
+        (if (empty lst)
+            '()
+            (append (sort (smaller-or-equal (tail lst) (head lst)))
+                    (cons (head lst)
+                          (sort (larger lst (head lst))))))))

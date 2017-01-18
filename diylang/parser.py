@@ -15,7 +15,36 @@ def parse(source):
     """Parse string representation of one *single* expression
     into the corresponding Abstract Syntax Tree."""
 
-    raise NotImplementedError("DIY")
+    source = remove_comments(source)
+    source = source.strip()
+
+    if source == "#t":
+        return True
+    elif source == "#f":
+        return False
+    elif source.isdigit():
+        return int(source)
+    elif source[0] == '(':
+        last = find_matching_paren(source)
+        if source[last + 1:] != '':
+            raise DiyLangError("Expected EOF, got: %s" % source[last + 1:])
+        exps = split_exps(source[1:last])
+        return map(parse, exps)
+    elif source[0] == "'":
+        return ['quote', parse(source[1:])]
+    elif source[0] == '"':
+        match = re.search(r'[^\\](\")', source)
+        if not match:
+            raise DiyLangError("Unclosed string")
+
+        last = match.start(1)
+
+        if last != len(source) - 1:
+            raise DiyLangError("Expected EOF")
+
+        return String(source[1:last])
+
+    return source
 
 #
 # Below are a few useful utility functions. These should come in handy when
@@ -36,14 +65,17 @@ def find_matching_paren(source, start=0):
     assert source[start] == '('
     pos = start
     open_brackets = 1
+    in_string = False
     while open_brackets > 0:
         pos += 1
         if len(source) == pos:
             raise DiyLangError("Incomplete expression: %s" % source[start:])
-        if source[pos] == '(':
+        if source[pos] == '(' and not in_string:
             open_brackets += 1
-        if source[pos] == ')':
+        if source[pos] == ')' and not in_string:
             open_brackets -= 1
+        if source[pos] == '"' and source[pos-1] != '\\':
+           in_string = not in_string
     return pos
 
 
@@ -75,6 +107,11 @@ def first_expression(source):
     if source[0] == "'":
         exp, rest = first_expression(source[1:])
         return source[0] + exp, rest
+    if source[0] == '"':
+        for n in range(1, len(source)):
+            if source[n] == '"' and source[n - 1] != '\\':
+                return source[:n + 1], source[n + 1:]
+        raise DiyLangError("Unclosed string: {}".format(source))
     elif source[0] == "(":
         last = find_matching_paren(source)
         return source[:last + 1], source[last + 1:]
