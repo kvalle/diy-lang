@@ -1,4 +1,4 @@
-;; Some example lisp code. By the end of the tutorial, our Lisp will be
+;; Some example DIY Lang code. By the end of the tutorial, our DIY Lang will be
 ;; able to run this.
 
 ;; To run the code:
@@ -6,10 +6,10 @@
 ;;    ./diy example.diy
 ;;
 
-(define fact 
+(define fact
     ;; Factorial function
-    (lambda (n) 
-        (if (eq n 0) 
+    (lambda (n)
+        (if (eq n 0)
             1 ; Factorial of 0 is 1
             (* n (fact (- n 1))))))
 

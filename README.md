@@ -1,8 +1,8 @@
-## DIY Lisp 
+## DIY Lang
 
 > batteries included, some assembly required
 
-In this tutorial/workshop we'll be implementing our own little language, more or less from scratch. 
+In this tutorial/workshop we'll be implementing our own little language, more or less from scratch.
 
 By the end of the tutorial you will be the proud author of a programming language, and will hopefully better understand how programming languages work  on a fundamental level.
 
@@ -25,10 +25,10 @@ We will *not* have:
 The language should be able to interpret the following code by the time we are done:
 
 ```lisp
-(define fact 
+(define fact
     ;; Factorial function
-    (lambda (n) 
-        (if (eq n 0) 
+    (lambda (n)
+        (if (eq n 0)
             1 ; Factorial of 0 is 1
             (* n (fact (- n 1))))))
 
@@ -36,12 +36,12 @@ The language should be able to interpret the following code by the time we are d
 (fact 5)
 ```
 
-The syntax is that of the languages in the Lisp family. If you find the example unfamiliar, you might want to have a look at [a more detailed description of the language](parts/language.md).
+The syntax is very similar to languages in the Lisp family. If you find the example unfamiliar, you might want to have a look at [a more detailed description of the language](parts/language.md).
 
 ### Prerequisites
 
-Before we get started, make sure you have installed [Python](http://www.python.org/) and [Pip](https://pypi.python.org/pypi/pip). 
-*(It should now work with Python 3. If you have any problem with it, please [fill an issue](https://github.com/kvalle/diy-lisp/issues).)*
+Before we get started, make sure you have installed [Python](http://www.python.org/) and [Pip](https://pypi.python.org/pypi/pip).
+*(It should now work with Python 3. If you have any problem with it, please [fill an issue](https://github.com/kvalle/diy-lang/issues).)*
 
 Then install `nose`, the Python test framework we'll be using.
 
@@ -54,7 +54,7 @@ pip install nose
 Finally, clone this repo, and you're ready to go!
 
 ```bash
-git clone https://github.com/kvalle/diy-lisp.git
+git clone https://github.com/kvalle/diy-lang.git
 ```
 
 > Also, if you're unfamiliar with Python, you might want to have a look at the basics in the [Python tutorial](https://docs.python.org/2/tutorial/index.html) before we get going. There is also the small [Python cheat sheet](parts/python.md) to help you along.
@@ -64,7 +64,7 @@ git clone https://github.com/kvalle/diy-lisp.git
 Take the time to consider the following points before we get going:
 
 - **Keep things simple**
-  
+
   	Don't make things more complicated than they need to be. The tests should hopefully guide you every step of the way.
 
 - **Read the test descriptions**
@@ -77,11 +77,11 @@ Take the time to consider the following points before we get going:
 
 - **The Python cheat sheet in `python.md`**
 
-  	Unless you're fluent in Python, there should be some helpful pointers in the [Python cheat sheet](https://github.com/kvalle/diy-lisp/blob/master/parts/python.md).
+  	Unless you're fluent in Python, there should be some helpful pointers in the [Python cheat sheet](https://github.com/kvalle/diy-lang/blob/master/parts/python.md).
 
 - **Description of your language**
 
-  	Unfamiliar with Lisp? Read a description of the language you are going to make in [language.md](https://github.com/kvalle/diy-lisp/blob/master/parts/language.md).
+  	Read a description of the language you are going to make in [language.md](https://github.com/kvalle/diy-lang/blob/master/parts/language.md).
 
 ### Get started!
 

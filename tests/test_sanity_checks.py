@@ -2,13 +2,13 @@
 
 from nose.tools import assert_equals
 
-from diylisp.interpreter import interpret
-from diylisp.types import Environment
+from diylang.interpreter import interpret
+from diylang.types import Environment
 
 def test_gcd():
     """Tests Greates Common Dividor (GCD).
 
-    This test is intended to run after you have completed the core of the 
+    This test is intended to run after you have completed the core of the
     language, just to make sure that everything is holding together.
     """
 
@@ -16,7 +16,7 @@ def test_gcd():
         (define gcd
             (lambda (a b)
                 (if (eq b 0)
-                    a 
+                    a
                     (gcd b (mod a b)))))
     """
 

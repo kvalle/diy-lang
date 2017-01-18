@@ -2,9 +2,9 @@
 
 from nose.tools import assert_equals, assert_raises_regexp
 
-from diylisp.types import LispError, Environment
-from diylisp.evaluator import evaluate
-from diylisp.parser import parse
+from diylang.types import DiyLangError, Environment
+from diylang.evaluator import evaluate
+from diylang.parser import parse
 
 """
 Before we go on to evaluating programs using variables, we need to implement
@@ -24,10 +24,10 @@ def test_simple_lookup():
 def test_lookup_on_missing_raises_exception():
     """When looking up an undefined symbol, an error should be raised.
 
-    The error message should contain the relevant symbol, and inform that it has 
+    The error message should contain the relevant symbol, and inform that it has
     not been defined."""
 
-    with assert_raises_regexp(LispError, "my-missing-var"):
+    with assert_raises_regexp(DiyLangError, "my-missing-var"):
         empty_env = Environment()
         empty_env.lookup("my-missing-var")
 
@@ -74,12 +74,12 @@ def test_redefine_variables_illegal():
     """
 
     env = Environment({"foo": 1})
-    with assert_raises_regexp(LispError, "already defined"):
+    with assert_raises_regexp(DiyLangError, "already defined"):
         env.set("foo", 2)
 
 
 """
-With the `Environment` working, it's time to implement evaluation of expressions 
+With the `Environment` working, it's time to implement evaluation of expressions
 with variables.
 """
 
@@ -87,7 +87,7 @@ with variables.
 def test_evaluating_symbol():
     """Symbols (other than #t and #f) are treated as variable references.
 
-    When evaluating a symbol, the corresponding value should be looked up in the 
+    When evaluating a symbol, the corresponding value should be looked up in the
     environment."""
 
     env = Environment({"foo": 42})
@@ -99,7 +99,7 @@ def test_lookup_missing_variable():
 
     This test should already be working if you implemented the environment correctly."""
 
-    with assert_raises_regexp(LispError, "my-var"):
+    with assert_raises_regexp(DiyLangError, "my-var"):
         evaluate("my-var", Environment())
 
 
@@ -108,7 +108,7 @@ def test_define():
 
     The `define` form is used to define new bindings in the environment.
     A `define` call should result in a change in the environment. What you
-    return from evaluating the definition is not important (although it 
+    return from evaluating the definition is not important (although it
     affects what is printed in the REPL)."""
 
     env = Environment()
@@ -120,20 +120,20 @@ def test_define_with_wrong_number_of_arguments():
     """Defines should have exactly two arguments, or raise an error.
 
     This type of check could benefit the other forms we implement as well,
-    and you might want to add them elsewhere. It quickly get tiresome to 
+    and you might want to add them elsewhere. It quickly get tiresome to
     test for this however, so the tests won't require you to."""
 
-    with assert_raises_regexp(LispError, "Wrong number of arguments"):
+    with assert_raises_regexp(DiyLangError, "Wrong number of arguments"):
         evaluate(parse("(define x)"), Environment())
 
-    with assert_raises_regexp(LispError, "Wrong number of arguments"):
+    with assert_raises_regexp(DiyLangError, "Wrong number of arguments"):
         evaluate(parse("(define x 1 2)"), Environment())
 
 
 def test_define_with_nonsymbol_as_variable():
     """Defines require the first argument to be a symbol."""
 
-    with assert_raises_regexp(LispError, "non-symbol"):
+    with assert_raises_regexp(DiyLangError, "non-symbol"):
         evaluate(parse("(define #t 42)"), Environment())
 
 
