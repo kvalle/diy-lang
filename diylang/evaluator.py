@@ -47,8 +47,12 @@ def evaluate(ast, env):
             return evaluate_tail(ast, env)
         elif is_form(ast, 'empty'):
             return evaluate_empty(ast, env)
+        elif is_form(ast, 'let'):
+            return evaluate_let(ast, env)
         elif is_form(ast, 'define'):
             return evaluate_define(ast, env)
+        elif is_form(ast, 'defn'):
+            return evaluate_defn(ast, env)
         elif is_form(ast, 'lambda'):
             return evaluate_lambda(ast, env)
         elif is_closure(ast[0]):
@@ -164,6 +168,15 @@ def evaluate_empty(ast, env):
 
     raise DiyLangError("Cannot call empty on non-list")
 
+def evaluate_let(ast, env):
+    bindings, expression = ast[1], ast[2]
+    for binding in bindings:
+        name = binding[0]
+        value = evaluate(binding[1], env)
+        env = env.extend({name: value})
+
+    return evaluate(expression, env)
+
 def evaluate_define(ast, env):
     if len(ast) != 3:
         raise DiyLangError("Wrong number of arguments")
@@ -174,6 +187,12 @@ def evaluate_define(ast, env):
         raise DiyLangError("{} is not a symbol".format(unparse(symbol)))
 
     env.set(symbol, value)
+    return symbol
+
+def evaluate_defn(ast, env):
+    symbol = ast[1]
+    closure = evaluate(['lambda', ast[2], ast[3]], env)
+    env.set(symbol, closure)
     return symbol
 
 def evaluate_lambda(ast, env):
