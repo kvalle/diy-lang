@@ -18,42 +18,41 @@ in a day, after all.)
 def evaluate(ast, env):
     """Evaluate an Abstract Syntax Tree in the specified environment."""
 
-    if is_boolean(ast):
-        return ast
-    elif is_integer(ast):
-        return ast
-    elif is_string(ast):
-        return ast
+    if is_symbol(ast):
+        return env.lookup(ast)
     elif is_list(ast):
         if ast == []:
             raise DiyLangError("Cannot evaluate empty list")
-        elif is_form(ast, 'quote'):
+
+        form = ast[0]
+
+        if form == 'quote':
             return ast[1]
-        elif is_form(ast, 'atom'):
+        elif form == 'atom':
             return evaluate_atom(ast, env)
-        elif is_form(ast, 'eq'):
+        elif form == 'eq':
             return evaluate_eq(ast, env)
         elif is_math(ast):
             return evaluate_math(ast, env)
-        elif is_form(ast, 'if'):
+        elif form == 'if':
             return evaluate_if(ast, env)
-        elif is_form(ast, 'cond'):
+        elif form == 'cond':
             return evaluate_cond(ast, env)
-        elif is_form(ast, 'cons'):
+        elif form == 'cons':
             return evaluate_cons(ast, env)
-        elif is_form(ast, 'head'):
+        elif form == 'head':
             return evaluate_head(ast, env)
-        elif is_form(ast, 'tail'):
+        elif form == 'tail':
             return evaluate_tail(ast, env)
-        elif is_form(ast, 'empty'):
+        elif form == 'empty':
             return evaluate_empty(ast, env)
-        elif is_form(ast, 'let'):
+        elif form == 'let':
             return evaluate_let(ast, env)
-        elif is_form(ast, 'define'):
+        elif form == 'define':
             return evaluate_define(ast, env)
-        elif is_form(ast, 'defn'):
+        elif form == 'defn':
             return evaluate_defn(ast, env)
-        elif is_form(ast, 'lambda'):
+        elif form == 'lambda':
             return evaluate_lambda(ast, env)
         elif is_closure(ast[0]):
             return evaluate_function_call(ast, env)
@@ -63,7 +62,7 @@ def evaluate(ast, env):
         else:
             raise DiyLangError("Tried to call {}, which is not a function".format(unparse(ast[0])))
 
-    return env.lookup(ast)
+    return ast
 
 
 math_operators = {
@@ -74,9 +73,6 @@ math_operators = {
     'mod' : lambda x, y: x % y,
     '>' : lambda x, y: x > y
 }
-
-def is_form(ast, f):
-    return ast[0] == f
 
 def is_math(ast):
     return ast[0] in math_operators.keys()

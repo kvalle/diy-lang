@@ -16,35 +16,27 @@ def parse(source):
     into the corresponding Abstract Syntax Tree."""
 
     source = remove_comments(source)
-    source = source.strip()
+    exp, rest = first_expression(source)
 
-    if source == "#t":
-        return True
-    elif source == "#f":
-        return False
-    elif source.isdigit():
-        return int(source)
-    elif source[0] == '(':
-        last = find_matching_paren(source)
-        if source[last + 1:] != '':
-            raise DiyLangError("Expected EOF, got: %s" % source[last + 1:])
-        exps = split_exps(source[1:last])
-        return map(parse, exps)
-    elif source[0] == "'":
-        return ['quote', parse(source[1:])]
-    elif source[0] == '"':
-        match = re.search(r'[^\\](\")', source)
-        if not match:
-            raise DiyLangError("Unclosed string")
+    if rest:
+        raise DiyLangError("Expected EOF, got `{}`".format(rest))
 
-        last = match.start(1)
+    exp = exp.strip()
 
-        if last != len(source) - 1:
-            raise DiyLangError("Expected EOF")
+    if exp in ["#f", "#t"]:
+        return exp == "#t"
+    elif exp.isdigit():
+        return int(exp)
+    elif exp[0] == "'":
+        return ["quote", parse(exp[1:])]
+    elif exp[0] == '"':
+        return String(exp[1:-1])
+    elif exp[0] == "(":
+        end_index = find_matching_paren(exp)
+        exps = split_exps(exp[1:end_index])
+        return [parse(e) for e in exps]
 
-        return String(source[1:last])
-
-    return source
+    return exp
 
 #
 # Below are a few useful utility functions. These should come in handy when
@@ -65,17 +57,17 @@ def find_matching_paren(source, start=0):
     assert source[start] == '('
     pos = start
     open_brackets = 1
-    in_string = False
+    inside_string = False
     while open_brackets > 0:
         pos += 1
         if len(source) == pos:
             raise DiyLangError("Incomplete expression: %s" % source[start:])
-        if source[pos] == '(' and not in_string:
+        if source[pos] == '(' and not inside_string:
             open_brackets += 1
-        if source[pos] == ')' and not in_string:
+        if source[pos] == ')' and not inside_string:
             open_brackets -= 1
-        if source[pos] == '"' and source[pos-1] != '\\':
-           in_string = not in_string
+        if source[pos] == '"' and source[pos - 1] != '\\':
+           inside_string = not inside_string
     return pos
 
 
