@@ -17,6 +17,7 @@ try:
 except NameError:
     pass
 
+
 def repl(env=None):
     """Start the interactive Read-Eval-Print-Loop"""
     print("")
@@ -46,7 +47,8 @@ def repl(env=None):
             print(faded("\nBye! o/"))
             sys.exit(0)
         except Exception as e:
-            print(colored("! ", "red") + faded("The Python is showing through…"))
+            print(colored("! ", "red") +
+                  faded("The Python is showing through…"))
             print(faded("  " + str(e.__class__.__name__) + ":"))
             print(str(e))
 
@@ -67,7 +69,7 @@ def read_expression():
 
 
 def read_line(prompt):
-    """Return touple of user input line and number of unclosed parens"""
+    """Return tuple of user input line and number of unclosed parens"""
 
     line = input(colored(prompt, "reset", "dark"))
     line = remove_comments(line + "\n")
