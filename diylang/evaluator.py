@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from .types import Environment, DiyLangError, Closure, String
-from .ast import is_boolean, is_atom, is_symbol, is_list, is_closure, is_integer, is_string
+from .ast import is_boolean, is_atom, is_symbol, is_list, is_closure, \
+    is_integer, is_string
 from .parser import unparse
 
 """
