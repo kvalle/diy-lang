@@ -10,7 +10,7 @@ By the end of the tutorial you will be the proud author of a programming languag
 
 We will make a relatively simple, but neat language. We aim for the following features:
 
-- A handful of datatypes (integers, booleans and symbols)
+- A handful of data types (integers, booleans and symbols)
 - Variables
 - First class functions with lexical scoping
 - That nice homemade quality feeling

@@ -148,7 +148,7 @@ def test_define_with_wrong_number_of_arguments():
         evaluate(parse("(define x 1 2)"), Environment())
 
 
-def test_define_with_nonsymbol_as_variable():
+def test_define_with_non_symbol_as_variable():
     """TEST 4.12: Defines require the first argument to be a symbol."""
 
     with assert_raises_regexp(DiyLangError, "not a symbol"):

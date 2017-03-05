@@ -48,7 +48,7 @@ def find_matching_paren(source, start=0):
 
 
 def split_exps(source):
-    """Splits a source string into subexpressions
+    """Splits a source string into sub expressions
     that can be parsed individually.
 
     Example:
@@ -96,7 +96,7 @@ def parse_multiple(source):
 
     Example:
 
-        >>> parse_multiple("(foo bar) (baz 1 2 3)")
+        > parse_multiple("(foo bar) (baz 1 2 3)")
         [['foo', 'bar'], ['baz', 1, 2, 3]]
 
     """

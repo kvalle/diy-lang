@@ -17,7 +17,7 @@ of one stdlib function.
 
 Put the implementation in the file `stdlib.diy` at the root directory
 of the repository. The first function, `not` is already defined for you.
-It's your job to create the rest, or perhaps somthing completely different?
+It's your job to create the rest, or perhaps something completely different?
 
 Anything you put in `stdlib.diy` is also available from the REPL, so feel
 free to test things out there.
@@ -171,7 +171,7 @@ def test_map():
 def test_reduce():
     """TEST 7.15: Reduce, also known as fold, reduce a list into a single value.
 
-    It does this by combining elements two by two, untill there is only
+    It does this by combining elements two by two, until there is only
     one left.
 
     If this is unfamiliar to you, have a look at:

@@ -41,7 +41,7 @@ def repl(env=None):
             print(faded(str(e.__class__.__name__) + ":"))
             print(str(e))
         except KeyboardInterrupt:
-            msg = "Interupted. " + faded("(Use ^D to exit)")
+            msg = "Interrupted. " + faded("(Use ^D to exit)")
             print("\n" + colored("! ", "red") + msg)
         except EOFError:
             print(faded("\nBye! o/"))
