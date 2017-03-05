@@ -10,7 +10,8 @@ from diylang.parser import parse
 Before we go on to evaluating programs using variables, we need to implement
 an environment to store them in.
 
-It is time to fill in the blanks in the `Environment` class located in `types.py`.
+It is time to fill in the blanks in the `Environment` class located in
+`types.py`.
 """
 
 
@@ -27,8 +28,8 @@ def test_simple_lookup():
 def test_lookup_on_missing_raises_exception():
     """TEST 4.2: When looking up an undefined symbol, an error should be raised.
 
-    The error message should contain the relevant symbol, and inform that it has
-    not been defined.
+    The error message should contain the relevant symbol, and inform that it
+    has not been defined.
     """
 
     with assert_raises_regexp(DiyLangError, "my-missing-var"):
@@ -37,7 +38,8 @@ def test_lookup_on_missing_raises_exception():
 
 
 def test_lookup_from_inner_env():
-    """TEST 4.3: The `extend` function returns a new environment extended with more bindings.
+    """TEST 4.3: The `extend` function returns a new environment extended with
+    more bindings.
 
     Tip: The Dictionary class has a convenient .update method.
     """
@@ -49,14 +51,17 @@ def test_lookup_from_inner_env():
 
 
 def test_lookup_deeply_nested_var():
-    """TEST 4.4: Extending overwrites old bindings to the same variable name."""
+    """TEST 4.4: Extending overwrites old bindings to the same variable
+    name."""
 
-    env = Environment({"a": 1}).extend({"b": 2}).extend({"c": 3}).extend({"foo": 100})
+    env = Environment({"a": 1}).extend({"b": 2}).extend({"c": 3}). \
+        extend({"foo": 100})
     assert_equals(100, env.lookup("foo"))
 
 
 def test_extend_returns_new_environment():
-    """TEST 4.5: The extend method should create a new environment, leaving the old one unchanged."""
+    """TEST 4.5: The extend method should create a new environment, leaving the
+    old one unchanged."""
 
     env = Environment({"foo": 1})
     extended = env.extend({"foo": 2})
@@ -76,8 +81,8 @@ def test_set_changes_environment_in_place():
 def test_redefine_variables_illegal():
     """TEST 4.7: Variables can only be defined once.
 
-    Setting a variable in an environment where it is already defined should result
-    in an appropriate error.
+    Setting a variable in an environment where it is already defined should
+    result in an appropriate error.
     """
 
     env = Environment({"foo": 1})
@@ -86,16 +91,16 @@ def test_redefine_variables_illegal():
 
 
 """
-With the `Environment` working, it's time to implement evaluation of expressions
-with variables.
+With the `Environment` working, it's time to implement evaluation of
+expressions with variables.
 """
 
 
 def test_evaluating_symbol():
     """TEST 4.8: Symbols (other than #t and #f) are treated as variable references.
 
-    When evaluating a symbol, the corresponding value should be looked up in the
-    environment.
+    When evaluating a symbol, the corresponding value should be looked up in
+    the environment.
     """
 
     env = Environment({"foo": 42})
@@ -103,9 +108,11 @@ def test_evaluating_symbol():
 
 
 def test_lookup_missing_variable():
-    """TEST 4.9: Referencing undefined variables should raise an appropriate exception.
+    """TEST 4.9: Referencing undefined variables should raise an appropriate
+    exception.
 
-    This test should already be working if you implemented the environment correctly.
+    This test should already be working if you implemented the environment
+    correctly.
     """
 
     with assert_raises_regexp(DiyLangError, "my-var"):
@@ -146,6 +153,7 @@ def test_define_with_nonsymbol_as_variable():
 
     with assert_raises_regexp(DiyLangError, "not a symbol"):
         evaluate(parse("(define #t 42)"), Environment())
+
 
 def test_define_should_evaluate_the_argument():
     """TEST 4.13: Defines should evaluate the argument before storing it in

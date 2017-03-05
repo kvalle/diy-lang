@@ -25,22 +25,25 @@ def test_evaluating_integer():
 
 
 def test_evaluating_quote():
-    """TEST 2.3: When a call is done to the `quote` form, the argument should be 
-    returned without being evaluated.
+    """TEST 2.3: When a call is done to the `quote` form, the argument should
+    be returned without being evaluated.
 
     (quote foo) -> foo
     """
 
     assert_equals("foo", evaluate(["quote", "foo"], Environment()))
-    assert_equals([1, 2, False], evaluate(["quote", [1, 2, False]], Environment()))
+    assert_equals([1, 2, False],
+                  evaluate(["quote", [1, 2, False]], Environment()))
     assert_equals([], evaluate(["quote", []], Environment()))
 
 
 def test_evaluating_atom_function():
-    """TEST 2.4: The `atom` form is used to determine whether an expression is an atom.
+    """TEST 2.4: The `atom` form is used to determine whether an expression is
+    an atom.
 
-    Atoms are expressions that are not list, i.e. integers, booleans or symbols.
-    Remember that the argument to `atom` must be evaluated before the check is done.
+    Atoms are expressions that are not list, i.e. integers, booleans or
+    symbols. Remember that the argument to `atom` must be evaluated before the
+    check is done.
     """
 
     assert_equals(True, evaluate(["atom", True], Environment()))
@@ -51,25 +54,28 @@ def test_evaluating_atom_function():
 
 
 def test_evaluating_eq_function():
-    """TEST 2.5: The `eq` form is used to check whether two expressions are the same atom."""
+    """TEST 2.5: The `eq` form is used to check whether two expressions are
+    the same atom."""
 
     assert_equals(True, evaluate(["eq", 1, 1], Environment()))
     assert_equals(False, evaluate(["eq", 1, 2], Environment()))
 
-    # From this point, the ASTs might sometimes be too long or cummbersome to
+    # From this point, the ASTs might sometimes be too long or cumbersome to
     # write down explicitly, and we'll use `parse` to make them for us.
-    # Remember, if you need to have a look at exactly what is passed to `evaluate`,
-    # just add a print statement in the test (or in `evaluate`).
+    # Remember, if you need to have a look at exactly what is passed to
+    # `evaluate`, just add a print statement in the test (or in `evaluate`).
 
     assert_equals(True, evaluate(parse("(eq 'foo 'foo)"), Environment()))
     assert_equals(False, evaluate(parse("(eq 'foo 'bar)"), Environment()))
 
     # Lists are never equal, because lists are not atoms
-    assert_equals(False, evaluate(parse("(eq '(1 2 3) '(1 2 3))"), Environment()))
+    assert_equals(
+        False, evaluate(parse("(eq '(1 2 3) '(1 2 3))"), Environment()))
 
 
 def test_basic_math_operators():
-    """TEST 2.6: To be able to do anything useful, we need some basic math operators.
+    """TEST 2.6: To be able to do anything useful, we need some basic math
+    operators.
 
     Since we only operate with integers, `/` must represent integer division.
     `mod` is the modulo operator.
