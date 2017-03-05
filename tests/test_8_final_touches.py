@@ -2,8 +2,7 @@
 
 from os.path import dirname, relpath, join
 
-from nose.plugins.skip import SkipTest
-from nose.tools import assert_true, assert_equals, assert_is_instance, \
+from nose.tools import assert_equals, assert_is_instance, \
     assert_raises_regexp, with_setup
 
 from diylang.interpreter import interpret, interpret_file
@@ -55,7 +54,7 @@ def test_cond_returns_right_branch():
 
 
 @with_setup(prepare_env)
-def test_cond_dosnt_evaluate_all_branches():
+def test_cond_doesnt_evaluate_all_branches():
     """
     Of all the second tuple elements, only the one we return is ever evaluated.
     """
@@ -71,7 +70,7 @@ def test_cond_dosnt_evaluate_all_branches():
 
 
 @with_setup(prepare_env)
-def test_cond_not_evaluating_more_predicateds_than_neccessary():
+def test_cond_not_evaluating_more_predicates_than_necessary():
     """
     Once we find a predicate that evaluates to `#t`, no more predicates should
     be evaluated.
@@ -100,7 +99,7 @@ def test_cond_evaluates_predicates():
 
 
 @with_setup(prepare_env)
-def test_cond_returnes_false_as_default():
+def test_cond_returns_false_as_default():
     """
     If we evaluate all the predicates, only to find that none of them turned
     out to be true, then `cond` should return `#f`.
@@ -361,7 +360,7 @@ So far, to define functions we have had to write
 
     (define my-function
         (lambda (foo bar)
-            'fuction-body-here))
+            'function-body-here))
 
 It is a bit ugly to have to make a lambda every time you want a named function.
 
