@@ -12,6 +12,7 @@ from diylang.parser import parse
 
 env = None
 
+
 def prepare_env():
     global env
     env = Environment()
@@ -34,10 +35,12 @@ sort of a buffed up version of `if`.
 Implement this as a new case in the `evaluate` function in `evaluator.py`.
 """
 
+
 @with_setup(prepare_env)
 def test_cond_returns_right_branch():
     """
-    `cond` takes as arguments a list of tuples (two-element lists, or "conses").
+    `cond` takes as arguments a list of tuples (two-element lists, or
+    "conses").
 
     The first element of each tuple is evaluated in order, until one evaluates
     to `#t`. The second element of that tuple is returned.
@@ -99,8 +102,8 @@ def test_cond_evaluates_predicates():
 @with_setup(prepare_env)
 def test_cond_returnes_false_as_default():
     """
-    If we evalaute all the predicates, only to find that none of them turned out
-    to be true, then `cond` should return `#f`.
+    If we evaluate all the predicates, only to find that none of them turned
+    out to be true, then `cond` should return `#f`.
     """
 
     program = """
@@ -112,7 +115,6 @@ def test_cond_returnes_false_as_default():
     assert_equals("#f", interpret(program, env))
 
 
-
 """
 Suggestion 2: Strings
 
@@ -120,14 +122,15 @@ So far, our new language has been missing a central data type, one that no
 real language could do without -- strings. So, lets add them to the language.
 """
 
+
 @with_setup(prepare_env)
 def test_parsing_simple_strings():
     """
     First things first, we need to be able to parse the strings.
 
-    Since we already use python strings for our symbols, we need something else.
-    Lets use a simple data type, `String`, which you will (rather conveniently)
-    find ready made in the file `types.py`.
+    Since we already use python strings for our symbols, we need something
+    else. Lets use a simple data type, `String`, which you will (rather
+    conveniently) find ready made in the file `types.py`.
 
     > Side note:
     >
@@ -253,7 +256,7 @@ def test_empty_strings_behave_as_empty_lists():
 def test_strings_have_heads_and_tails():
     """
     Next, `head` and `tail` needs to extract the first character and the rest
-    of the charactes, respectively, from the string.
+    of the characters, respectively, from the string.
     """
 
     assert_equals('"f"', interpret('(head "foobar")'))
@@ -269,7 +272,6 @@ def test_consing_strings_back_together():
     assert_equals('"foobar"', interpret('(cons "f" "oobar")'))
 
 
-
 """
 Suggestion 3: `let`
 
@@ -278,6 +280,7 @@ The `let` form enables us to make local bindings.
 It takes two arguments. First a list of bindings, secondly an expression to be
 evaluated within an environment where those bindings exist.
 """
+
 
 @with_setup(prepare_env)
 def test_let_returns_result_of_the_given_expression():
@@ -351,7 +354,6 @@ def test_let_bindings_do_not_affect_outer_environment():
     assert_equals("1", interpret("foo", env))
 
 
-
 """
 Suggestion 4: `defn`
 
@@ -369,6 +371,7 @@ Let's add some syntactic sugar, shall we:
         'function-body-here)
 
 """
+
 
 @with_setup(prepare_env)
 def test_defn_binds_the_variable_just_like_define():
@@ -399,4 +402,3 @@ def test_defn_result_in_the_correct_closure():
     assert_equals(foo1.body, foo2.body)
     assert_equals(foo1.params, foo2.params)
     assert_equals(foo1.env, foo2.env)
-

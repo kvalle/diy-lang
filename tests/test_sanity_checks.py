@@ -5,6 +5,7 @@ from nose.tools import assert_equals
 from diylang.interpreter import interpret
 from diylang.types import Environment
 
+
 def test_gcd():
     """Tests Greates Common Dividor (GCD).
 
