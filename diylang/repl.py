@@ -92,14 +92,14 @@ def colored(text, color, attr=None):
         'white': 37,
         'reset': 0
     }
-    format = '\033[%dm'
+    ansi_format = '\033[%dm'
 
     if os.getenv('ANSI_COLORS_DISABLED'):
         return text
 
-    color = format % colors[color]
-    attr = format % attributes[attr] if attr is not None else ""
-    reset = format % colors['reset']
+    color = ansi_format % colors[color]
+    attr = ansi_format % attributes[attr] if attr is not None else ""
+    reset = ansi_format % colors['reset']
 
     return color + attr + text + reset
 
