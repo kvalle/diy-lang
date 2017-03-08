@@ -270,6 +270,19 @@ def test_calling_nothing():
         evaluate(parse("()"), Environment())
 
 
+def test_make_sure_arguments_are_evaluated_in_correct_environment():
+    """Test 5.19: Function arguments should be evaluated in correct environment
+
+    Function arguments should be evaluated in the environment where the function
+    is called, and not in the environment captured by the function.
+    """
+
+    env = Environment({'x': 3})
+    res = evaluate(parse("(define foo (lambda (x) x))"), env)
+    env = env.extend({'x': 4})
+    assert_equals(evaluate(parse("(foo (+ x 1))"), env), 5)
+
+
 """
 One final test to see that recursive functions are working as expected.
 The good news: this should already be working by now :)
@@ -277,7 +290,7 @@ The good news: this should already be working by now :)
 
 
 def test_calling_function_recursively():
-    """TEST 5.19: Tests that a named function is included in the environment where
+    """TEST 5.20: Tests that a named function is included in the environment where
     it is evaluated.
     """
 
