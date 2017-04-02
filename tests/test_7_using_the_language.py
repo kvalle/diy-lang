@@ -22,12 +22,12 @@ It's your job to create the rest, or perhaps somthing completely different?
 Anything you put in `stdlib.diy` is also available from the REPL, so feel
 free to test things out there.
 
-    $ ./repl 
+    $ ./repl
     →  (not #t)
     #f
 
-PS: Note that in these tests, `interpret` is used. In addition to parsing 
-and evaluating, it "unparses" the result, hence strings such as "#t" as the 
+PS: Note that in these tests, `interpret` is used. In addition to parsing
+and evaluating, it "unparses" the result, hence strings such as "#t" as the
 expected result instead of `True`.
 """
 
@@ -58,7 +58,7 @@ def test_xor():
     assert_equals("#f", interpret('(xor #t #t)', env))
 
 
-# The language core just contains the > operator. 
+# The language core just contains the > operator.
 # It's time to implement the rest.
 
 def test_greater_or_equal():
@@ -163,8 +163,8 @@ def test_reduce():
     http://en.wikipedia.org/wiki/Fold_(higher-order_function)"""
 
     interpret("""
-        (define max 
-            (lambda (a b) 
+        (define max
+            (lambda (a b)
                 (if (> a b) a b)))
     """, env)
 
@@ -173,7 +173,7 @@ def test_reduce():
 
 
     interpret("""
-        (define add 
+        (define add
             (lambda (a b) (+ a b)))
     """, env)
 
@@ -182,14 +182,14 @@ def test_reduce():
 
 
 # Finally, no stdlib is complete without a sorting algorithm.
-# Quicksort or mergesort might be good options, but you choose which 
+# Quicksort or mergesort might be good options, but you choose which
 # ever one you prefer.
 
 # You might want to implement a few helper functions for this one.
 
 def test_sort():
-    assert_equals("()", interpret("'()", env))
-    assert_equals("(1)", interpret("'(1)", env))
+    assert_equals("()", interpret("(sort '())", env))
+    assert_equals("(1)", interpret("(sort '(1))", env))
     assert_equals("(1 2 3 4 5 6 7)",
                   interpret("(sort '(6 3 7 2 4 1 5))", env))
     assert_equals("(1 2 3 4 5 6 7)",
