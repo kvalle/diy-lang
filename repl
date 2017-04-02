@@ -4,15 +4,15 @@
 import sys
 from os.path import dirname, relpath, join
 
-from diylisp.interpreter import interpret_file
-from diylisp.repl import repl
-from diylisp.types import Environment, LispError
+from diylang.interpreter import interpret_file
+from diylang.repl import repl
+from diylang.types import Environment, DiyLangError
 
 env = Environment()
 
 try:
     interpret_file(join(dirname(relpath(__file__)), 'stdlib.diy'), env)
-except LispError as e:
+except DiyLangError as e:
     # Just ignore exceptions from stdlib.
     # These will generally fail until part 6 is done anyways.
     pass

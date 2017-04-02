@@ -4,12 +4,12 @@
 This module holds some types we'll have use for along the way.
 
 It's your job to implement the Closure and Environment types.
-The LispError class you can have for free :)
+The DiyLangError class you can have for free :)
 """
 
 
-class LispError(Exception):
-    """General lisp error class."""
+class DiyLangError(Exception):
+    """General DIY Lang error class."""
     pass
 
 
@@ -37,7 +37,7 @@ class Environment:
 
 class String:
     """
-    Simple data object for representing Lisp strings.
+    Simple data object for representing DIY Lang strings.
 
     Ignore this until you start working on part 8.
     """

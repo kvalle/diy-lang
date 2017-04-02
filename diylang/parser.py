@@ -2,12 +2,12 @@
 
 import re
 from .ast import is_boolean, is_list
-from .types import LispError, String
+from .types import DiyLangError, String
 
 """
 This is the parser module, with the `parse` function which you'll implement as part 1 of
-the workshop. Its job is to convert strings into data structures that the evaluator can 
-understand. 
+the workshop. Its job is to convert strings into data structures that the evaluator can
+understand.
 """
 
 def parse(source):
@@ -17,10 +17,10 @@ def parse(source):
     raise NotImplementedError("DIY")
 
 ##
-## Below are a few useful utility functions. These should come in handy when 
-## implementing `parse`. We don't want to spend the day implementing parenthesis 
+## Below are a few useful utility functions. These should come in handy when
+## implementing `parse`. We don't want to spend the day implementing parenthesis
 ## counting, after all.
-## 
+##
 
 
 def remove_comments(source):
@@ -29,7 +29,7 @@ def remove_comments(source):
 
 
 def find_matching_paren(source, start=0):
-    """Given a string and the index of an opening parenthesis, determines 
+    """Given a string and the index of an opening parenthesis, determines
     the index of the matching closing paren."""
 
     assert source[start] == '('
@@ -38,7 +38,7 @@ def find_matching_paren(source, start=0):
     while open_brackets > 0:
         pos += 1
         if len(source) == pos:
-            raise LispError("Incomplete expression: %s" % source[start:])
+            raise DiyLangError("Incomplete expression: %s" % source[start:])
         if source[pos] == '(':
             open_brackets += 1
         if source[pos] == ')':
@@ -47,10 +47,10 @@ def find_matching_paren(source, start=0):
 
 
 def split_exps(source):
-    """Splits a source string into subexpressions 
+    """Splits a source string into subexpressions
     that can be parsed individually.
 
-    Example: 
+    Example:
 
         > split_exps("foo bar (baz 123)")
         ["foo", "bar", "(baz 123)"]
@@ -65,10 +65,10 @@ def split_exps(source):
 
 
 def first_expression(source):
-    """Split string into (exp, rest) where exp is the 
-    first expression in the string and rest is the 
+    """Split string into (exp, rest) where exp is the
+    first expression in the string and rest is the
     rest of the string after this expression."""
-    
+
     source = source.strip()
 
     if source[0] == "'":
@@ -104,7 +104,7 @@ def parse_multiple(source):
 
 
 def unparse(ast):
-    """Turns an AST back into lisp program source"""
+    """Turns an AST back into DIY Lang program source"""
 
     if is_boolean(ast):
         return "#t" if ast else "#f"

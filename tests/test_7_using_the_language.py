@@ -3,8 +3,8 @@
 from nose.tools import assert_equals
 from os.path import dirname, relpath, join
 
-from diylisp.interpreter import interpret, interpret_file
-from diylisp.types import Environment
+from diylang.interpreter import interpret, interpret_file
+from diylang.types import Environment
 
 env = Environment()
 path = join(dirname(relpath(__file__)), '..', 'stdlib.diy')
@@ -33,11 +33,13 @@ expected result instead of `True`.
 
 
 def test_not():
+    """TEST 7.1: Implementing (not ...)"""
     assert_equals("#t", interpret('(not #f)', env))
     assert_equals("#f", interpret('(not #t)', env))
 
 
 def test_or():
+    """TEST 7.2: Implementing (or ...)"""
     assert_equals("#f", interpret('(or #f #f)', env))
     assert_equals("#t", interpret('(or #t #f)', env))
     assert_equals("#t", interpret('(or #f #t)', env))
@@ -45,6 +47,7 @@ def test_or():
 
 
 def test_and():
+    """TEST 7.3: Implementing (and ...)"""
     assert_equals("#f", interpret('(and #f #f)', env))
     assert_equals("#f", interpret('(and #t #f)', env))
     assert_equals("#f", interpret('(and #f #t)', env))
@@ -52,6 +55,7 @@ def test_and():
 
 
 def test_xor():
+    """TEST 7.4: Implementing (xor ...)"""
     assert_equals("#f", interpret('(xor #f #f)', env))
     assert_equals("#t", interpret('(xor #t #f)', env))
     assert_equals("#t", interpret('(xor #f #t)', env))
@@ -61,19 +65,23 @@ def test_xor():
 # The language core just contains the > operator.
 # It's time to implement the rest.
 
+
 def test_greater_or_equal():
+    """TEST 7.5: Implementing (>= ...)"""
     assert_equals("#f", interpret('(>= 1 2)', env))
     assert_equals("#t", interpret('(>= 2 2)', env))
     assert_equals("#t", interpret('(>= 2 1)', env))
 
 
 def test_less_or_equal():
+    """TEST 7.6: Implementing (<= ...)"""
     assert_equals("#t", interpret('(<= 1 2)', env))
     assert_equals("#t", interpret('(<= 2 2)', env))
     assert_equals("#f", interpret('(<= 2 1)', env))
 
 
 def test_less_than():
+    """TEST 7.7: Implementing (< ...)"""
     assert_equals("#t", interpret('(< 1 2)', env))
     assert_equals("#f", interpret('(< 2 2)', env))
     assert_equals("#f", interpret('(< 2 1)', env))
@@ -83,9 +91,10 @@ def test_less_than():
 # These should be pretty easy with some basic recursion.
 
 def test_length():
-    """Count the number of element in the list.
+    """TEST 7.8: Count the number of element in the list.
 
-    Tip: How many elements are there in the empty list?"""
+    Tip: How many elements are there in the empty list?
+    """
 
     assert_equals("5", interpret("(length '(1 2 3 4 5))", env))
     assert_equals("3", interpret("(length '(#t '(1 2 3) 'foo-bar))", env))
@@ -93,16 +102,17 @@ def test_length():
 
 
 def test_sum():
-    """Calculate the sum of all elements in the list."""
+    """TEST 7.9: Calculate the sum of all elements in the list."""
 
     assert_equals("5", interpret("(sum '(1 1 1 1 1))", env))
     assert_equals("10", interpret("(sum '(1 2 3 4))", env))
     assert_equals("0", interpret("(sum '())", env))
 
 def test_range():
-    """Output a list with a range of numbers.
+    """TEST 7.10: Output a list with a range of numbers.
 
-    The two arguments define the bounds of the (inclusive) bounds of the range."""
+    The two arguments define the bounds of the (inclusive) bounds of the range.
+    """
 
     assert_equals("(1 2 3 4 5)", interpret("(range 1 5)", env))
     assert_equals("(1)", interpret("(range 1 1)", env))
@@ -110,7 +120,7 @@ def test_range():
 
 
 def test_append():
-    """Append should merge two lists together."""
+    """TEST 7.11: Append should merge two lists together."""
 
     assert_equals("()", interpret("(append '() '())", env))
     assert_equals("(1)", interpret("(append '() '(1))", env))
@@ -120,9 +130,10 @@ def test_append():
 
 
 def test_reverse():
-    """Reverse simply outputs the same list with elements in reverse order.
+    """TEST 7.12: Reverse simply outputs the same list with elements in reverse order.
 
-    Tip: See if you might be able to utilize the function you just made."""
+    Tip: See if you might be able to utilize the function you just made.
+    """
 
     assert_equals("()", interpret("(reverse '())", env))
     assert_equals("(1)", interpret("(reverse '(1))", env))
@@ -133,7 +144,7 @@ def test_reverse():
 # `filter`, `map` and `reduce`.
 
 def test_filter():
-    """Filter removes any element not satisfying a predicate from a list."""
+    """TEST 7.13: Filter removes any element not satisfying a predicate from a list."""
 
     interpret("""
         (define even
@@ -144,7 +155,7 @@ def test_filter():
 
 
 def test_map():
-    """Map applies a given function to all elements of a list."""
+    """TEST 7.14: Map applies a given function to all elements of a list."""
 
     interpret("""
         (define inc
@@ -154,13 +165,14 @@ def test_map():
 
 
 def test_reduce():
-    """Reduce, also known as fold, reduce a list into a single value.
+    """TEST 7.15: Reduce, also known as fold, reduce a list into a single value.
 
     It does this by combining elements two by two, untill there is only
     one left.
 
     If this is unfamiliar to you, have a look at:
-    http://en.wikipedia.org/wiki/Fold_(higher-order_function)"""
+    http://en.wikipedia.org/wiki/Fold_(higher-order_function)
+    """
 
     interpret("""
         (define max
@@ -188,6 +200,8 @@ def test_reduce():
 # You might want to implement a few helper functions for this one.
 
 def test_sort():
+    """TEST 7.16: Implementing (sort ...)"""
+
     assert_equals("()", interpret("(sort '())", env))
     assert_equals("(1)", interpret("(sort '(1))", env))
     assert_equals("(1 2 3 4 5 6 7)",
