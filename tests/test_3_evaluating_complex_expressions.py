@@ -6,6 +6,7 @@ from diylang.types import Environment
 from diylang.evaluator import evaluate
 from diylang.parser import parse
 
+
 def test_nested_expression():
     """TEST 3.1: Remember, functions should evaluate their arguments.
 
@@ -24,9 +25,9 @@ def test_nested_expression():
 def test_basic_if_statement():
     """TEST 3.2: If statements are the basic control structures.
 
-    The `if` should first evaluate its first argument. If this evaluates to true, then
-    the second argument is evaluated and returned. Otherwise the third and last argument
-    is evaluated and returned instead.
+    The `if` should first evaluate its first argument. If this evaluates to
+    true, then the second argument is evaluated and returned. Otherwise the
+    third and last argument is evaluated and returned instead.
     """
 
     assert_equals(42, evaluate(parse("(if #t 42 1000)"), Environment()))
@@ -35,7 +36,8 @@ def test_basic_if_statement():
 
 
 def test_that_only_correct_branch_is_evaluated():
-    """TEST 3.3: The branch of the if statement that is discarded should never be evaluated."""
+    """TEST 3.3: The branch of the if statement that is discarded should never
+    be evaluated."""
 
     ast = parse("(if #f (this should not be evaluated) 42)")
     assert_equals(42, evaluate(ast, Environment()))
@@ -54,9 +56,10 @@ def test_if_with_sub_expressions():
 
 
 def test_that_quote_does_not_evaluate_its_argument():
-    """TEST 3.5: Calling `quote`, should still return its argument without evaluating it.
-    This test should already be passing, but lets just make sure that `quote` still works
-    as intended now that we have a few more powerful features.
+    """TEST 3.5: Calling `quote`, should still return its argument without
+    evaluating it. This test should already be passing, but lets just make sure
+    that `quote` still works as intended now that we have a few more powerful
+    features.
     """
 
     ast = parse("""
@@ -64,4 +67,5 @@ def test_that_quote_does_not_evaluate_its_argument():
              (- 1000 1)
              #f)
     """)
-    assert_equals(['if', ['>', 1, 50], ['-', 1000, 1], False], evaluate(ast, Environment()))
+    assert_equals(['if', ['>', 1, 50], ['-', 1000, 1], False],
+                  evaluate(ast, Environment()))

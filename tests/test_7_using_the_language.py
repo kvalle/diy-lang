@@ -17,7 +17,7 @@ of one stdlib function.
 
 Put the implementation in the file `stdlib.diy` at the root directory
 of the repository. The first function, `not` is already defined for you.
-It's your job to create the rest, or perhaps somthing completely different?
+It's your job to create the rest, or perhaps something completely different?
 
 Anything you put in `stdlib.diy` is also available from the REPL, so feel
 free to test things out there.
@@ -108,6 +108,7 @@ def test_sum():
     assert_equals("10", interpret("(sum '(1 2 3 4))", env))
     assert_equals("0", interpret("(sum '())", env))
 
+
 def test_range():
     """TEST 7.10: Output a list with a range of numbers.
 
@@ -126,11 +127,13 @@ def test_append():
     assert_equals("(1)", interpret("(append '() '(1))", env))
     assert_equals("(2)", interpret("(append '(2) '())", env))
     assert_equals("(1 2 3 4 5)", interpret("(append '(1 2) '(3 4 5))", env))
-    assert_equals("(#t #f 'maybe)", interpret("(append '(#t) '(#f 'maybe))", env))
+    assert_equals("(#t #f 'maybe)",
+                  interpret("(append '(#t) '(#f 'maybe))", env))
 
 
 def test_reverse():
-    """TEST 7.12: Reverse simply outputs the same list with elements in reverse order.
+    """TEST 7.12: Reverse simply outputs the same list with elements in reverse
+    order.
 
     Tip: See if you might be able to utilize the function you just made.
     """
@@ -140,11 +143,12 @@ def test_reverse():
     assert_equals("(4 3 2 1)", interpret("(reverse '(1 2 3 4))", env))
 
 
-# Next, our standard library should contain the three most fundamental functions:
-# `filter`, `map` and `reduce`.
+# Next, our standard library should contain the three most fundamental
+# functions: `filter`, `map` and `reduce`.
 
 def test_filter():
-    """TEST 7.13: Filter removes any element not satisfying a predicate from a list."""
+    """TEST 7.13: Filter removes any element not satisfying a predicate from a
+    list."""
 
     interpret("""
         (define even
@@ -167,7 +171,7 @@ def test_map():
 def test_reduce():
     """TEST 7.15: Reduce, also known as fold, reduce a list into a single value.
 
-    It does this by combining elements two by two, untill there is only
+    It does this by combining elements two by two, until there is only
     one left.
 
     If this is unfamiliar to you, have a look at:
@@ -182,7 +186,6 @@ def test_reduce():
 
     # Evaluates as (max 1 (max 6 (max 3 (max 2 0)))) -> 6
     assert_equals("6", interpret("(reduce max 0 '(1 6 3 2))", env))
-
 
     interpret("""
         (define add
@@ -212,4 +215,3 @@ def test_sort():
                   interpret("(sort '(7 6 5 4 3 2 1))", env))
     assert_equals("(1 1 1)",
                   interpret("(sort '(1 1 1))", env))
-

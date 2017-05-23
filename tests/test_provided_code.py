@@ -11,7 +11,7 @@ All tests here should already pass, and should be of no concern to
 you as a workshop attendee.
 """
 
-## Tests for find_matching_paren function in parser.py
+# Tests for find_matching_paren function in parser.py
 
 
 def test_find_matching_paren():
@@ -33,12 +33,13 @@ def test_find_matching_paren_throws_exception_on_bad_initial_position():
 
 
 def test_find_matching_paren_throws_exception_on_no_closing_paren():
-    """The function should raise error when there is no matching paren to be found"""
+    """The function should raise error when there is no matching paren to be
+    found"""
 
     with assert_raises_regexp(DiyLangError, "Incomplete expression"):
         find_matching_paren("string (without closing paren", 7)
 
-## Tests for unparse in parser.py
+# Tests for unparse in parser.py
 
 
 def test_unparse_atoms():

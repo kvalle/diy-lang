@@ -9,8 +9,8 @@ from diylang.types import DiyLangError
 def test_parse_single_symbol():
     """TEST 1.1: Parsing a single symbol.
 
-    Symbols are represented by text strings. Parsing a single atom should result
-    in an AST consisting of only that symbol."""
+    Symbols are represented by text strings. Parsing a single atom should
+    result in an AST consisting of only that symbol."""
 
     assert_equals('foo', parse('foo'))
 
@@ -18,8 +18,8 @@ def test_parse_single_symbol():
 def test_parse_boolean():
     """TEST 1.2: Parsing single booleans.
 
-    Booleans are the special symbols #t and #f. In the ASTs they are represented
-    by Pythons True and False, respectively. """
+    Booleans are the special symbols #t and #f. In the ASTs they are
+    represented by Python's True and False, respectively."""
 
     assert_equals(True, parse('#t'))
     assert_equals(False, parse('#f'))
@@ -40,11 +40,11 @@ def test_parse_integer():
 def test_parse_list_of_symbols():
     """TEST 1.4: Parsing list of only symbols.
 
-    A list is represented by a number of elements surrounded by parens. Python lists
-    are used to represent lists as ASTs.
+    A list is represented by a number of elements surrounded by parens. Python
+    lists are used to represent lists as ASTs.
 
-    Tip: The useful helper function `find_matching_paren` is already provided in
-    `parse.py`.
+    Tip: The useful helper function `find_matching_paren` is already provided
+    in `parse.py`.
     """
 
     assert_equals(['foo', 'bar', 'baz'], parse('(foo bar baz)'))
@@ -71,7 +71,8 @@ def test_parse_on_nested_list():
 
 
 def test_parse_exception_missing_paren():
-    """TEST 1.7: The proper exception should be raised if the expresions is incomplete."""
+    """TEST 1.7: The proper exception should be raised if the expression
+    is incomplete."""
 
     with assert_raises_regexp(DiyLangError, 'Incomplete expression'):
         parse('(foo (bar x y)')
@@ -102,7 +103,8 @@ def test_parse_with_extra_whitespace():
 
 
 def test_parse_comments():
-    """TEST 1.10: All comments should be stripped away as part of the parsing."""
+    """TEST 1.10: All comments should be stripped away as part of
+    the parsing."""
 
     program = """
     ;; this first line is a comment
@@ -120,7 +122,8 @@ def test_parse_comments():
 
 
 def test_parse_larger_example():
-    """TEST 1.11: Test a larger example to check that everything works as expected"""
+    """TEST 1.11: Test a larger example to check that everything works
+    as expected"""
 
     program = """
         (define fact
@@ -138,7 +141,7 @@ def test_parse_larger_example():
              ['*', 'n', ['fact', ['-', 'n', 1]]]]]]
     assert_equals(ast, parse(program))
 
-## The following tests checks that quote expansion works properly
+# The following tests checks that quote expansion works properly
 
 
 def test_expand_single_quoted_symbol():
@@ -155,7 +158,8 @@ def test_expand_single_quoted_symbol():
 
 def test_nested_quotes():
     """TEST 1.13: Nested quotes should work as expected"""
-    assert_equals(["quote", ["quote", ["quote", ["quote", "foo"]]]], parse("''''foo"))
+    assert_equals(["quote", ["quote", ["quote", ["quote", "foo"]]]],
+                  parse("''''foo"))
 
 
 def test_expand_crazy_quote_combo():

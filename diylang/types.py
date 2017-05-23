@@ -14,6 +14,7 @@ class DiyLangError(Exception):
 
 
 class Closure:
+
     def __init__(self, env, params, body):
         raise NotImplementedError("DIY")
 
@@ -22,6 +23,7 @@ class Closure:
 
 
 class Environment:
+
     def __init__(self, variables=None):
         self.bindings = variables if variables else {}
 

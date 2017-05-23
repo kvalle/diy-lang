@@ -1,2 +1,11 @@
 *.pyc
 .vagrant/
+Vagrantfile
+
+# Eclipse
+.project
+.pydevproject
+.settings
+
+# PyCharm
+.idea

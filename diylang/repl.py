@@ -17,6 +17,7 @@ try:
 except NameError:
     pass
 
+
 def repl(env=None):
     """Start the interactive Read-Eval-Print-Loop"""
     print("")
@@ -40,13 +41,14 @@ def repl(env=None):
             print(faded(str(e.__class__.__name__) + ":"))
             print(str(e))
         except KeyboardInterrupt:
-            msg = "Interupted. " + faded("(Use ^D to exit)")
+            msg = "Interrupted. " + faded("(Use ^D to exit)")
             print("\n" + colored("! ", "red") + msg)
         except EOFError:
             print(faded("\nBye! o/"))
             sys.exit(0)
         except Exception as e:
-            print(colored("! ", "red") + faded("The Python is showing through…"))
+            print(colored("! ", "red") +
+                  faded("The Python is showing through…"))
             print(faded("  " + str(e.__class__.__name__) + ":"))
             print(str(e))
 
@@ -67,7 +69,7 @@ def read_expression():
 
 
 def read_line(prompt):
-    """Return touple of user input line and number of unclosed parens"""
+    """Return tuple of user input line and number of unclosed parens"""
 
     line = input(colored(prompt, "reset", "dark"))
     line = remove_comments(line + "\n")
@@ -90,14 +92,14 @@ def colored(text, color, attr=None):
         'white': 37,
         'reset': 0
     }
-    format = '\033[%dm'
+    ansi_format = '\033[%dm'
 
     if os.getenv('ANSI_COLORS_DISABLED'):
         return text
 
-    color = format % colors[color]
-    attr = format % attributes[attr] if attr is not None else ""
-    reset = format % colors['reset']
+    color = ansi_format % colors[color]
+    attr = ansi_format % attributes[attr] if attr is not None else ""
+    reset = ansi_format % colors['reset']
 
     return color + attr + text + reset
 
