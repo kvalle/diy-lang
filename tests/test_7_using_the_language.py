@@ -205,8 +205,8 @@ def test_reduce():
 def test_sort():
     """TEST 7.16: Implementing (sort ...)"""
 
-    assert_equals("()", interpret("'()", env))
-    assert_equals("(1)", interpret("'(1)", env))
+    assert_equals("()", interpret("(sort '())", env))
+    assert_equals("(1)", interpret("(sort '(1))", env))
     assert_equals("(1 2 3 4 5 6 7)",
                   interpret("(sort '(6 3 7 2 4 1 5))", env))
     assert_equals("(1 2 3 4 5 6 7)",
