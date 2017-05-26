@@ -23,7 +23,7 @@ Anything you put in `stdlib.diy` is also available from the REPL, so feel
 free to test things out there.
 
     $ ./repl
-    →  (not #t)
+    >  (not #t)
     #f
 
 PS: Note that in these tests, `interpret` is used. In addition to parsing
