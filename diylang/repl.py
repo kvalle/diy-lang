@@ -5,11 +5,14 @@ import sys
 
 from .types import DiyLangError, Environment
 from .parser import remove_comments
-from .interpreter import interpret, interpret_file
+from .interpreter import interpret
 
 # importing this gives readline goodness when running on systems
 # where it is supported (i.e. UNIX-y systems)
-import readline
+try:
+    import readline
+except ImportError:
+    pass
 
 # Python 2 / Python 3 compatibility
 try:
@@ -20,13 +23,16 @@ except NameError:
 
 def repl(env=None):
     """Start the interactive Read-Eval-Print-Loop"""
+
+    eof = "^Z" if sys.platform[0:3] == 'win' else "^D"
+
     print("")
     print("                 " + faded("                             \`.    T       "))
     print("    Welcome to   " + faded("   .--------------.___________) \   |    T  "))
     print("   the DIY Lang  " + faded("   |//////////////|___________[ ]   !  T |  "))
     print("       REPL      " + faded("   `--------------'           ) (      | !  "))
     print("                 " + faded("                              '-'      !    "))
-    print(faded("  use ^D to exit"))
+    print(faded("  use " + eof + " to exit"))
     print("")
 
     if env is None:
@@ -41,7 +47,7 @@ def repl(env=None):
             print(faded(str(e.__class__.__name__) + ":"))
             print(str(e))
         except KeyboardInterrupt:
-            msg = "Interrupted. " + faded("(Use ^D to exit)")
+            msg = "Interrupted. " + faded("(Use " + eof + " to exit)")
             print("\n" + colored("! ", "red") + msg)
         except EOFError:
             print(faded("\nBye! o/"))
@@ -59,7 +65,7 @@ def read_expression():
     exp = ""
     open_parens = 0
     while True:
-        line, parens = read_line("→  " if not exp.strip() else "…  ")
+        line, parens = read_line(">  " if not exp.strip() else "…  ")
         open_parens += parens
         exp += line
         if exp.strip() and open_parens <= 0:
