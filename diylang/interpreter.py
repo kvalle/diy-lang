@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from os.path import dirname, join
-
 from .evaluator import evaluate
 from .parser import parse, unparse, parse_multiple
 from .types import Environment
