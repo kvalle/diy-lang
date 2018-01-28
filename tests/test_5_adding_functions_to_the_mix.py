@@ -290,12 +290,12 @@ def test_calling_nothing():
 def test_make_sure_arguments_are_evaluated_in_correct_environment():
     """Test 5.19: Function arguments should be evaluated in correct environment
 
-    Function arguments should be evaluated in the environment where the function
-    is called, and not in the environment captured by the function.
+    Function arguments should be evaluated in the environment where the
+    function is called, and not in the environment captured by the function.
     """
 
     env = Environment({'x': 3})
-    res = evaluate(parse("(define foo (lambda (x) x))"), env)
+    evaluate(parse("(define foo (lambda (x) x))"), env)
     env = env.extend({'x': 4})
     assert_equals(evaluate(parse("(foo (+ x 1))"), env), 5)
 

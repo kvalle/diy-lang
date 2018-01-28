@@ -13,7 +13,7 @@ class DiyLangError(Exception):
     pass
 
 
-class Closure:
+class Closure(object):
 
     def __init__(self, env, params, body):
         raise NotImplementedError("DIY")
@@ -22,7 +22,7 @@ class Closure:
         return "<closure/%d>" % len(self.params)
 
 
-class Environment:
+class Environment(object):
 
     def __init__(self, variables=None):
         self.bindings = variables if variables else {}
@@ -37,7 +37,8 @@ class Environment:
         raise NotImplementedError("DIY")
 
 
-class String:
+class String(object):
+
     """
     Simple data object for representing DIY Lang strings.
 
