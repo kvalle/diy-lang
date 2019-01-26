@@ -68,7 +68,7 @@ def evaluate(ast, env):
 math_operators = {
     '+' : lambda x, y: x + y,
     '-' : lambda x, y: x - y,
-    '/' : lambda x, y: x / y,
+    '/' : lambda x, y: x // y,
     '*' : lambda x, y: x * y,
     'mod' : lambda x, y: x % y,
     '>' : lambda x, y: x > y
