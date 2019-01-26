@@ -9,6 +9,7 @@ Vagrant.configure("2") do |config|
     sudo apt-get install python3 -y
     sudo apt-get install python3-pip -y
     sudo pip3 install nose
+    sudo apt-get install inotify-tools -y
 SCRIPT
 
   config.vm.synced_folder "", "/home/vagrant/diy-lang"
