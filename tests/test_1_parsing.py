@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from nose.tools import assert_equals, assert_raises_regexp
+from nose.tools import assert_equals, assert_true, assert_raises_regexp
 
+from diylang.ast import is_integer
 from diylang.parser import parse, unparse
 from diylang.types import DiyLangError
 
@@ -35,6 +36,8 @@ def test_parse_integer():
 
     assert_equals(42, parse('42'))
     assert_equals(1337, parse('1337'))
+    assert_true(is_integer(parse('42')),
+        "Numbers should be represented as integers in the AST")
 
 
 def test_parse_list_of_symbols():
