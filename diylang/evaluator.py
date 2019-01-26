@@ -75,7 +75,7 @@ math_operators = {
 }
 
 def is_math(ast):
-    return ast[0] in math_operators.keys()
+    return is_symbol(ast[0]) and ast[0] in math_operators.keys()
 
 def evaluate_atom(ast, env):
     return is_atom(evaluate(ast[1], env))
