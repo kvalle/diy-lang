@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
 import re
+
 from .ast import is_boolean, is_list
-from .types import DiyLangError, String
+from .types import DiyLangError
 
 """
 This is the parser module, with the `parse` function which you'll implement as
@@ -10,12 +11,38 @@ part 1 of the workshop. Its job is to convert strings into data structures that
 the evaluator can understand.
 """
 
+integer = re.compile('[0-9]+')
+symbol = re.compile('[a-zA-Z_*<>/+-=]+')
+quote = 'quote'
+
 
 def parse(source):
     """Parse string representation of one *single* expression
     into the corresponding Abstract Syntax Tree."""
+    ast = []
+    source = remove_comments(source)
+    source = source.strip()
+    if source == '#t' or source is True:
+        return True
+    elif source == '#f' or source is False:
+        return False
+    elif source[0] == "(":
+        last = find_matching_paren(source)
+        if last != len(source)-1:
+            raise DiyLangError('Expected EOF')
+        return [parse(elem) for elem in split_exps(source[1:-1])]
+    elif source[0] == '\'':
+        return [quote] + [parse(elem) for elem in split_exps(source[1:])]
+    elif re.match(integer, source):
+        return int(source)
+    elif re.match(symbol, source):
+        return source
 
-    raise NotImplementedError("DIY")
+    print(ast)
+
+    if len(ast) == 1:
+        return ast[0]
+    return ast
 
 #
 # Below are a few useful utility functions. These should come in handy when
