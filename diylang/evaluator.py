@@ -25,6 +25,8 @@ def evaluate(ast, env):
         return ast
     elif is_symbol(ast):
         return env.lookup(ast)
+    elif is_string(ast):
+        return ast
 
     if is_list(ast) and len(ast) > 0:
         if is_closure(ast[0]):
@@ -151,18 +153,23 @@ def evaluate(ast, env):
                 return evaluate(ast[2], env)
             else:
                 return evaluate(ast[3], env)
+        elif ast[0] == 'cond':
+            for i in ast[1]:
+                if evaluate(i[0], env) is True:
+                    return evaluate(i[1], env)
+            return False
 
         elif ast[0] == 'define':
             if len(ast) != 3:
-                raise DiyLangError('Wrong number of arguments')
+                raise DiyLangError(f'Wrong number of arguments <{ast}>')
             if not is_symbol(ast[1]):
                 raise DiyLangError(f'"{ast[1]}" is not a symbol')
             env.set(ast[1], evaluate(ast[2], env))
-            return
+            return ast[1]
 
         elif ast[0] == 'lambda':
             if len(ast) > 3:
-                raise DiyLangError('Wrong number of arguments')
+                raise DiyLangError(f'Wrong number of arguments')
             if len(ast) == 1:
                 params = []
                 body = ast[1]
@@ -173,20 +180,39 @@ def evaluate(ast, env):
                 raise DiyLangError('Params must be a list')
             return Closure(env, params, body)
 
-        elif ast[0] == 'cons':
-            if is_list(ast[1]):
-                head = evaluate(ast[1], env)
+        elif ast[0] == 'defn':
+            if len(ast) > 4:
+                raise DiyLangError(f'Wrong number of arguments <{ast}>')
+            name = ast[1]
+            if not is_symbol(name):
+                raise DiyLangError(f'"{ast[1]}" is not a symbol')
+            if len(ast) == 1:
+                params = []
+                body = ast[2]
             else:
-                head = ast[1]
+                params = ast[2]
+                body = ast[3]
+            if not is_list(params):
+                raise DiyLangError('Params must be a list')
+            cl = Closure(env, params, body)
+            env.set(name, cl)
+            return cl
+
+        elif ast[0] == 'cons':
+            head = evaluate(ast[1], env)
+            tail = evaluate(ast[2], env)
+            if is_string(head) and is_string(tail):
+                return head.cons(tail)
             if not is_atom(head):
                 raise DiyLangError('first argument must be an atom')
-            tail = evaluate(ast[2], env)
             if not is_list(tail):
-                raise DiyLangError('second argument must be a list')
+                raise DiyLangError('second argument must be a list {}')
             return [head] + tail
 
         elif ast[0] == 'head':
             l = evaluate(ast[1], env)
+            if is_string(l):
+                return l.head()
             if not is_list(l):
                 raise DiyLangError('argument must be a list')
             if len(l) < 1:
@@ -195,6 +221,8 @@ def evaluate(ast, env):
 
         elif ast[0] == 'tail':
             l = evaluate(ast[1], env)
+            if is_string(l):
+                return l.tail()
             if not is_list(l):
                 raise DiyLangError('argument must be a list')
             if len(l) < 1:
@@ -203,13 +231,34 @@ def evaluate(ast, env):
 
         elif ast[0] == 'empty':
             l = evaluate(ast[1], env)
-            if not is_list(l):
-                raise DiyLangError('argument must be a list')
-            return len(l) == 0
+            if is_list(l):
+                return len(l) == 0
+            if is_string(l):
+                return l.len() == 0
+            raise DiyLangError(f'argument must be a list <{l}>')
+
+        elif ast[0] == 'let':
+            vals = ast[1]
+            exp = ast[2]
+            local = {}
+            new_env = env.extend(local)
+            for loc in vals:
+                if not is_list(loc):
+                    raise DiyLangError('Let expression must be list')
+                if len(loc) == 2:
+                    new_env.update(loc[0], evaluate(loc[1], new_env))
+                else:
+                    raise DiyLangError('Wrong let expression')
+            return evaluate(exp, new_env)
+
+        elif ast[0] == 'print':
+            print(ast[1:])
+            return evaluate(ast[1], env)
 
         elif is_symbol(ast[0]) or is_list(ast[0]):
             fn = evaluate(ast[0], env)
             return evaluate([fn]+ast[1:], env)
+
         else:
             raise DiyLangError(f'{ast[0]} not a function')
     else:

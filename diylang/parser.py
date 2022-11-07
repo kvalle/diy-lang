@@ -3,7 +3,7 @@
 import re
 
 from .ast import is_boolean, is_list
-from .types import DiyLangError
+from .types import DiyLangError, String
 
 """
 This is the parser module, with the `parse` function which you'll implement as
@@ -33,12 +33,17 @@ def parse(source):
         return [parse(elem) for elem in split_exps(source[1:-1])]
     elif source[0] == '\'':
         return [quote] + [parse(elem) for elem in split_exps(source[1:])]
+    elif source[0] == '"':
+        pos = find_matching_quote(source)
+        if pos < 0:
+            raise DiyLangError('Unclosed string')
+        if pos != len(source)-1:
+            raise DiyLangError('Expected EOF')
+        return String(source[1:-1])
     elif re.match(integer, source):
         return int(source)
     elif re.match(symbol, source):
         return source
-
-    print(ast)
 
     if len(ast) == 1:
         return ast[0]
@@ -56,6 +61,19 @@ def remove_comments(source):
     return re.sub(r";.*\n", "\n", source)
 
 
+def find_matching_quote(sourse: str):
+    opened = True
+    for i in range(1, len(sourse)):
+        if not opened:
+            return i
+        if sourse[i] == '"' and sourse[i-1] != '\\':
+            opened = not opened
+
+    if opened:
+        return -1
+    return len(sourse) - 1
+
+
 def find_matching_paren(source, start=0):
     """Given a string and the index of an opening parenthesis, determines
     the index of the matching closing paren."""
@@ -63,13 +81,17 @@ def find_matching_paren(source, start=0):
     assert source[start] == '('
     pos = start
     open_brackets = 1
+    quoted = False
     while open_brackets > 0:
         pos += 1
+
         if len(source) == pos:
             raise DiyLangError("Incomplete expression: %s" % source[start:])
-        if source[pos] == '(':
+        if source[pos] == '"' and source[pos - 1] != '\\':
+                quoted = not quoted
+        if source[pos] == '(' and not quoted:
             open_brackets += 1
-        if source[pos] == ')':
+        if source[pos] == ')' and not quoted:
             open_brackets -= 1
     return pos
 
@@ -102,6 +124,11 @@ def first_expression(source):
     if source[0] == "'":
         exp, rest = first_expression(source[1:])
         return source[0] + exp, rest
+    if source[0] == '"':
+        for n in range(1, len(source)):
+            if source[n] == '"' and source[n - 1] != '\\':
+                return source[:n + 1], source[n + 1:]
+        raise DiyLangError(f"Unclosed string")
     elif source[0] == "(":
         last = find_matching_paren(source)
         return source[:last + 1], source[last + 1:]

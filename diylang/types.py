@@ -47,6 +47,8 @@ class Environment(object):
             raise DiyLangError(f'variable "{symbol}" already defined')
         self.bindings[symbol] = value
 
+    def update(self, symbol, value):
+        self.bindings[symbol] = value
 
 class String(object):
 
@@ -64,3 +66,19 @@ class String(object):
 
     def __eq__(self, other):
         return isinstance(other, String) and other.val == self.val
+
+    def len(self):
+        return len(self.val)
+
+    def head(self):
+        if len(self.val) == 0:
+            raise DiyLangError('Empty string does not have head')
+        return String(self.val[0])
+
+    def tail(self):
+        if len(self.val) == 0:
+            raise DiyLangError('Empty string does not have tail')
+        return String(self.val[1:])
+
+    def cons(self, other):
+        return String(self.val+other.val)

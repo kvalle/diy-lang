@@ -6,3 +6,73 @@
 
 ;; DIY -- Implement the rest of your standard library
 ;; here as part 7 of the workshop.
+
+(define or
+    (lambda (a b)
+        (if a a b)))
+
+(define and
+    (lambda (a b)
+        (if a b a)))
+
+(define xor
+    (lambda (a b)
+        (and
+            (or a b)
+            (not (and a b)))))
+
+(defn length (l) (
+        if (empty l)
+            0
+            (+ 1 (length (tail l)))))
+
+(defn sum (l)(
+    if (empty l)
+        0
+        (+ (head l) (sum (tail l)))))
+
+(defn range (from to)(
+        if (> from to)
+            '()
+            (cons from
+                (range (+ 1 from) to))))
+
+(defn append(src dst)(
+    if (empty src)
+        dst
+        (cons (head src) (append (tail src) dst))))
+
+(defn reverse(l)
+    (if (empty l)
+        '()
+        (append (reverse (tail l)) (cons (head l) '()))))
+
+(defn filter (prd l)
+    (if (empty l)
+        '()
+        (if (prd (head l))
+            (cons (head l) (filter prd (tail l)))
+            (filter prd (tail l)))))
+
+(defn map (prd l)
+    (if (empty l)
+        '()
+        (cons (prd (head l)) (map prd (tail l)))))
+
+(defn reduce (prd counter l)
+    (if (empty l)
+        counter
+        (reduce prd (prd counter (head l)) (tail l))))
+
+ (defn smaller-or-equal(lst pivot)
+        (filter (lambda (x) (<= x pivot)) lst))
+
+(defn larger (lst pivot)
+        (filter (lambda (x) (> x pivot)) lst))
+
+(defn sort (lst)
+        (if (empty lst)
+            '()
+            (append (sort (smaller-or-equal (tail lst) (head lst)))
+                    (cons (head lst)
+                          (sort (larger lst (head lst)))))))
