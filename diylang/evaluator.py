@@ -40,6 +40,7 @@ def evaluate(ast, env):
 
         if ast[0] == 'quote':
             return ast[1]
+
         elif ast[0] == 'atom':
             rest = evaluate(ast[1], env)
             return is_atom(rest)
@@ -173,7 +174,38 @@ def evaluate(ast, env):
             return Closure(env, params, body)
 
         elif ast[0] == 'cons':
+            if is_list(ast[1]):
+                head = evaluate(ast[1], env)
+            else:
+                head = ast[1]
+            if not is_atom(head):
+                raise DiyLangError('first argument must be an atom')
+            tail = evaluate(ast[2], env)
+            if not is_list(tail):
+                raise DiyLangError('second argument must be a list')
+            return [head] + tail
 
+        elif ast[0] == 'head':
+            l = evaluate(ast[1], env)
+            if not is_list(l):
+                raise DiyLangError('argument must be a list')
+            if len(l) < 1:
+                raise DiyLangError('argument is an empty list')
+            return l[0]
+
+        elif ast[0] == 'tail':
+            l = evaluate(ast[1], env)
+            if not is_list(l):
+                raise DiyLangError('argument must be a list')
+            if len(l) < 1:
+                raise DiyLangError('argument is an empty list')
+            return l[1:]
+
+        elif ast[0] == 'empty':
+            l = evaluate(ast[1], env)
+            if not is_list(l):
+                raise DiyLangError('argument must be a list')
+            return len(l) == 0
 
         elif is_symbol(ast[0]) or is_list(ast[0]):
             fn = evaluate(ast[0], env)
